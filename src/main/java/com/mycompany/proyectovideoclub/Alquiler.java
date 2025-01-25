@@ -36,7 +36,7 @@ public class Alquiler {
         this.fechaRealEntrega = fechaRealEntrega;
         this.estado = estado;
     }
-
+//Hola
     // Getters y Setters
     public int getId() {
         return id;
