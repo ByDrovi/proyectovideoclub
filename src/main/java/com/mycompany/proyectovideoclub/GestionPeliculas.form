@@ -530,7 +530,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="comboBoxFormato" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="comboBoxFormato1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="comboBoxDistribuidora" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -558,7 +558,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="comboBoxFormato1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboBoxDistribuidora" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabelDistribuidoras" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -592,17 +592,14 @@
             <Component class="javax.swing.JComboBox" name="comboBoxFormato">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="VHS"/>
-                    <StringItem index="1" value="DVD"/>
-                  </StringArray>
+                  <StringArray count="0"/>
                 </Property>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="comboBoxFormato1">
+            <Component class="javax.swing.JComboBox" name="comboBoxDistribuidora">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="1">

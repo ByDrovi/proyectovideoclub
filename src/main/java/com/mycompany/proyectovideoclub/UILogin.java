@@ -52,7 +52,9 @@ private void autenticar() throws SQLException {
                 new UIEmpleado().setVisible(true);
                 break;
             case "Socio":
-                new UISocio11(usuarioLogin).setVisible(true);
+                // ###############################################################
+                new UISocio(Socios.convertirASocio(usuarioLogin.getId())).setVisible(true);
+                // ###############################################################
                 break;
             default:
                 JOptionPane.showMessageDialog(this, "Lo sentimos, el usuario no existe o la contraseña es incorrecta.", "Error de credencial", JOptionPane.ERROR_MESSAGE);

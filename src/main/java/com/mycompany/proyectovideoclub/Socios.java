@@ -77,6 +77,50 @@ public class Socios extends Usuarios {
         this.tipoSocio = tipoSocio;
     }
 
+    
+    
+    // ####################################################################################################################################
+    public static Socios convertirASocio(int usuarioId) throws SQLException {
+        // Query para obtener los datos del usuario junto con los datos del socio
+        String query = "SELECT u.id, u.logUser, u.logPass, u.nombre, u.apellidos, u.dniUser, "
+                + "u.fechaNacimiento, u.fechaAlta, u.tipo_usuario, "
+                + "s.tipoSocio, s.alquileresTotales, s.comprasTotales, s.recargoActivo "
+                + "FROM Usuarios u "
+                + "LEFT JOIN Socios s ON u.id = s.id "
+                + "WHERE u.id = ?";
+
+        // Consultar los datos del usuario y del socio
+        try (Connection conn = conectar(); PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, usuarioId); // Establecer el parámetro del ID del usuario
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Crear un nuevo objeto Socios a partir de los datos
+                    Socios socio = new Socios();
+                    socio.setId(rs.getInt("id"));
+                    socio.setLogUser(rs.getString("logUser"));
+                    socio.setLogPass(rs.getString("logPass"));
+                    socio.setNombre(rs.getString("nombre"));
+                    socio.setApellidos(rs.getString("apellidos"));
+                    socio.setDniUser(rs.getString("dniUser"));
+                    socio.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
+                    socio.setFechaAlta(rs.getDate("fechaAlta").toLocalDate());
+                    socio.setTipoUsuario(rs.getString("tipo_usuario"));
+
+                    // Datos específicos de la tabla Socios
+                    socio.setTipoSocio(rs.getString("tipoSocio") != null ? rs.getString("tipoSocio") : "Estandar");
+                    socio.setAlquileresTotales(rs.getInt("alquileresTotales"));
+                    socio.setComprasTotales(rs.getInt("comprasTotales"));
+                    socio.setRecargoActivo(rs.getBoolean("recargoActivo"));
+
+                    return socio; // Devolver el objeto Socios
+                } else {
+                    throw new SQLException("Usuario con ID " + usuarioId + " no encontrado en la base de datos.");
+                }
+            }
+        }
+    }
+    // #######################################################################################################################################
+
     // Método para conectar a la base de datos
     public static Connection conectar() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/videoclub";
@@ -93,7 +137,7 @@ public class Socios extends Usuarios {
 
         List<Socios> socios = new ArrayList<>();
 
-        try ( Statement stmt = conn.createStatement();  ResultSet rs = stmt.executeQuery(query)) {
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 Socios socio = new Socios();
                 socio.setId(rs.getInt("id"));
@@ -129,50 +173,50 @@ public class Socios extends Usuarios {
 //    } catch (SQLException e) {
 //        e.printStackTrace();
 //    }
-public static void agregarSocio(Connection conn, String logUser, String logPass, String nombre, String apellidos,
-            String dniUser, Date fechaNacimiento, Date fechaAlta, 
-            String tipoUsuario,  String tipoSocio) throws SQLException {
-    System.out.println("Agregando un nuevo Socio...");
+    public static void agregarSocio(Connection conn, String logUser, String logPass, String nombre, String apellidos,
+            String dniUser, Date fechaNacimiento, Date fechaAlta,
+            String tipoUsuario, String tipoSocio) throws SQLException {
+        System.out.println("Agregando un nuevo Socio...");
 
-    // Insertar el nuevo usuario en la tabla Usuarios
-    String queryUsuario = "INSERT INTO Usuarios (logUser, logPass, nombre, apellidos, dniUser, fechaNacimiento, fechaAlta, tipo_usuario) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        // Insertar el nuevo usuario en la tabla Usuarios
+        String queryUsuario = "INSERT INTO Usuarios (logUser, logPass, nombre, apellidos, dniUser, fechaNacimiento, fechaAlta, tipo_usuario) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    try ( PreparedStatement pstmtUsuario = conn.prepareStatement(queryUsuario, Statement.RETURN_GENERATED_KEYS)) {
-        pstmtUsuario.setString(1, logUser);
-        pstmtUsuario.setString(2, logPass);
-        pstmtUsuario.setString(3, nombre);
-        pstmtUsuario.setString(4, apellidos);
-        pstmtUsuario.setString(5, dniUser);
-        pstmtUsuario.setDate(6, fechaNacimiento);
-        pstmtUsuario.setDate(7, fechaAlta);
-        pstmtUsuario.setString(8, tipoUsuario);
+        try (PreparedStatement pstmtUsuario = conn.prepareStatement(queryUsuario, Statement.RETURN_GENERATED_KEYS)) {
+            pstmtUsuario.setString(1, logUser);
+            pstmtUsuario.setString(2, logPass);
+            pstmtUsuario.setString(3, nombre);
+            pstmtUsuario.setString(4, apellidos);
+            pstmtUsuario.setString(5, dniUser);
+            pstmtUsuario.setDate(6, fechaNacimiento);
+            pstmtUsuario.setDate(7, fechaAlta);
+            pstmtUsuario.setString(8, tipoUsuario);
 
-        // Ejecutar la inserción del usuario
-        pstmtUsuario.executeUpdate();
+            // Ejecutar la inserción del usuario
+            pstmtUsuario.executeUpdate();
 
-        // Obtener el ID generado automáticamente para el nuevo usuario
-        try ( ResultSet rs = pstmtUsuario.getGeneratedKeys()) {
-            if (rs.next()) {
-                int idUsuario = rs.getInt(1); // ID generado automáticamente
+            // Obtener el ID generado automáticamente para el nuevo usuario
+            try (ResultSet rs = pstmtUsuario.getGeneratedKeys()) {
+                if (rs.next()) {
+                    int idUsuario = rs.getInt(1); // ID generado automáticamente
 
-                // Insertar en la tabla Socios
-                String querySocio = "INSERT INTO Socios (id, tipoSocio, alquileresTotales, comprasTotales) "
-                        + "VALUES (?, ?, ?, ?)";
+                    // Insertar en la tabla Socios
+                    String querySocio = "INSERT INTO Socios (id, tipoSocio, alquileresTotales, comprasTotales) "
+                            + "VALUES (?, ?, ?, ?)";
 
-                try ( PreparedStatement pstmtSocio = conn.prepareStatement(querySocio)) {
-                    pstmtSocio.setInt(1, idUsuario);  // Usar el ID generado del usuario
-                    pstmtSocio.setString(2, tipoSocio);  // Tipo de socio
-                    pstmtSocio.setInt(3, 0);  // Por defecto, 0 alquileres
-                    pstmtSocio.setInt(4, 0);  // Por defecto, 0 compras
+                    try (PreparedStatement pstmtSocio = conn.prepareStatement(querySocio)) {
+                        pstmtSocio.setInt(1, idUsuario);  // Usar el ID generado del usuario
+                        pstmtSocio.setString(2, tipoSocio);  // Tipo de socio
+                        pstmtSocio.setInt(3, 0);  // Por defecto, 0 alquileres
+                        pstmtSocio.setInt(4, 0);  // Por defecto, 0 compras
 
-                    // Ejecutar la inserción del socio
-                    pstmtSocio.executeUpdate();
-                    System.out.println("El nuevo socio ha sido agregado con éxito.");
+                        // Ejecutar la inserción del socio
+                        pstmtSocio.executeUpdate();
+                        System.out.println("El nuevo socio ha sido agregado con éxito.");
+                    }
                 }
             }
         }
     }
-}
 
 }

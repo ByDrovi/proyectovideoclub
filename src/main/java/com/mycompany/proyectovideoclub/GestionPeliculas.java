@@ -303,7 +303,7 @@ private void cargarNombresDeFormatos() {
         tfAnioLanzamiento = new javax.swing.JTextField();
         jLabelFormato = new javax.swing.JLabel();
         comboBoxFormato = new javax.swing.JComboBox<>();
-        comboBoxFormato1 = new javax.swing.JComboBox<>();
+        comboBoxDistribuidora = new javax.swing.JComboBox<>();
         jLabelDistribuidoras = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabelDisponible = new javax.swing.JLabel();
@@ -589,9 +589,7 @@ private void cargarNombresDeFormatos() {
 
         jLabelFormato.setText("Formato");
 
-        comboBoxFormato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "VHS", "DVD" }));
-
-        comboBoxFormato1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "20TH Century Fox" }));
+        comboBoxDistribuidora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "20TH Century Fox" }));
 
         jLabelDistribuidoras.setText("Distribuidora");
 
@@ -620,7 +618,7 @@ private void cargarNombresDeFormatos() {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboBoxFormato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboBoxFormato1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(comboBoxDistribuidora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -640,7 +638,7 @@ private void cargarNombresDeFormatos() {
                     .addComponent(comboBoxFormato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboBoxFormato1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxDistribuidora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelDistribuidoras))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1140,8 +1138,8 @@ private void cargarNombresDeFormatos() {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSeleccionarAlquilado;
     private javax.swing.JButton btnSeleccionarDisponible;
+    private javax.swing.JComboBox<String> comboBoxDistribuidora;
     private javax.swing.JComboBox<String> comboBoxFormato;
-    private javax.swing.JComboBox<String> comboBoxFormato1;
     private javax.swing.JCheckBox jCheckBoxAlquilado;
     private javax.swing.JCheckBox jCheckBoxBaja;
     private javax.swing.JCheckBox jCheckBoxStock;

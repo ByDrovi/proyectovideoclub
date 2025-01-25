@@ -28,15 +28,20 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import com.mycompany.proyectovideoclub.Database;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.time.LocalDate;
+import javax.swing.JButton;
 
 
 public class UISocio extends JFrame {
 
  private static DefaultTableModel tableModel;  // Declarar estático si se usa en un contexto estático
- private static String logUser;  // Hacer logUser estático
+ private Socios usuarioLogin;
 
-public UISocio(String logUser) {
-    this.logUser = logUser;  // Asigna el logUser recibido
+public UISocio(Socios usuarioLogin) {
+    this.usuarioLogin = usuarioLogin;  // Asigna el logUser recibido
     setTitle("Listado de Películas");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(800, 600);
@@ -85,6 +90,8 @@ private void cargarPeliculas() {
 }
 
 private void inicializarComponentes() {
+    
+    welcomeUser.setText("Bienvenido " + usuarioLogin.getNombre());
 
     // Crear el modelo de tabla con las nuevas columnas
     String[] columnNames = {"Título", "Formato", "Duración", "Unidades", "Género", "Subgénero"};
@@ -110,11 +117,127 @@ private void inicializarComponentes() {
                 }
             }
         }
+           
     });
 
     // Cargar los datos desde la base de datos
     cargarPeliculas();
+    
+    btnSeguimiento.addActionListener(e -> {
+    try (Connection conn = Database.getConnection()) {
+        // Consulta para obtener los productos alquilados del socio
+        String query = "SELECT p.titulo, a.fechaEntrega, a.cuotaAlquiler " +
+                       "FROM Alquileres a " +
+                       "JOIN Productos p ON a.idProducto= p.id " +
+                       "WHERE a.idSocio = ? " +
+                       "ORDER BY a.fechaEntrega";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, usuarioLogin.getId()); // logUser contiene el ID del socio actual
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                StringBuilder seguimiento = new StringBuilder("Productos alquilados:\n");
+
+                // Recorrer los resultados y construir la lista
+                while (rs.next()) {
+                    String titulo = rs.getString("titulo");
+                    Date fechaEntrega = rs.getDate("fechaEntrega");
+                    double cuotaAlquiler = rs.getDouble("cuotaAlquiler");
+
+                    seguimiento.append("Título: ").append(titulo)
+                            .append("\nFecha de entrega: ").append(fechaEntrega)
+                            .append("\nPrecio: ").append(cuotaAlquiler).append("€\n\n");
+                }
+
+                // Mostrar la lista al usuario
+                JOptionPane.showMessageDialog(this, seguimiento.toString(), "Seguimiento de Alquileres", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al cargar el seguimiento: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    
+});
+
 }
+
+private void devolverPelicula() {
+    // Obtener la película seleccionada de la tabla
+    int selectedRow = table.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Por favor, selecciona una película para devolver.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    String titulo = (String) tableModel.getValueAt(selectedRow, 0); // Obtener el título
+
+    // Consultar la base de datos para obtener la información sobre el alquiler
+    try (Connection conn = Database.getConnection()) {
+        String query = "SELECT a.fechaEntrega, a.fechaRealEntrega, p.numDisponibleAlquiler, a.id " +
+                       "FROM Alquileres a " +
+                       "JOIN Productos p ON a.idProducto = p.id " +
+                       "WHERE a.idSocio = ? AND p.titulo = ? AND a.fechaRealEntrega IS NULL"; // Sólo los alquileres no devueltos
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1,  usuarioLogin.getId());  // ID del socio
+            stmt.setString(2, titulo);    // Título de la película
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Date fechaEntrega = rs.getDate("fechaEntrega");
+                    Date fechaRealEntrega = rs.getDate("fechaRealEntrega");
+
+                    // Si la fecha real de entrega es null, es que aún no ha sido devuelta
+                    if (fechaRealEntrega == null) {
+                        // Devolver la película (aumentar unidades disponibles)
+                        String updateUnidades = "UPDATE Productos SET numDisponibleAlquiler = numDisponibleAlquiler + 1 WHERE titulo = ?";
+                        try (PreparedStatement updateStmt = conn.prepareStatement(updateUnidades)) {
+                            updateStmt.setString(1, titulo);
+                            updateStmt.executeUpdate();
+                        }
+
+                        // Verificar si hay recargo por fecha de entrega retrasada
+                        LocalDate fechaHoy = LocalDate.now();
+                        LocalDate fechaEntregaLocal = fechaEntrega.toLocalDate();
+
+                        if (fechaEntregaLocal.isBefore(fechaHoy)) {
+                            // Si la fecha real de entrega es superior a la fecha actual, activar recargo
+                            String updateRecargo = "UPDATE Socios SET recargoActivo = TRUE WHERE id = ?";
+                            try (PreparedStatement updateRecargoStmt = conn.prepareStatement(updateRecargo)) {
+                                updateRecargoStmt.setInt(1, usuarioLogin.getId());
+                                updateRecargoStmt.executeUpdate();
+                            }
+
+                            // Mostrar mensaje de recargo
+                            JOptionPane.showMessageDialog(this, "¡Recargo aplicado! El próximo alquiler tendrá un recargo.");
+                        }
+
+                        // Actualizar la tabla Alquileres con la fecha de devolución real
+                        String updateDevolucion = "UPDATE Alquileres "
+                                + "SET fechaRealEntrega = ? "
+                                + "WHERE id = ?";
+                        try (PreparedStatement updateDevolucionStmt = conn.prepareStatement(updateDevolucion)) {
+                            updateDevolucionStmt.setDate(1, java.sql.Date.valueOf(fechaHoy));
+                            updateDevolucionStmt.setInt(2, rs.getInt("id"));
+                            updateDevolucionStmt.executeUpdate();
+                        }
+
+                        // Mensaje de confirmación
+                        JOptionPane.showMessageDialog(this, "Película devuelta correctamente.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró un alquiler activo para esta película.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al procesar la devolución: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+
 
 private void mostrarDetallesPelicula(int rowIndex) {
     String titulo = (String) tableModel.getValueAt(rowIndex, 0); // Obtener el título de la película seleccionada
@@ -199,13 +322,93 @@ private void mostrarDetallesPelicula(int rowIndex) {
             // Agregar un botón de "Alquilar" (toggle)
             toggleAlquiler = new JToggleButton("Alquilar");
             toggleAlquiler.setEnabled(rs.getInt("numDisponibleAlquiler") > 0); // Activar/desactivar según la disponibilidad
-            toggleAlquiler.addActionListener(e -> {
-                if (toggleAlquiler.isSelected()) {
-                    JOptionPane.showMessageDialog(this, "Producto alquilado: " + titulo);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Alquiler cancelado.");
+            toggleAlquiler.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (toggleAlquiler.isSelected()) {
+                        try (final Connection conn = Database.getConnection()) {
+                            // Obtener datos necesarios
+                            String fechaAlquilerStr = tfFechaHoy.getText(); // Fecha de alquiler desde el JTextField
+                            LocalDate fechaAlquiler = LocalDate.parse(fechaAlquilerStr); // Convertir a LocalDate
+                            LocalDate fechaEntrega = fechaAlquiler.plusDays(3); // Sumar 3 días para calcular la fecha de entrega
+                            int selectedRow = table.getSelectedRow();
+                            if (selectedRow == -1) {
+                                JOptionPane.showMessageDialog(UISocio.this, "Seleccione una película para alquilar.", "Error", JOptionPane.ERROR_MESSAGE);
+                                toggleAlquiler.setSelected(false);
+                                return;
+                            }
+                            String titulo = (String) tableModel.getValueAt(selectedRow, 0); // Título de la película seleccionada
+                            // Consulta para obtener cuota de alquiler y unidades disponibles
+                            String queryDetalles = ""
+                                + "SELECT pl.cuotaAlquilerPeliculas, p.numDisponibleAlquiler, p.id " +
+                                    "FROM Peliculas pl " +
+                                    "JOIN Productos p ON pl.id = p.id " +
+                                    "WHERE p.titulo = ? AND p.esBaja = FALSE";
+                            try (final PreparedStatement stmt = conn.prepareStatement(queryDetalles)) {
+                                stmt.setString(1, titulo);
+                                ResultSet rs = stmt.executeQuery();
+                                if (rs.next()) {
+                                    double cuotaAlquiler = rs.getDouble("cuotaAlquilerPeliculas");
+                                    int numDisponible = rs.getInt("numDisponibleAlquiler");
+                                    int productoId = rs.getInt("id");
+                                    if (numDisponible <= 0) {
+                                        JOptionPane.showMessageDialog(UISocio.this, "No hay unidades disponibles para alquilar.", "Error", JOptionPane.ERROR_MESSAGE);
+                                        toggleAlquiler.setSelected(false);
+                                        return;
+                                    }
+                                     
+                                    // ###############################################################
+//                                    if (usuarioLogin.getAlquileresTotales() > 0) {
+//                                        JOptionPane.showMessageDialog(UISocio.this, "Ya tienes una película alquilada", "Error", JOptionPane.ERROR_MESSAGE);
+//                                        toggleAlquiler.setSelected(false);
+//                                        return;
+//                                    }
+                                    // ###############################################################
+                                    
+                                    // Insertar el alquiler en la tabla Alquileres
+                                    String queryInsert = 
+                                            "INSERT INTO Alquileres ("
+                                            + "idProducto, "
+                                            + "idSocio, "
+                                            + "fechaAlquiler, "
+                                            + "fechaEntrega, "
+                                            + "cuotaAlquiler) " +
+                                            "VALUES (?, ?, ?, ?, ?)";
+                                    try (final PreparedStatement insertStmt = conn.prepareStatement(queryInsert)) {
+                                        insertStmt.setInt(1, productoId); // ID del producto
+                                        insertStmt.setInt(2, usuarioLogin.getId()); // ID del socio (usuario actual)
+                                        insertStmt.setDate(3, java.sql.Date.valueOf(fechaAlquiler)); // Fecha de alquiler
+                                        insertStmt.setDate(4, java.sql.Date.valueOf(fechaEntrega)); // Fecha de entrega
+                                        insertStmt.setDouble(5, cuotaAlquiler); // Cuota de alquiler
+                                        int rowsInserted = insertStmt.executeUpdate();
+                                        if (rowsInserted > 0) {
+                                            // Actualizar unidades disponibles
+                                            String queryUpdateUnidades = 
+                                                    "UPDATE Productos "
+                                                    + "SET numDisponibleAlquiler = numDisponibleAlquiler - 1 "
+                                                    + "WHERE id = ?";
+                                            try (PreparedStatement updateStmt = conn.prepareStatement(queryUpdateUnidades)) {
+                                                updateStmt.setInt(1, productoId);
+                                                updateStmt.executeUpdate();
+                                            }               JOptionPane.showMessageDialog(UISocio.this, "Producto alquilado correctamente.\n" +
+                                                    "Título: " + titulo + "\n" +
+                                                            "Fecha de alquiler: " + fechaAlquiler + "\n" +
+                                                                    "Fecha de entrega: " + fechaEntrega + "\n" +
+                                                                            "Cuota de alquiler: " + cuotaAlquiler + "€");
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(UISocio.this, "Error al procesar el alquiler: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(UISocio.this, "Alquiler cancelado.");
+                    }
                 }
             });
+
 
             // Añadir el botón de alquiler al panel de detalles
             detallesPanel.add(toggleAlquiler);
@@ -225,11 +428,6 @@ private void mostrarDetallesPelicula(int rowIndex) {
 }
 
 
-
-
-
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -246,11 +444,13 @@ private void mostrarDetallesPelicula(int rowIndex) {
         table = new javax.swing.JTable();
         tfFechaHoy = new javax.swing.JTextField();
         toggleAlquiler = new javax.swing.JToggleButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabelProximamente = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnSeguimiento = new javax.swing.JButton();
         btnDevolucion = new javax.swing.JButton();
+        btnActualizarTabla = new javax.swing.JButton();
+        welcomeUser = new javax.swing.JLabel();
+        jLabelProximamente = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout detallesDialogLayout = new javax.swing.GroupLayout(detallesDialog.getContentPane());
         detallesDialog.getContentPane().setLayout(detallesDialogLayout);
@@ -264,7 +464,6 @@ private void mostrarDetallesPelicula(int rowIndex) {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(21474, 21474));
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -286,14 +485,26 @@ private void mostrarDetallesPelicula(int rowIndex) {
         });
 
         toggleAlquiler.setText("Alquilar");
-
-        jLabel1.setText("PRÓXIMAMENTE");
+        toggleAlquiler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleAlquilerActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Fecha actual:");
 
         btnSeguimiento.setText("Seguimiento");
+        btnSeguimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeguimientoActionPerformed(evt);
+            }
+        });
 
         btnDevolucion.setText("Devolución");
+
+        btnActualizarTabla.setText("Actualizar");
+
+        welcomeUser.setText("Bienvenido");
 
         javax.swing.GroupLayout jPanelSocioLayout = new javax.swing.GroupLayout(jPanelSocio);
         jPanelSocio.setLayout(jPanelSocioLayout);
@@ -302,54 +513,53 @@ private void mostrarDetallesPelicula(int rowIndex) {
             .addGroup(jPanelSocioLayout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelSocioLayout.createSequentialGroup()
-                                .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
-                                .addComponent(btnSeguimiento)
-                                .addGap(207, 207, 207)
-                                .addComponent(toggleAlquiler))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanelSocioLayout.createSequentialGroup()
+                                    .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnActualizarTabla))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
+                                    .addComponent(btnSeguimiento)
+                                    .addGap(207, 207, 207)
+                                    .addComponent(toggleAlquiler)))
+                            .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 166, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanelSocioLayout.setVerticalGroup(
             jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSocioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelSocioLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelProximamente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnActualizarTabla))))
+                .addGap(18, 33, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(toggleAlquiler)
                     .addComponent(btnSeguimiento))
                 .addGap(18, 18, 18)
                 .addComponent(btnDevolucion)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
+
+        jLabel1.setText("PRÓXIMAMENTE");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -358,14 +568,25 @@ private void mostrarDetallesPelicula(int rowIndex) {
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jPanelSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jPanelSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jPanelSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(157, 157, 157)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -375,18 +596,17 @@ private void mostrarDetallesPelicula(int rowIndex) {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfFechaHoyActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            String logUser = "usuarioEjemplo"; // Asignar un valor a logUser
-            UISocio ui = new UISocio(logUser);
-            ui.setVisible(true);
-        });
-    }
+    private void btnSeguimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeguimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSeguimientoActionPerformed
+
+    private void toggleAlquilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleAlquilerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_toggleAlquilerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizarTabla;
     private javax.swing.JButton btnDevolucion;
     private javax.swing.JButton btnSeguimiento;
     private javax.swing.JDialog detallesDialog;
@@ -399,6 +619,7 @@ private void mostrarDetallesPelicula(int rowIndex) {
     private javax.swing.JTable table;
     private javax.swing.JTextField tfFechaHoy;
     private javax.swing.JToggleButton toggleAlquiler;
+    private javax.swing.JLabel welcomeUser;
     // End of variables declaration//GEN-END:variables
 
 }
