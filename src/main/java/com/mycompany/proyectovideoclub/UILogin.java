@@ -1,11 +1,14 @@
 package com.mycompany.proyectovideoclub;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,55 +20,55 @@ import javax.swing.JTextField;
  *
  * @author oscar.lara
  */
-
 public class UILogin extends javax.swing.JFrame {
-
-   
     
+    
+
+
     public UILogin() {
         setTitle("Videoclub - Login");
         setSize(1800, 1600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         initComponents();
+        Utilidades.cargarImagenEnLabel(labelLogin, "/images/logologin.png");
+        
+         loginButton = new Utilidades.CustomButton("Iniciar sesión");
     }
 
+    private void autenticar() throws SQLException {
+        String logUser = userField.getText();
+        String logPass = new String(passField.getPassword());
 
-private void autenticar() throws SQLException {
-    String logUser = userField.getText();
-    String logPass = new String(passField.getPassword());
-
-    if (logUser.isEmpty() || logPass.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Debe completar todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    
-    Connection conn = Database.getConnection();
-    Usuarios usuarioLogin= LoginService.autenticarUsuario(logUser, logPass, conn);
-    
-    if (usuarioLogin != null) {
-        switch (usuarioLogin.getTipoUsuario()) {
-            case "Admin":
-                new UIAdmin().setVisible(true);
-                break;
-            case "Empleado":
-                new UIEmpleado().setVisible(true);
-                break;
-            case "Socio":
-                // ###############################################################
-                new UISocio(Socios.convertirASocio(usuarioLogin.getId())).setVisible(true);
-                // ###############################################################
-                break;
-            default:
-                JOptionPane.showMessageDialog(this, "Lo sentimos, el usuario no existe o la contraseña es incorrecta.", "Error de credencial", JOptionPane.ERROR_MESSAGE);
-                break;
+        if (logUser.isEmpty() || logPass.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe completar todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
         }
-        this.dispose();
-    }
-}
 
-    
-    
+        Connection conn = Database.getConnection();
+        Usuarios usuarioLogin = LoginService.autenticarUsuario(logUser, logPass, conn);
+
+        if (usuarioLogin != null) {
+            switch (usuarioLogin.getTipoUsuario()) {
+                case "Admin":
+                    new UIAdmin().setVisible(true);
+                    break;
+                case "Empleado":
+                    new UIEmpleado().setVisible(true);
+                    break;
+                case "Socio":
+                    // ###############################################################
+                    new UISocio(Socios.convertirASocio(usuarioLogin.getId())).setVisible(true);
+                    // ###############################################################
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, "Lo sentimos, el usuario no existe o la contraseña es incorrecta.", "Error de credencial", JOptionPane.ERROR_MESSAGE);
+                    break;
+            }
+            this.dispose();
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,7 +83,7 @@ private void autenticar() throws SQLException {
         userField = new javax.swing.JTextField();
         passField = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
-        tfLogoLogin = new javax.swing.JLabel();
+        labelLogin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -133,8 +136,6 @@ private void autenticar() throws SQLException {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        tfLogoLogin.setText("jLabel1");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -145,8 +146,8 @@ private void autenticar() throws SQLException {
                         .addGap(299, 299, 299)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(330, 330, 330)
-                        .addComponent(tfLogoLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(318, 318, 318)
+                        .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(363, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -155,8 +156,8 @@ private void autenticar() throws SQLException {
                 .addGap(180, 180, 180)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(tfLogoLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -227,9 +228,9 @@ private void autenticar() throws SQLException {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel labelLogin;
     private javax.swing.JButton loginButton;
     private javax.swing.JPasswordField passField;
-    private javax.swing.JLabel tfLogoLogin;
     private javax.swing.JTextField userField;
     // End of variables declaration//GEN-END:variables
 }

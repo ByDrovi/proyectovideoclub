@@ -501,6 +501,11 @@ private void mostrarDetallesPelicula(int rowIndex) {
         });
 
         btnDevolucion.setText("Devolución");
+        btnDevolucion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDevolucionActionPerformed(evt);
+            }
+        });
 
         btnActualizarTabla.setText("Actualizar");
         btnActualizarTabla.addActionListener(new java.awt.event.ActionListener() {
@@ -612,6 +617,10 @@ private void mostrarDetallesPelicula(int rowIndex) {
     private void btnActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTablaActionPerformed
         cargarPeliculas();
     }//GEN-LAST:event_btnActualizarTablaActionPerformed
+
+    private void btnDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolucionActionPerformed
+        devolverPelicula();
+    }//GEN-LAST:event_btnDevolucionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

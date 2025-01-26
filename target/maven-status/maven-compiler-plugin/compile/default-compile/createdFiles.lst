@@ -8,6 +8,7 @@ com\mycompany\proyectovideoclub\Plataforma.class
 com\mycompany\proyectovideoclub\GestionPeliculas$2.class
 com\mycompany\proyectovideoclub\GestionPeliculas$3.class
 com\mycompany\proyectovideoclub\GestionEmpleados$1.class
+com\mycompany\proyectovideoclub\Utilidades$CustomButton.class
 com\mycompany\proyectovideoclub\DistribuidoraPeliculas.class
 com\mycompany\proyectovideoclub\UIAdmin$2.class
 com\mycompany\proyectovideoclub\UISocio$5.class
@@ -34,6 +35,7 @@ com\mycompany\proyectovideoclub\GestionPeliculas$4.class
 com\mycompany\proyectovideoclub\GestionPeliculas$1.class
 com\mycompany\proyectovideoclub\GestionSocios$2.class
 com\mycompany\proyectovideoclub\GestionEmpleados$5.class
+com\mycompany\proyectovideoclub\GestionPeliculas$10.class
 com\mycompany\proyectovideoclub\GestionSocios.class
 com\mycompany\proyectovideoclub\UIAdmin1$7.class
 com\mycompany\proyectovideoclub\UIAdmin$1.class
@@ -46,6 +48,7 @@ com\mycompany\proyectovideoclub\GestionSocios$1.class
 com\mycompany\proyectovideoclub\ImagenesDeslizantes$1.class
 com\mycompany\proyectovideoclub\UIAdmin1$4.class
 com\mycompany\proyectovideoclub\CustomButton.class
+com\mycompany\proyectovideoclub\GestionPeliculas$8.class
 com\mycompany\proyectovideoclub\Menu.class
 com\mycompany\proyectovideoclub\UIAdmin$5.class
 com\mycompany\proyectovideoclub\UIEmpleado$1.class
@@ -53,12 +56,14 @@ com\mycompany\proyectovideoclub\UILogin$2.class
 com\mycompany\proyectovideoclub\GestionPeliculas$5.class
 com\mycompany\proyectovideoclub\Pelicula.class
 com\mycompany\proyectovideoclub\UIAdmin1$1.class
+com\mycompany\proyectovideoclub\GestionPeliculas$11.class
 com\mycompany\proyectovideoclub\Database.class
 com\mycompany\proyectovideoclub\GestionSocios$4.class
 com\mycompany\proyectovideoclub\Producto.class
 com\mycompany\proyectovideoclub\UILogin$3.class
 com\mycompany\proyectovideoclub\GestionEmpleados$3.class
 com\mycompany\proyectovideoclub\UIAdmin1.class
+com\mycompany\proyectovideoclub\UISocio$7.class
 com\mycompany\proyectovideoclub\UIAdmin$3.class
 com\mycompany\proyectovideoclub\Empleados.class
 com\mycompany\proyectovideoclub\UISocio$1.class
@@ -66,4 +71,5 @@ com\mycompany\proyectovideoclub\UIEmpleado.class
 com\mycompany\proyectovideoclub\UIAdmin$6.class
 com\mycompany\proyectovideoclub\UIAdmin1$5.class
 com\mycompany\proyectovideoclub\Formato.class
+com\mycompany\proyectovideoclub\GestionPeliculas$9.class
 com\mycompany\proyectovideoclub\Videojuego.class

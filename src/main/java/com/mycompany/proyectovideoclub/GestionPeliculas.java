@@ -51,7 +51,7 @@ public GestionPeliculas() {
         String rutaImagen = seleccionarImagen();
         if (rutaImagen != null) {
             tfDisponible.setText(rutaImagen); // Asigna la ruta al campo de texto
-            cargarImagenEnLabel(rutaImagen, jLabelPreviewDisponible); // Muestra la imagen en el JLabel
+            cargarPreviewEnLabel(rutaImagen, jLabelPreviewDisponible); // Muestra la imagen en el JLabel
         }
     });
 
@@ -60,7 +60,7 @@ public GestionPeliculas() {
         String rutaImagen = seleccionarImagen();
         if (rutaImagen != null) {
             tfAlquilado.setText(rutaImagen); // Asigna la ruta al campo de texto
-            cargarImagenEnLabel(rutaImagen, jLabelPreviewAlquilado); // Muestra la imagen en el JLabel
+            cargarPreviewEnLabel(rutaImagen, jLabelPreviewAlquilado); // Muestra la imagen en el JLabel
         }
     });
 
@@ -166,11 +166,22 @@ public GestionPeliculas() {
 private void cargarNombresDeFormatos() {
     SwingUtilities.invokeLater(() -> {  // Aseguramos que se ejecute en el hilo de la interfaz gráfica
         try (Connection conn = Database.getConnection()) {
+            if (conn == null) {
+                JOptionPane.showMessageDialog(this, "Error: conexión a la base de datos no válida.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             String query = "SELECT id, nombre FROM Formatos";
             try (PreparedStatement stmt = conn.prepareStatement(query);
                  ResultSet rs = stmt.executeQuery()) {
 
                 comboBoxFormato.removeAllItems();  // Limpiar el JComboBox
+
+                if (!rs.isBeforeFirst()) {  // Comprueba si hay resultados
+                    System.out.println("No se encontraron formatos en la base de datos.");
+                    JOptionPane.showMessageDialog(this, "No hay formatos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
 
                 while (rs.next()) {
                     int id = rs.getInt("id");
@@ -179,10 +190,6 @@ private void cargarNombresDeFormatos() {
                     System.out.println("Formato cargado: " + id + " - " + nombre);  // Mensaje de depuración
                 }
 
-                // Actualizar la interfaz
-                panel.revalidate();  // Volver a validar el panel
-                panel.repaint();  // Repaint para forzar actualización visual
-
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -190,8 +197,6 @@ private void cargarNombresDeFormatos() {
         }
     });
 }
-
-
 
 // Método para abrir JFileChooser y seleccionar una imagen
     private String seleccionarImagen() {
@@ -225,18 +230,22 @@ private void cargarNombresDeFormatos() {
         return null;
     }
     
-
-
-    // Método para cargar y mostrar una imagen en un JLabel
 // Método para cargar imagen en el JLabel
-    private void cargarImagenEnLabel(String rutaImagen, JLabel label) {
-        try {
-            ImageIcon imagenIcon = new ImageIcon(rutaImagen); // Cargar la imagen desde la ruta
-            label.setIcon(imagenIcon); // Establecer la imagen en el JLabel
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al cargar la imagen: " + e.getMessage());
-        }
+private void cargarPreviewEnLabel(String rutaImagen, JLabel label) {
+    try {
+        // Cargar la imagen desde la ruta
+        ImageIcon imgProd = new ImageIcon(rutaImagen);
+        
+        // Escalar la imagen al tamaño de la JLabel
+        ImageIcon tamaño = new ImageIcon(imgProd.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
+        
+        // Establecer la imagen escalada en el JLabel
+        label.setIcon(tamaño);
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Error al cargar la imagen: " + e.getMessage());
     }
+}
+
 
     // Método para convertir String a java.sql.Date
     private Date convertirFecha(String fechaStr) {
@@ -396,6 +405,11 @@ private void cargarNombresDeFormatos() {
         );
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -589,7 +603,18 @@ private void cargarNombresDeFormatos() {
 
         jLabelFormato.setText("Formato");
 
+        comboBoxFormato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxFormatoActionPerformed(evt);
+            }
+        });
+
         comboBoxDistribuidora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "20TH Century Fox" }));
+        comboBoxDistribuidora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxDistribuidoraActionPerformed(evt);
+            }
+        });
 
         jLabelDistribuidoras.setText("Distribuidora");
 
@@ -649,7 +674,12 @@ private void cargarNombresDeFormatos() {
 
         jLabelAlquilado.setText("Alquilado:");
 
-        btnSeleccionarAlquilado.setText("Selccionar");
+        btnSeleccionarAlquilado.setText("Seleccionar");
+        btnSeleccionarAlquilado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarAlquiladoActionPerformed(evt);
+            }
+        });
 
         jLabelDisponibleAlquiler.setText("Disponible alquiler: ");
 
@@ -843,6 +873,22 @@ private void cargarNombresDeFormatos() {
     private void tfSinopsisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSinopsisActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfSinopsisActionPerformed
+
+    private void comboBoxDistribuidoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxDistribuidoraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxDistribuidoraActionPerformed
+
+    private void comboBoxFormatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxFormatoActionPerformed
+        
+    }//GEN-LAST:event_comboBoxFormatoActionPerformed
+
+    private void btnSeleccionarAlquiladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarAlquiladoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSeleccionarAlquiladoActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
