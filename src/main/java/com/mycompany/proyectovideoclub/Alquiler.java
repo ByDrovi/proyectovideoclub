@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 public class Alquiler {
 
@@ -18,7 +20,7 @@ public class Alquiler {
     private Date fechaDevolucion;
     private Date fechaRealEntrega;
     private String estado;
-     
+
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     // Constructor vacío
@@ -102,37 +104,102 @@ public class Alquiler {
         this.estado = estado;
     }
 
-    // Método para registrar un alquiler
-    public static boolean registrarAlquiler(Connection conn, int idSocio, int idProducto, String fechaAlquilerStr) throws SQLException, ParseException {
-        // Convertir la fecha simulada (String) a Date
-        Date fechaAlquiler = dateFormat.parse(fechaAlquilerStr);
+    public static void alquilarProducto(int productoId, int socioId, LocalDate fechaAlquiler, double cuotaAlquiler) throws SQLException {
+        try ( Connection conn = Database.getConnection()) {
+            LocalDate fechaEntrega = fechaAlquiler.plusDays(3); // Sumar 3 días para la fecha de entrega
 
-        // Calcular fechaDevolucion sumando 3 días
-        Date fechaDevolucion = new Date(fechaAlquiler.getTime() + 3L * 24 * 60 * 60 * 1000);
+            // Insertar el alquiler en la tabla Alquileres
+            String queryInsert
+                    = "INSERT INTO Alquileres (idProducto, idSocio, fechaAlquiler, fechaEntrega, cuotaAlquiler) "
+                    + "VALUES (?, ?, ?, ?, ?)";
 
-        String query = "INSERT INTO Alquileres (idSocio, idProducto, fechaHoy, fechaAlquiler, fechaDevolucion, estado) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, idSocio);
-            stmt.setInt(2, idProducto);
-            stmt.setDate(3, new java.sql.Date(new Date().getTime())); // Fecha actual como fechaHoy
-            stmt.setDate(4, new java.sql.Date(fechaAlquiler.getTime())); // Fecha de alquiler
-            stmt.setDate(5, new java.sql.Date(fechaDevolucion.getTime())); // Fecha de devolución calculada
-            stmt.setString(6, "Prestado"); // Estado inicial
-            return stmt.executeUpdate() > 0;
+            try ( PreparedStatement insertStmt = conn.prepareStatement(queryInsert)) {
+                insertStmt.setInt(1, productoId); // ID del producto
+                insertStmt.setInt(2, socioId); // ID del socio
+                insertStmt.setDate(3, java.sql.Date.valueOf(fechaAlquiler)); // Fecha de alquiler
+                insertStmt.setDate(4, java.sql.Date.valueOf(fechaEntrega)); // Fecha de entrega
+                insertStmt.setDouble(5, cuotaAlquiler); // Cuota de alquiler
+
+                int rowsInserted = insertStmt.executeUpdate();
+                if (rowsInserted > 0) {
+                    // Actualizar unidades disponibles
+                    String queryUpdateUnidades
+                            = "UPDATE Productos SET numDisponibleAlquiler = numDisponibleAlquiler - 1 WHERE id = ?";
+
+                    try ( PreparedStatement updateStmt = conn.prepareStatement(queryUpdateUnidades)) {
+                        updateStmt.setInt(1, productoId);
+                        updateStmt.executeUpdate();
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new SQLException("Error al procesar el alquiler: " + e.getMessage());
         }
     }
 
-    // Método para registrar la devolución
-    public static boolean registrarDevolucion(Connection conn, int idAlquiler, String fechaRealEntregaStr) throws SQLException, ParseException {
-        // Convertir la fecha simulada (String) a Date
-        Date fechaRealEntrega = dateFormat.parse(fechaRealEntregaStr);
+    public static void devolverProducto(int productoId, int socioId, LocalDate fechaRealEntrega) throws SQLException {
+        try ( Connection conn = Database.getConnection()) {
+            // Consultar la fecha de entrega original y el recargo por devolución tardía
+            String queryDetalles
+                    = "SELECT fechaEntrega, recargoDevolucion "
+                    + "FROM Alquileres "
+                    + "JOIN Productos p ON Alquileres.idProducto = p.id "
+                    + "WHERE idSocio = ? AND idProducto = ? AND fechaRealEntrega IS NULL";
+            try ( PreparedStatement stmt = conn.prepareStatement(queryDetalles)) {
+                stmt.setInt(1, socioId);
+                stmt.setInt(2, productoId);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    LocalDate fechaEntrega = rs.getDate("fechaEntrega").toLocalDate();
+                    double recargoDevolucion = rs.getDouble("recargoDevolucion");
 
-        String query = "UPDATE Alquileres SET estado = 'Devuelto', fechaRealEntrega = ? WHERE id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setDate(1, new java.sql.Date(fechaRealEntrega.getTime()));
-            stmt.setInt(2, idAlquiler);
-            return stmt.executeUpdate() > 0;
+                    // Comprobar si se ha retrasado la devolución
+                    if (fechaRealEntrega.isAfter(fechaEntrega)) {
+                        // Si es así, aplicar el recargo en el próximo alquiler
+                        String updateRecargo = ""
+                                + "UPDATE Socios "
+                                + "SET recargoDevolucion = ? "
+                                + "WHERE id = ?";
+                        try ( PreparedStatement updateStmt = conn.prepareStatement(updateRecargo)) {
+                            updateStmt.setDouble(1, recargoDevolucion); // Recargo para el siguiente alquiler
+                            updateStmt.setInt(2, socioId);
+                            updateStmt.executeUpdate();
+                        }
+
+                        // Avisar al usuario del recargo
+                        JOptionPane.showMessageDialog(null, "¡Atención! Tendrás un recargo de " + recargoDevolucion
+                                + "€ en tu próximo alquiler debido a la devolución tardía.");
+                    }
+
+                    // Actualizar las unidades disponibles del producto
+                    String queryUpdateUnidades
+                            = "UPDATE Productos "
+                            + "SET numDisponibleAlquiler = numDisponibleAlquiler + 1 "
+                            + "WHERE id = ?";
+                    try ( PreparedStatement updateStmt = conn.prepareStatement(queryUpdateUnidades)) {
+                        updateStmt.setInt(1, productoId);
+                        updateStmt.executeUpdate();
+                    }
+
+                    // Marcar la devolución en la tabla Alquileres
+                    String updateDevolucion
+                            = "UPDATE Alquileres "
+                            + "SET fechaRealEntrega = ? "
+                            + "WHERE idSocio = ? AND idProducto = ?";
+                    try ( PreparedStatement updateDevolucionStmt = conn.prepareStatement(updateDevolucion)) {
+                        updateDevolucionStmt.setDate(1, java.sql.Date.valueOf(fechaRealEntrega)); // Fecha de devolución
+                        updateDevolucionStmt.setInt(2, socioId);
+                        updateDevolucionStmt.setInt(3, productoId);
+                        updateDevolucionStmt.executeUpdate();
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró un alquiler para este producto.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al procesar la devolución: " + e.getMessage());
         }
     }
 

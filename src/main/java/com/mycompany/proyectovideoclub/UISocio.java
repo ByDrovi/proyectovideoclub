@@ -34,399 +34,320 @@ import java.sql.Date;
 import java.time.LocalDate;
 import javax.swing.JButton;
 
-
 public class UISocio extends JFrame {
 
- private static DefaultTableModel tableModel;  // Declarar estático si se usa en un contexto estático
- private Socios usuarioLogin;
+    private static DefaultTableModel tableModel;  // Declarar estático si se usa en un contexto estático
+    private Socios usuarioLogin;
 
-public UISocio(Socios usuarioLogin) {
-    this.usuarioLogin = usuarioLogin;  // Asigna el logUser recibido
-    setTitle("Listado de Películas");
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(800, 600);
-    setLocationRelativeTo(null);
+    public UISocio(Socios usuarioLogin) {
+        this.usuarioLogin = usuarioLogin;  // Asigna el logUser recibido
+        setTitle("Listado de Películas");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setLocationRelativeTo(null);
 
-    // Llama a los componentes generados automáticamente
-    initComponents();
-    //mostrarNombreSocio();
+        // Llama a los componentes generados automáticamente
+        initComponents();
+        //mostrarNombreSocio();
 
-    // Sobrescribe configuraciones de la tabla y carga los datos
-    inicializarComponentes();
-}
-
-private void cargarPeliculas() {
-    // Asumiendo que tienes una conexión a la base de datos
-    String query = ""
-            + "SELECT p.titulo, pl.actorProtagonista, f.nombre AS formato_id, p.anioLanzamiento, p.numDisponibleAlquiler, p.genero, p.subgenero " +
-                   "FROM Productos p " +
-                   "JOIN Peliculas pl ON p.id = pl.id " +
-                   "JOIN Formatos f ON pl.formato_id = f.id " +
-                   "WHERE p.esBaja = FALSE"; // Solo películas activas (no dadas de baja)
-
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/videoclub", "root", "");
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(query)) {
-
-        // Limpiar el modelo de tabla antes de cargar los nuevos datos
-        tableModel.setRowCount(0);
-
-        // Recorrer los resultados y llenar el modelo de la tabla
-        while (rs.next()) {
-            String titulo = rs.getString("titulo");
-            String formato = rs.getString("formato_id");
-            int anioLanzamiento = rs.getInt("anioLanzamiento");
-            int numDisponibleAlquiler = rs.getInt("numDisponibleAlquiler");
-            String genero = rs.getString("genero");
-            String subgenero = rs.getString("subgenero");
-
-            // Agregar los datos a la tabla
-            Object[] row = {titulo, formato, anioLanzamiento, numDisponibleAlquiler, genero, subgenero};
-            tableModel.addRow(row);
-        }
-    } catch (SQLException e) {
-        e.printStackTrace(); // Mostrar cualquier error en la consola
+        // Sobrescribe configuraciones de la tabla y carga los datos
+        inicializarComponentes();
     }
-}
 
-private void inicializarComponentes() {
-    
-    welcomeUser.setText("Bienvenido " + usuarioLogin.getNombre());
+    private void cargarPeliculas() {
+        // Asumiendo que tienes una conexión a la base de datos
+        String query = ""
+                + "SELECT p.titulo, pl.actorProtagonista, f.nombre AS formato_id, p.anioLanzamiento, p.numDisponibleAlquiler, p.genero, p.subgenero "
+                + "FROM Productos p "
+                + "JOIN Peliculas pl ON p.id = pl.id "
+                + "JOIN Formatos f ON pl.formato_id = f.id "
+                + "WHERE p.esBaja = FALSE"; // Solo películas activas (no dadas de baja)
 
-    // Crear el modelo de tabla con las nuevas columnas
-    String[] columnNames = {"Título", "Formato", "Duración", "Unidades", "Género", "Subgénero"};
-    tableModel = new DefaultTableModel(columnNames, 0);
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/videoclub", "root", "");  Statement stmt = conn.createStatement();  ResultSet rs = stmt.executeQuery(query)) {
 
-    // Asigna el modelo de tabla personalizado a la tabla generada automáticamente
-    table.setModel(tableModel);
+            // Limpiar el modelo de tabla antes de cargar los nuevos datos
+            tableModel.setRowCount(0);
 
-    // Habilitar el ordenamiento alfabético por columnas
-    table.setAutoCreateRowSorter(true);
+            // Recorrer los resultados y llenar el modelo de la tabla
+            while (rs.next()) {
+                String titulo = rs.getString("titulo");
+                String formato = rs.getString("formato_id");
+                int anioLanzamiento = rs.getInt("anioLanzamiento");
+                int numDisponibleAlquiler = rs.getInt("numDisponibleAlquiler");
+                String genero = rs.getString("genero");
+                String subgenero = rs.getString("subgenero");
 
-    // Deshabilitar la edición directa de las celdas
-    table.setDefaultEditor(Object.class, null);
-
-    // Agregar listener para manejar clics en las filas
-    table.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 2) { // Detecta un clic doble
-                int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1) {
-                    mostrarDetallesPelicula(selectedRow); // Mostrar detalles de la película seleccionada
-                }
+                // Agregar los datos a la tabla
+                Object[] row = {titulo, formato, anioLanzamiento, numDisponibleAlquiler, genero, subgenero};
+                tableModel.addRow(row);
             }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Mostrar cualquier error en la consola
         }
-           
-    });
-
-    // Cargar los datos desde la base de datos
-    cargarPeliculas();
-    
-    btnSeguimiento.addActionListener(e -> {
-    try (Connection conn = Database.getConnection()) {
-        // Consulta para obtener los productos alquilados del socio
-        String query = "SELECT p.titulo, a.fechaEntrega, a.cuotaAlquiler " +
-                       "FROM Alquileres a " +
-                       "JOIN Productos p ON a.idProducto= p.id " +
-                       "WHERE a.idSocio = ? " +
-                       "ORDER BY a.fechaEntrega";
-
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, usuarioLogin.getId()); // logUser contiene el ID del socio actual
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                StringBuilder seguimiento = new StringBuilder("Productos alquilados:\n");
-
-                // Recorrer los resultados y construir la lista
-                while (rs.next()) {
-                    String titulo = rs.getString("titulo");
-                    Date fechaEntrega = rs.getDate("fechaEntrega");
-                    double cuotaAlquiler = rs.getDouble("cuotaAlquiler");
-
-                    seguimiento.append("Título: ").append(titulo)
-                            .append("\nFecha de entrega: ").append(fechaEntrega)
-                            .append("\nPrecio: ").append(cuotaAlquiler).append("€\n\n");
-                }
-
-                // Mostrar la lista al usuario
-                JOptionPane.showMessageDialog(this, seguimiento.toString(), "Seguimiento de Alquileres", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error al cargar el seguimiento: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-    
-    
-});
-
-}
-
-private void devolverPelicula() {
-    // Obtener la película seleccionada de la tabla
-    int selectedRow = table.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Por favor, selecciona una película para devolver.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
     }
 
-    String titulo = (String) tableModel.getValueAt(selectedRow, 0); // Obtener el título
+    private void inicializarComponentes() {
+        welcomeUser.setText("Bienvenido " + usuarioLogin.getNombre());
 
-    // Consultar la base de datos para obtener la información sobre el alquiler
-    try (Connection conn = Database.getConnection()) {
-        String query = "SELECT a.fechaEntrega, a.fechaRealEntrega, p.numDisponibleAlquiler, a.id " +
-                       "FROM Alquileres a " +
-                       "JOIN Productos p ON a.idProducto = p.id " +
-                       "WHERE a.idSocio = ? AND p.titulo = ? AND a.fechaRealEntrega IS NULL"; // Sólo los alquileres no devueltos
+        // Crear el modelo de tabla con las nuevas columnas
+        String[] columnNames = {"Título", "Formato", "Duración", "Unidades", "Género", "Subgénero"};
+        tableModel = new DefaultTableModel(columnNames, 0);
 
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1,  usuarioLogin.getId());  // ID del socio
-            stmt.setString(2, titulo);    // Título de la película
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    Date fechaEntrega = rs.getDate("fechaEntrega");
-                    Date fechaRealEntrega = rs.getDate("fechaRealEntrega");
+        // Asigna el modelo de tabla personalizado a la tabla generada automáticamente
+        table.setModel(tableModel);
 
-                    // Si la fecha real de entrega es null, es que aún no ha sido devuelta
-                    if (fechaRealEntrega == null) {
-                        // Devolver la película (aumentar unidades disponibles)
-                        String updateUnidades = "UPDATE Productos SET numDisponibleAlquiler = numDisponibleAlquiler + 1 WHERE titulo = ?";
-                        try (PreparedStatement updateStmt = conn.prepareStatement(updateUnidades)) {
-                            updateStmt.setString(1, titulo);
-                            updateStmt.executeUpdate();
-                        }
+        // Habilitar el ordenamiento alfabético por columnas
+        table.setAutoCreateRowSorter(true);
 
-                        // Verificar si hay recargo por fecha de entrega retrasada
-                        LocalDate fechaHoy = LocalDate.now();
-                        LocalDate fechaEntregaLocal = fechaEntrega.toLocalDate();
+        // Deshabilitar la edición directa de las celdas
+        table.setDefaultEditor(Object.class, null);
 
-                        if (fechaEntregaLocal.isBefore(fechaHoy)) {
-                            // Si la fecha real de entrega es superior a la fecha actual, activar recargo
-                            String updateRecargo = "UPDATE Socios SET recargoActivo = TRUE WHERE id = ?";
-                            try (PreparedStatement updateRecargoStmt = conn.prepareStatement(updateRecargo)) {
-                                updateRecargoStmt.setInt(1, usuarioLogin.getId());
-                                updateRecargoStmt.executeUpdate();
-                            }
-
-                            // Mostrar mensaje de recargo
-                            JOptionPane.showMessageDialog(this, "¡Recargo aplicado! El próximo alquiler tendrá un recargo.");
-                        }
-
-                        // Actualizar la tabla Alquileres con la fecha de devolución real
-                        String updateDevolucion = "UPDATE Alquileres "
-                                + "SET fechaRealEntrega = ? "
-                                + "WHERE id = ?";
-                        try (PreparedStatement updateDevolucionStmt = conn.prepareStatement(updateDevolucion)) {
-                            updateDevolucionStmt.setDate(1, java.sql.Date.valueOf(fechaHoy));
-                            updateDevolucionStmt.setInt(2, rs.getInt("id"));
-                            updateDevolucionStmt.executeUpdate();
-                        }
-
-                        // Mensaje de confirmación
-                        JOptionPane.showMessageDialog(this, "Película devuelta correctamente.");
+        // Agregar listener para manejar clics en las filas
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) { // Detecta un clic doble
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        mostrarDetallesPelicula(selectedRow); // Mostrar detalles de la película seleccionada
                     }
-                } else {
-                    JOptionPane.showMessageDialog(this, "No se encontró un alquiler activo para esta película.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error al procesar la devolución: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
+        });
 
+        // Cargar los datos desde la base de datos
+        cargarPeliculas();
 
+        // Acción para el seguimiento
+        btnSeguimiento.addActionListener(e -> {
+            try ( Connection conn = Database.getConnection()) {
+                // Consulta para obtener los productos alquilados del socio
+                String query = "SELECT p.titulo, a.fechaEntrega, a.cuotaAlquiler "
+                        + "FROM Alquileres a "
+                        + "JOIN Productos p ON a.idProducto = p.id "
+                        + "WHERE a.idSocio = ? "
+                        + "ORDER BY a.fechaEntrega";
 
-private void mostrarDetallesPelicula(int rowIndex) {
-    String titulo = (String) tableModel.getValueAt(rowIndex, 0); // Obtener el título de la película seleccionada
+                try ( PreparedStatement stmt = conn.prepareStatement(query)) {
+                    stmt.setInt(1, usuarioLogin.getId());
 
-    // Consulta SQL para obtener los detalles de la película
-    String query = "SELECT p.titulo, f.nombre AS formato, p.anioLanzamiento, p.numDisponibleAlquiler, " +
-                   "p.genero, p.subgenero, p.sinopsis, pl.cuotaAlquilerPeliculas, pl.actorProtagonista, pl.actorSecundario1, " +
-                   "pl.actorSecundario2 " +
-                   "FROM Productos p " +
-                   "JOIN Peliculas pl ON p.id = pl.id " +
-                   "JOIN Formatos f ON pl.formato_id = f.id " +
-                   "WHERE p.titulo = ? AND p.esBaja = FALSE"; // Aseguramos que la película no esté dada de baja
+                    try ( ResultSet rs = stmt.executeQuery()) {
+                        StringBuilder seguimiento = new StringBuilder("Productos alquilados:\n");
 
-    try (Connection conn = Database.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
-        stmt.setString(1, titulo);
-        ResultSet rs = stmt.executeQuery();
+                        // Recorrer los resultados y construir la lista
+                        while (rs.next()) {
+                            String titulo = rs.getString("titulo");
+                            Date fechaEntrega = rs.getDate("fechaEntrega");
+                            double cuotaAlquiler = rs.getDouble("cuotaAlquiler");
 
-        if (rs.next()) {
-            // Crear el JDialog para mostrar los detalles de la película
-            JDialog detallesDialog = new JDialog(this, "Detalles de la Película", true);
-            detallesDialog.setSize(600, 400);
-            detallesDialog.setLocationRelativeTo(this);
+                            seguimiento.append("Título: ").append(titulo)
+                                    .append("\nFecha de entrega: ").append(fechaEntrega)
+                                    .append("\nPrecio: ").append(cuotaAlquiler).append("€\n\n");
+                        }
 
-            // Configuración del layout principal
-            detallesDialog.setLayout(new BorderLayout());
-
-            // Panel para la portada
-            JPanel portadaPanel = new JPanel();
-            JLabel portadaLabel = new JLabel();
-            portadaPanel.add(portadaLabel);
-
-            // Obtener la imagen de portada (alquilado o disponible)
-            String imagenPath = "images/" + titulo + (rs.getInt("numDisponibleAlquiler") == 0 ? "_alquilado.png" : "_disponible.png");
-            URL imageUrl = getClass().getClassLoader().getResource(imagenPath);
-
-            if (imageUrl != null) {
-                ImageIcon portada = new ImageIcon(imageUrl);
-                Image img = portada.getImage();  // Obtener la imagen original
-
-                // Redimensionar la imagen manteniendo las proporciones
-                int width = 150;  // Ancho deseado
-                int height = -1;  // Mantener proporciones (el valor negativo indicará auto-ajuste)
-                Image imgEscalada = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-
-                portadaLabel.setIcon(new ImageIcon(imgEscalada));  // Asignar la imagen redimensionada al JLabel
-            } else {
-                portadaLabel.setText("Imagen no disponible");
+                        // Mostrar la lista al usuario
+                        JOptionPane.showMessageDialog(this, seguimiento.toString(), "Seguimiento de Alquileres", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al cargar el seguimiento: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
+        });
 
-            // Panel para los detalles
-            JPanel detallesPanel = new JPanel();
-            detallesPanel.setLayout(new BoxLayout(detallesPanel, BoxLayout.Y_AXIS));
+        // Acción para el botón de devolución
+        btnDevolucion.addActionListener(e -> {
+            try {
+                // Obtener datos necesarios
+                String fechaDevolucionStr = tfFechaHoy.getText(); // Fecha de devolución desde el JTextField
+                LocalDate fechaDevolucion = LocalDate.parse(fechaDevolucionStr); // Convertir a LocalDate
+                int selectedRow = table.getSelectedRow();
 
-            // Concatenar actores en una sola cadena bajo la etiqueta "Reparto"
-            String reparto = "Reparto: " + rs.getString("actorProtagonista") + ", " +
-                             rs.getString("actorSecundario1") + ", " +
-                             rs.getString("actorSecundario2");
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(UISocio.this, "Seleccione una película para devolver.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            // Utilizamos JTextArea para el texto largo
-            JTextArea detallesTextArea = new JTextArea();
-            detallesTextArea.setEditable(false);  // Hacer el área de texto no editable
-            detallesTextArea.setLineWrap(true);   // Activar el word wrap
-            detallesTextArea.setWrapStyleWord(true);  
+                String titulo = (String) tableModel.getValueAt(selectedRow, 0); // Título de la película seleccionada
 
+                // Obtener el ID del producto
+                String queryProductoId = "SELECT id FROM Productos WHERE titulo = ?";
+                try ( Connection conn = Database.getConnection();  PreparedStatement stmt = conn.prepareStatement(queryProductoId)) {
+                    stmt.setString(1, titulo);
+                    ResultSet rs = stmt.executeQuery();
 
-// Hacer que el word wrap ocurra solo al final de las palabras
-            detallesTextArea.setText(
-                "" + rs.getString("titulo") + "\n" +
-                "Formato: " + rs.getString("formato") + "\n" +
-                "Año: " + rs.getInt("anioLanzamiento") + "\n" +
-                "Género: " + rs.getString("genero") + "\n" +
-                "Subgénero: " + rs.getString("subgenero") + "\n" +
-                "Unidades disponibles: " + rs.getInt("numDisponibleAlquiler") + "\n" +
-                reparto + "\n" +  // Mostrar el reparto concatenado
-                "Sinopsis: " + rs.getString("sinopsis") + "\n" +
-                "Precio de alquiler: " + rs.getDouble("cuotaAlquilerPeliculas")
-            );
+                    if (rs.next()) {
+                        int productoId = rs.getInt("id");
 
-            // Añadir el JTextArea al panel de detalles
-            detallesPanel.add(new JScrollPane(detallesTextArea));  // Usamos JScrollPane para habilitar el scroll
+                        // Llamada al método devolverProducto
+                        Alquiler.devolverProducto(productoId, usuarioLogin.getId(), fechaDevolucion);
 
-            // Agregar un botón de "Alquilar" (toggle)
-            toggleAlquiler = new JToggleButton("Alquilar");
-            toggleAlquiler.setEnabled(rs.getInt("numDisponibleAlquiler") > 0); // Activar/desactivar según la disponibilidad
-            toggleAlquiler.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (toggleAlquiler.isSelected()) {
-                        try (final Connection conn = Database.getConnection()) {
-                            // Obtener datos necesarios
-                            String fechaAlquilerStr = tfFechaHoy.getText(); // Fecha de alquiler desde el JTextField
-                            LocalDate fechaAlquiler = LocalDate.parse(fechaAlquilerStr); // Convertir a LocalDate
-                            LocalDate fechaEntrega = fechaAlquiler.plusDays(3); // Sumar 3 días para calcular la fecha de entrega
-                            int selectedRow = table.getSelectedRow();
-                            if (selectedRow == -1) {
-                                JOptionPane.showMessageDialog(UISocio.this, "Seleccione una película para alquilar.", "Error", JOptionPane.ERROR_MESSAGE);
-                                toggleAlquiler.setSelected(false);
-                                return;
-                            }
-                            String titulo = (String) tableModel.getValueAt(selectedRow, 0); // Título de la película seleccionada
-                            // Consulta para obtener cuota de alquiler y unidades disponibles
-                            String queryDetalles = ""
-                                + "SELECT pl.cuotaAlquilerPeliculas, p.numDisponibleAlquiler, p.id " +
-                                    "FROM Peliculas pl " +
-                                    "JOIN Productos p ON pl.id = p.id " +
-                                    "WHERE p.titulo = ? AND p.esBaja = FALSE";
-                            try (final PreparedStatement stmt = conn.prepareStatement(queryDetalles)) {
-                                stmt.setString(1, titulo);
-                                ResultSet rs = stmt.executeQuery();
-                                if (rs.next()) {
-                                    double cuotaAlquiler = rs.getDouble("cuotaAlquilerPeliculas");
-                                    int numDisponible = rs.getInt("numDisponibleAlquiler");
-                                    int productoId = rs.getInt("id");
-                                    if (numDisponible <= 0) {
-                                        JOptionPane.showMessageDialog(UISocio.this, "No hay unidades disponibles para alquilar.", "Error", JOptionPane.ERROR_MESSAGE);
-                                        toggleAlquiler.setSelected(false);
-                                        return;
-                                    }
-                                     
-                                    // ###############################################################
-//                                    if (usuarioLogin.getAlquileresTotales() > 0) {
-//                                        JOptionPane.showMessageDialog(UISocio.this, "Ya tienes una película alquilada", "Error", JOptionPane.ERROR_MESSAGE);
-//                                        toggleAlquiler.setSelected(false);
-//                                        return;
-//                                    }
-                                    // ###############################################################
-                                    
-                                    // Insertar el alquiler en la tabla Alquileres
-                                    String queryInsert = 
-                                            "INSERT INTO Alquileres ("
-                                            + "idProducto, "
-                                            + "idSocio, "
-                                            + "fechaAlquiler, "
-                                            + "fechaEntrega, "
-                                            + "cuotaAlquiler) " +
-                                            "VALUES (?, ?, ?, ?, ?)";
-                                    try (final PreparedStatement insertStmt = conn.prepareStatement(queryInsert)) {
-                                        insertStmt.setInt(1, productoId); // ID del producto
-                                        insertStmt.setInt(2, usuarioLogin.getId()); // ID del socio (usuario actual)
-                                        insertStmt.setDate(3, java.sql.Date.valueOf(fechaAlquiler)); // Fecha de alquiler
-                                        insertStmt.setDate(4, java.sql.Date.valueOf(fechaEntrega)); // Fecha de entrega
-                                        insertStmt.setDouble(5, cuotaAlquiler); // Cuota de alquiler
-                                        int rowsInserted = insertStmt.executeUpdate();
-                                        if (rowsInserted > 0) {
-                                            // Actualizar unidades disponibles
-                                            String queryUpdateUnidades = 
-                                                    "UPDATE Productos "
-                                                    + "SET numDisponibleAlquiler = numDisponibleAlquiler - 1 "
-                                                    + "WHERE id = ?";
-                                            try (PreparedStatement updateStmt = conn.prepareStatement(queryUpdateUnidades)) {
-                                                updateStmt.setInt(1, productoId);
-                                                updateStmt.executeUpdate();
-                                            }               JOptionPane.showMessageDialog(UISocio.this, "Producto alquilado correctamente.\n" +
-                                                    "Título: " + titulo + "\n" +
-                                                            "Fecha de alquiler: " + fechaAlquiler + "\n" +
-                                                                    "Fecha de entrega: " + fechaEntrega + "\n" +
-                                                                            "Cuota de alquiler: " + cuotaAlquiler + "€");
+                        JOptionPane.showMessageDialog(UISocio.this, "Producto devuelto correctamente.");
+                    }
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(UISocio.this, "Error al procesar la devolución: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+    }
+
+    private void mostrarDetallesPelicula(int rowIndex) {
+        String titulo = (String) tableModel.getValueAt(rowIndex, 0); // Obtener el título de la película seleccionada
+
+        // Consulta SQL para obtener los detalles de la película
+        String query = "SELECT p.titulo, f.nombre AS formato, p.anioLanzamiento, p.numDisponibleAlquiler, "
+                + "p.genero, p.subgenero, p.sinopsis, pl.cuotaAlquilerPeliculas, pl.actorProtagonista, pl.actorSecundario1, "
+                + "pl.actorSecundario2 "
+                + "FROM Productos p "
+                + "JOIN Peliculas pl ON p.id = pl.id "
+                + "JOIN Formatos f ON pl.formato_id = f.id "
+                + "WHERE p.titulo = ? AND p.esBaja = FALSE"; // Aseguramos que la película no esté dada de baja
+
+        try ( Connection conn = Database.getConnection();  PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, titulo);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Crear el JDialog para mostrar los detalles de la película
+                JDialog detallesDialog = new JDialog(this, "Detalles de la Película", true);
+                detallesDialog.setSize(600, 400);
+                detallesDialog.setLocationRelativeTo(this);
+
+                // Configuración del layout principal
+                detallesDialog.setLayout(new BorderLayout());
+
+                // Panel para la portada
+                JPanel portadaPanel = new JPanel();
+                JLabel portadaLabel = new JLabel();
+                portadaPanel.add(portadaLabel);
+
+                // Obtener la imagen de portada (alquilado o disponible)
+                String imagenPath = "images/" + titulo + (rs.getInt("numDisponibleAlquiler") == 0 ? "_alquilado.png" : "_disponible.png");
+                URL imageUrl = getClass().getClassLoader().getResource(imagenPath);
+
+                if (imageUrl != null) {
+                    ImageIcon portada = new ImageIcon(imageUrl);
+                    Image img = portada.getImage();  // Obtener la imagen original
+
+                    // Redimensionar la imagen manteniendo las proporciones
+                    int width = 150;  // Ancho deseado
+                    int height = -1;  // Mantener proporciones (el valor negativo indicará auto-ajuste)
+                    Image imgEscalada = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+                    portadaLabel.setIcon(new ImageIcon(imgEscalada));  // Asignar la imagen redimensionada al JLabel
+                } else {
+                    portadaLabel.setText("Imagen no disponible");
+                }
+
+                // Panel para los detalles
+                JPanel detallesPanel = new JPanel();
+                detallesPanel.setLayout(new BoxLayout(detallesPanel, BoxLayout.Y_AXIS));
+
+                // Concatenar actores en una sola cadena bajo la etiqueta "Reparto"
+                String reparto = "Reparto: " + rs.getString("actorProtagonista") + ", "
+                        + rs.getString("actorSecundario1") + ", "
+                        + rs.getString("actorSecundario2");
+
+                // Utilizamos JTextArea para el texto largo
+                JTextArea detallesTextArea = new JTextArea();
+                detallesTextArea.setEditable(false);  // Hacer el área de texto no editable
+                detallesTextArea.setLineWrap(true);   // Activar el word wrap
+                detallesTextArea.setWrapStyleWord(true);
+
+                // Hacer que el word wrap ocurra solo al final de las palabras
+                detallesTextArea.setText(
+                        "" + rs.getString("titulo") + "\n"
+                        + "Formato: " + rs.getString("formato") + "\n"
+                        + "Año: " + rs.getInt("anioLanzamiento") + "\n"
+                        + "Género: " + rs.getString("genero") + "\n"
+                        + "Subgénero: " + rs.getString("subgenero") + "\n"
+                        + "Unidades disponibles: " + rs.getInt("numDisponibleAlquiler") + "\n"
+                        + reparto + "\n"
+                        + // Mostrar el reparto concatenado
+                        "Sinopsis: " + rs.getString("sinopsis") + "\n"
+                        + "Precio de alquiler: " + rs.getDouble("cuotaAlquilerPeliculas")
+                );
+
+                // Añadir el JTextArea al panel de detalles
+                detallesPanel.add(new JScrollPane(detallesTextArea));  // Usamos JScrollPane para habilitar el scroll
+
+                // Agregar un botón de "Alquilar" (toggle)
+                toggleAlquiler = new JToggleButton("Alquilar");
+                toggleAlquiler.setEnabled(rs.getInt("numDisponibleAlquiler") > 0); // Activar/desactivar según la disponibilidad
+                toggleAlquiler.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (toggleAlquiler.isSelected()) {
+                            try ( Connection conn = Database.getConnection()) {
+                                String fechaAlquilerStr = tfFechaHoy.getText(); // Fecha de alquiler desde el JTextField
+                                LocalDate fechaAlquiler = LocalDate.parse(fechaAlquilerStr); // Convertir a LocalDate
+                                int selectedRow = table.getSelectedRow();
+                                if (selectedRow == -1) {
+                                    JOptionPane.showMessageDialog(UISocio.this, "Seleccione una película para alquilar.", "Error", JOptionPane.ERROR_MESSAGE);
+                                    toggleAlquiler.setSelected(false);
+                                    return;
+                                }
+                                String titulo = (String) tableModel.getValueAt(selectedRow, 0); // Título de la película seleccionada
+
+                                // Consulta para obtener cuota de alquiler y unidades disponibles
+                                String queryDetalles = ""
+                                        + "SELECT pl.cuotaAlquilerPeliculas, p.numDisponibleAlquiler, p.id "
+                                        + "FROM Peliculas pl "
+                                        + "JOIN Productos p ON pl.id = p.id "
+                                        + "WHERE p.titulo = ? AND p.esBaja = FALSE";
+
+                                try ( PreparedStatement stmt = conn.prepareStatement(queryDetalles)) {
+                                    stmt.setString(1, titulo);
+                                    ResultSet rs = stmt.executeQuery();
+                                    if (rs.next()) {
+                                        double cuotaAlquiler = rs.getDouble("cuotaAlquilerPeliculas");
+                                        int numDisponible = rs.getInt("numDisponibleAlquiler");
+                                        int productoId = rs.getInt("id");
+
+                                        if (numDisponible <= 0) {
+                                            JOptionPane.showMessageDialog(UISocio.this, "No hay unidades disponibles para alquilar.", "Error", JOptionPane.ERROR_MESSAGE);
+                                            toggleAlquiler.setSelected(false);
+                                            return;
                                         }
+
+                                        // Llamada al método alquilarProducto
+                                        Alquiler.alquilarProducto(productoId, usuarioLogin.getId(), fechaAlquiler, cuotaAlquiler);
+
+                                        JOptionPane.showMessageDialog(UISocio.this, "Producto alquilado correctamente.\n"
+                                                + "Título: " + titulo + "\n"
+                                                + "Fecha de alquiler: " + fechaAlquiler + "\n"
+                                                + "Fecha de entrega: " + fechaAlquiler.plusDays(3) + "\n"
+                                                + "Cuota de alquiler: " + cuotaAlquiler + "€");
                                     }
                                 }
+                            } catch (SQLException ex) {
+                                ex.printStackTrace();
+                                JOptionPane.showMessageDialog(UISocio.this, "Error al procesar el alquiler: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                             }
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                            JOptionPane.showMessageDialog(UISocio.this, "Error al procesar el alquiler: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(UISocio.this, "Alquiler cancelado.");
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(UISocio.this, "Alquiler cancelado.");
                     }
-                }
-            });
+                });
 
+                // Añadir el botón de alquiler al panel de detalles
+                detallesPanel.add(toggleAlquiler);
 
-            // Añadir el botón de alquiler al panel de detalles
-            detallesPanel.add(toggleAlquiler);
+                // Añadir los paneles al JDialog
+                detallesDialog.add(portadaPanel, BorderLayout.WEST);
+                detallesDialog.add(detallesPanel, BorderLayout.CENTER);
 
-            // Añadir los paneles al JDialog
-            detallesDialog.add(portadaPanel, BorderLayout.WEST);
-            detallesDialog.add(detallesPanel, BorderLayout.CENTER);
-
-            // Mostrar el JDialog con los detalles
-            detallesDialog.setVisible(true);
+                // Mostrar el JDialog con los detalles
+                detallesDialog.setVisible(true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar los detalles: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error al cargar los detalles: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
     }
-}
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -619,7 +540,7 @@ private void mostrarDetallesPelicula(int rowIndex) {
     }//GEN-LAST:event_btnActualizarTablaActionPerformed
 
     private void btnDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolucionActionPerformed
-        devolverPelicula();
+
     }//GEN-LAST:event_btnDevolucionActionPerformed
 
 
