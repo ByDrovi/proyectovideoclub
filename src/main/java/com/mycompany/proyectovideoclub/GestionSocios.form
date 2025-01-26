@@ -58,12 +58,11 @@
                           </Group>
                       </Group>
                   </Group>
-                  <Component id="tfnombre" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                      <Component id="tfapellidos" min="-2" pref="159" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="tfnombre" alignment="0" max="32767" attributes="0"/>
+                      <Component id="tfapellidos" alignment="0" max="32767" attributes="0"/>
+                      <Component id="tfdni" alignment="0" pref="125" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="tfdni" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="75" max="32767" attributes="0"/>
           </Group>
