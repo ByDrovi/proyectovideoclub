@@ -10,6 +10,7 @@ com\mycompany\proyectovideoclub\GestionPeliculas$3.class
 com\mycompany\proyectovideoclub\GestionEmpleados$1.class
 com\mycompany\proyectovideoclub\DistribuidoraPeliculas.class
 com\mycompany\proyectovideoclub\UIAdmin$2.class
+com\mycompany\proyectovideoclub\UISocio$5.class
 com\mycompany\proyectovideoclub\GestionSocios$3.class
 com\mycompany\proyectovideoclub\GestionPeliculas.class
 com\mycompany\proyectovideoclub\Alquiler.class
@@ -26,6 +27,7 @@ com\mycompany\proyectovideoclub\ImagenesDeslizantes.class
 com\mycompany\proyectovideoclub\UILogin.class
 com\mycompany\proyectovideoclub\UISocio.class
 com\mycompany\proyectovideoclub\UILogin$1.class
+com\mycompany\proyectovideoclub\UISocio$6.class
 com\mycompany\proyectovideoclub\GestionEmpleados$2.class
 com\mycompany\proyectovideoclub\GestionEmpleados.class
 com\mycompany\proyectovideoclub\GestionPeliculas$4.class
