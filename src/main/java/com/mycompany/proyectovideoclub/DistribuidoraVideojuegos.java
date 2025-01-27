@@ -114,26 +114,4 @@ public class DistribuidoraVideojuegos {
             }
         }
     } 
-         
-                         // Conexión a la base de datos
-//        try (Connection conn = DistribuidoraVideojuegos.conectar()) {
-//
-//            // Consultar todas las distribuidoras
-//            System.out.println("Consultando todas las distribuidoras:");
-//            List<DistribuidoraVideojuegos> distribuidoras = DistribuidoraVideojuegos.consultarDistribuidorasVideojuegos(conn);
-//            for (DistribuidoraVideojuegos distribuidora : distribuidoras) {
-//                System.out.println(distribuidora.getId() + " - " + distribuidora.getNombre());
-//            }
-//
-//            // Agregar una nueva distribuidora
-//            String nuevoNombre = "Nueva Distribuidora"; // Cambia el nombre por el que desees
-//            DistribuidoraVideojuegos.agregarDistribuidoraVideojuegos(conn, nuevoNombre);
-//
-//            // Consultar distribuidora específica y sus películas
-//            String nombreDistribuidora = "Kotchmedia"; // Cambia por el nombre de la distribuidora que deseas consultar
-//            DistribuidoraVideojuegos.consultarDistribuidoraConVideojuegos(conn, nombreDistribuidora);
-//
-//        } catch (SQLException e) {
-//            System.err.println("Error de conexión o en la consulta: " + e.getMessage());
-//        }
 }
