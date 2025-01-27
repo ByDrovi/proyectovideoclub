@@ -158,12 +158,12 @@ public class Alquiler {
                     if (fechaRealEntrega.isAfter(fechaEntrega)) {
                         // Si es así, aplicar el recargo en el próximo alquiler
                         String updateRecargo = ""
-                                + "UPDATE Socios "
+                                + "UPDATE Productos "
                                 + "SET recargoDevolucion = ? "
                                 + "WHERE id = ?";
                         try ( PreparedStatement updateStmt = conn.prepareStatement(updateRecargo)) {
                             updateStmt.setDouble(1, recargoDevolucion); // Recargo para el siguiente alquiler
-                            updateStmt.setInt(2, socioId);
+                            updateStmt.setInt(2, productoId);
                             updateStmt.executeUpdate();
                         }
 

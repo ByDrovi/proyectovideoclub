@@ -106,9 +106,21 @@ public GestionPeliculas() {
 
             try (Connection conn = Database.getConnection()) {
                 // Insertar en Productos y recuperar el ID generado
-                String queryProductos = "INSERT INTO Productos (titulo, anioLanzamiento, costeUnitario, fechaLanzamiento, "
-                        + "fechaAltaDatabase, numDisponibleAlquiler, recargoDevolucion, esEstreno, genero, subgenero, "
-                        + "sinopsis, imagenProductoDisponible, imagenProductoAlquilado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String queryProductos = "INSERT INTO Productos ("
+                        + "titulo, "
+                        + "anioLanzamiento, "
+                        + "costeUnitario, f"
+                        + "echaLanzamiento, "
+                        + "fechaAltaDatabase, "
+                        + "numDisponibleAlquiler, "
+                        + "recargoDevolucion, "
+                        + "esEstreno, "
+                        + "genero, "
+                        + "subgenero, "
+                        + "sinopsis, "
+                        + "imagenProductoDisponible, "
+                        + "imagenProductoAlquilado) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement stmtProductos = conn.prepareStatement(queryProductos, Statement.RETURN_GENERATED_KEYS)) {
                     stmtProductos.setString(1, titulo);
                     stmtProductos.setInt(2, anioLanzamiento);
@@ -130,8 +142,17 @@ public GestionPeliculas() {
                         int productoId = generatedKeys.getInt(1);
 
                         // Insertar en Peliculas usando el ID de Productos
-                        String queryPeliculas = "INSERT INTO Peliculas (id, director, duracion, actorProtagonista, actorSecundario1, "
-                                + "actorSecundario2, formato_id, distribuidora_id, cuotaAlquilerPeliculas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        String queryPeliculas = "INSERT INTO Peliculas ("
+                                + "id, "
+                                + "director, "
+                                + "duracion, "
+                                + "actorProtagonista, "
+                                + "actorSecundario1, "
+                                + "actorSecundario2, "
+                                + "formato_id, "
+                                + "distribuidora_id, "
+                                + "cuotaAlquilerPeliculas) "
+                                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         try (PreparedStatement stmtPeliculas = conn.prepareStatement(queryPeliculas)) {
                             stmtPeliculas.setInt(1, productoId);
                             stmtPeliculas.setString(2, director);
@@ -171,7 +192,8 @@ private void cargarNombresDeFormatos() {
                 return;
             }
 
-            String query = "SELECT id, nombre FROM Formatos";
+            String query = "SELECT id, nombre "
+                    + "FROM Formatos";
             try (PreparedStatement stmt = conn.prepareStatement(query);
                  ResultSet rs = stmt.executeQuery()) {
 
@@ -671,6 +693,11 @@ private void cargarPreviewEnLabel(String rutaImagen, JLabel label) {
         jLabelDisponible.setText("Disponible");
 
         btnSeleccionarDisponible.setText("Seleccionar");
+        btnSeleccionarDisponible.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarDisponibleActionPerformed(evt);
+            }
+        });
 
         jLabelAlquilado.setText("Alquilado:");
 
@@ -889,6 +916,10 @@ private void cargarPreviewEnLabel(String rutaImagen, JLabel label) {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnSeleccionarDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarDisponibleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSeleccionarDisponibleActionPerformed
 
     /**
      * @param args the command line arguments

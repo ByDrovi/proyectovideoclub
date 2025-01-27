@@ -690,6 +690,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Seleccionar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSeleccionarDisponibleActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelAlquilado">
               <Properties>
