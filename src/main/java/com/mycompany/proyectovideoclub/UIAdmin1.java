@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author oscar.lara
  */
+
 public class UIAdmin1 extends javax.swing.JFrame {
 
     private DefaultTableModel modeloTablaDistribuidorasPeliculas;

@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
+/**
+ *
+ * @author oscar.lara
+ */
+
 public class CustomTextField extends JTextField {
 
     private int arcWidth;

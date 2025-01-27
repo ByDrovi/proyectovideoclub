@@ -16,13 +16,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GestionEmpleados extends javax.swing.JFrame {
 
-    
     /**
      * Creates new form GestionEmpleados
      */
     public GestionEmpleados() {
         initComponents();
-                btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 String logUser = tflogUser.getText();
                 String logPass = tflogPass.getText();
@@ -51,19 +50,19 @@ public class GestionEmpleados extends javax.swing.JFrame {
                 }
 
                 // Agregar empleado a la base de datos
-                try (Connection conn = Empleados.conectar()) {
+                try ( Connection conn = Empleados.conectar()) {
                     Empleados.agregarEmpleado(
-                        conn,
-                        logUser,
-                        logPass,
-                        nombre,
-                        apellidos,
-                        dniUser,
-                        fechaNacimiento,
-                        fechaAlta,
-                        "EMPLEADO",  // Tipo de usuario
-                        fechaBaja,
-                        esActivo  // Estado de activo
+                            conn,
+                            logUser,
+                            logPass,
+                            nombre,
+                            apellidos,
+                            dniUser,
+                            fechaNacimiento,
+                            fechaAlta,
+                            "EMPLEADO", // Tipo de usuario
+                            fechaBaja,
+                            esActivo // Estado de activo
                     );
                     javax.swing.JOptionPane.showMessageDialog(null, "Empleado agregado con éxito.");
                 } catch (SQLException ex) {
@@ -85,9 +84,6 @@ public class GestionEmpleados extends javax.swing.JFrame {
         }
     }
 
-
-
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

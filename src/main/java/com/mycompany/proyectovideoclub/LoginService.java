@@ -14,7 +14,9 @@ import javax.swing.JOptionPane;
 public class LoginService {
     
 public static Usuarios autenticarUsuario(String logUser, String logPass, Connection conn) {
-        String sql = "SELECT * FROM Usuarios WHERE logUser = ? AND logPass = ?";
+        String sql = "SELECT * "
+                + "FROM Usuarios "
+                + "WHERE logUser = ? AND logPass = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, logUser);
             stmt.setString(2, logPass);

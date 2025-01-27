@@ -13,6 +13,7 @@ import javax.swing.JLabel;
  *
  * @author oscar.lara
  */
+
 public class Utilidades {
 
     public static void cargarImagenEnLabel(JLabel label, String rutaRelativa) {

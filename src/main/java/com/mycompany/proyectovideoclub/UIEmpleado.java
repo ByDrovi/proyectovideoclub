@@ -24,6 +24,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ *
+ * @author oscar.lara
+ */
+
 public class UIEmpleado extends JFrame {
 
     private DefaultTableModel tableModel;
@@ -115,35 +120,6 @@ public class UIEmpleado extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar los alquileres: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-//    private void cargarPeliculas() {
-//        try (Connection conn = Database.getConnection()) {
-//            String query = ""
-//                    + "SELECT p.titulo, p.formato, p.unidadesDisponiblesAlquiler, p.unidadesAlquiladas, p.cuotaAlquiler, p.recargoDevolucion " +
-//                           "FROM Peliculas p";
-//
-//            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-//                try (ResultSet rs = stmt.executeQuery()) {
-//                    while (rs.next()) {
-//                        String titulo = rs.getString("titulo");
-//                        String formato = rs.getString("formato");
-//                        int unidadesDisponiblesAlquiler = rs.getInt("unidadesDisponiblesAlquiler");
-//                        int unidadesAlquiladas = rs.getInt("unidadesAlquiladas");
-//                        double cuotaAlquiler = rs.getDouble("cuotaAlquiler");
-//                        double recargoDevolucion = rs.getDouble("recargoDevolucion");
-//
-//                        Object[] row = {titulo, formato, unidadesDisponiblesAlquiler, unidadesAlquiladas, cuotaAlquiler, recargoDevolucion};
-//                        tableModel.addRow(row);
-//                    }
-//                }
-//            }
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            JOptionPane.showMessageDialog(this, "Error al cargar las películas: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-//        }
-//    }
-
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -6,6 +6,11 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+/**
+ *
+ * @author oscar.lara
+ */
+
 public class Menu {
     
 //    public Menu(){

@@ -34,6 +34,11 @@ import java.sql.Date;
 import java.time.LocalDate;
 import javax.swing.JButton;
 
+/**
+ *
+ * @author oscar.lara
+ */
+
 public class UISocio extends JFrame {
 
     private static DefaultTableModel tableModel;  // Declarar estático si se usa en un contexto estático
@@ -87,7 +92,7 @@ public class UISocio extends JFrame {
     }
 
     private void inicializarComponentes() {
-        welcomeUser.setText("Bienvenido " + usuarioLogin.getNombre());
+        welcomeUser.setText("¡Hola, " + usuarioLogin.getNombre() + "!");
 
         // Crear el modelo de tabla con las nuevas columnas
         String[] columnNames = {"Título", "Formato", "Duración", "Unidades", "Género", "Subgénero"};
@@ -171,7 +176,10 @@ public class UISocio extends JFrame {
                 String titulo = (String) tableModel.getValueAt(selectedRow, 0); // Título de la película seleccionada
 
                 // Obtener el ID del producto
-                String queryProductoId = "SELECT id FROM Productos WHERE titulo = ?";
+                String queryProductoId = ""
+                        + "SELECT id "
+                        + "FROM Productos "
+                        + "WHERE titulo = ?";
                 try ( Connection conn = Database.getConnection();  PreparedStatement stmt = conn.prepareStatement(queryProductoId)) {
                     stmt.setString(1, titulo);
                     ResultSet rs = stmt.executeQuery();
@@ -197,7 +205,11 @@ public class UISocio extends JFrame {
         String titulo = (String) tableModel.getValueAt(rowIndex, 0); // Obtener el título de la película seleccionada
 
         // Consulta SQL para obtener los detalles de la película
-        String query = "SELECT p.titulo, f.nombre AS formato, p.anioLanzamiento, p.numDisponibleAlquiler, "
+        String query = ""
+                + "SELECT "
+                + "p.titulo, "
+                + "f.nombre "
+                + "AS formato, p.anioLanzamiento, p.numDisponibleAlquiler, "
                 + "p.genero, p.subgenero, p.sinopsis, pl.cuotaAlquilerPeliculas, pl.actorProtagonista, pl.actorSecundario1, "
                 + "pl.actorSecundario2 "
                 + "FROM Productos p "

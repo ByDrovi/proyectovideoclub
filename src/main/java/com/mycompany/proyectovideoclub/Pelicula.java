@@ -7,6 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ *
+ * @author oscar.lara
+ */
+
 public class Pelicula extends Producto {
 
     private String director;
@@ -244,66 +249,4 @@ public class Pelicula extends Producto {
     public void setMargenVentaPeliculas(double margenVentaPeliculas) {
         this.margenVentaPeliculas = margenVentaPeliculas;
     }
-
-//public static void agregarPelicula(Connection conn, String titulo, String anioLanzamiento, String costeUnitario, String fechaLanzamiento,
-//                                   String fechaAltaDatabase, boolean esEstreno, boolean enStock, String precioVenta, 
-//                                   String genero, String subgenero, String sinopsis, String imagenProductoDisponible, 
-//                                   String imagenProductoAlquilado, String director, String duracion, String actorProtagonista, 
-//                                   String actorSecundario1, String actorSecundario2, String formatoId, String distribuidoraId, 
-//                                   String cuotaAlquilerPeliculas, String margenVentaPeliculas) throws SQLException {
-//
-//    System.out.println("Agregando una nueva película...");
-//
-//    // 1. Insertar el nuevo producto en la tabla Productos
-//    String queryProductos = "INSERT INTO Productos (titulo, anioLanzamiento, costeUnitario, fechaLanzamiento, fechaAltaDatabase, " +
-//                            "esEstreno, enStock, precioVenta, genero, subgenero, sinopsis, imagenProductoDisponible, imagenProductoAlquilado) " +
-//                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//
-//    try (PreparedStatement stmtProd = conn.prepareStatement(queryProductos, PreparedStatement.RETURN_GENERATED_KEYS)) {
-//        stmtProd.setString(1, titulo);
-//        stmtProd.setString(2, anioLanzamiento);
-//        stmtProd.setString(3, costeUnitario);
-//        stmtProd.setString(4,fechaLanzamiento);
-//        stmtProd.setString(5, fechaAltaDatabase);
-//        stmtProd.setBoolean(6, esEstreno);
-//        stmtProd.setBoolean(7, enStock);
-//        stmtProd.setString(8, precioVenta);
-//        stmtProd.setString(9, genero);
-//        stmtProd.setString(10, subgenero);
-//        stmtProd.setString(11, sinopsis);
-//        stmtProd.setString(12, imagenProductoDisponible);
-//        stmtProd.setString(13, imagenProductoAlquilado);
-//
-//        stmtProd.executeUpdate();
-//
-//        // Obtener el ID generado para el producto recién insertado
-//        ResultSet generatedKeys = stmtProd.getGeneratedKeys();
-//        int productoId = 0;
-//        if (generatedKeys.next()) {
-//            productoId = generatedKeys.getInt(1);
-//        } else {
-//            throw new SQLException("Error al obtener el ID del producto insertado.");
-//        }
-//
-//        // 2. Insertar en la tabla Peliculas usando el ID del producto recién insertado
-//        String queryPeliculas = "INSERT INTO Peliculas (id, director, duracion, actorProtagonista, actorSecundario1, actorSecundario2, " +
-//                                "formato_id, distribuidora_id, cuotaAlquilerPeliculas, margenVentaPeliculas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//
-//        try (PreparedStatement stmtPeli = conn.prepareStatement(queryPeliculas)) {
-//            stmtPeli.setInt(1, productoId); // Usamos el ID del producto insertado
-//            stmtPeli.setString(2, director);
-//            stmtPeli.setString(3, duracion);
-//            stmtPeli.setString(4, actorProtagonista);
-//            stmtPeli.setString(5, actorSecundario1);
-//            stmtPeli.setString(6, actorSecundario2);
-//            stmtPeli.setString(7, formatoId);
-//            stmtPeli.setString(8, distribuidoraId);
-//            stmtPeli.setString(9, cuotaAlquilerPeliculas);
-//            stmtPeli.setString(10, margenVentaPeliculas);
-//
-//            stmtPeli.executeUpdate();
-//            System.out.println("Película agregada correctamente.");
-//        }
-//    }
-//}
 }

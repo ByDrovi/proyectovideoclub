@@ -13,14 +13,5 @@ public class Videojuego extends Producto {
     private double cuotaAlquilerVideojuegos;
     private double margenVentaVideojuegos;
 
-    
-    
-    
-    
-//    @Override
-//    public String toString() {
-//        return super.toString() + " | Desarrolladora: " + desarrolladora + " | Género: " + generoVideojuego + 
-//               " | Plataforma: " + plataforma;
-//    }
 }
 

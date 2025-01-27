@@ -15,6 +15,7 @@ import java.util.List;
  *
  * @author oscar.lara
  */
+
 public class Socios extends Usuarios {
 
     private int alquileresTotales;
@@ -42,9 +43,6 @@ public class Socios extends Usuarios {
         this.tipoSocio = tipoSocio;
     }
 
-    // Necesitarian Socios y Empleados constructor vacío y no?   
-    // El tipo de socio habría que declararlo también como variable?
-    // y compras y alquileres también??
     public int getAlquileresTotales() {
         return alquileresTotales;
     }
@@ -77,8 +75,6 @@ public class Socios extends Usuarios {
         this.tipoSocio = tipoSocio;
     }
 
-    
-    
     // ####################################################################################################################################
     public static Socios convertirASocio(int usuarioId) throws SQLException {
         // Query para obtener los datos del usuario junto con los datos del socio
@@ -159,27 +155,22 @@ public class Socios extends Usuarios {
         return socios;
     }
 
-//             try (Connection conn = Socios.conectar()) {
-//        List<Socios> socios = Socios.consultarSocios(conn);
-//        for (Socios socio : socios) {
-//            System.out.println("ID: " + socio.getId());
-//            System.out.println("Nombre: " + socio.getNombre());
-//            System.out.println("Apellidos: " + socio.getApellidos());
-//            System.out.println("DNI: " + socio.getDniUser());
-//            System.out.println("Fecha de nacimiento: " + socio.getFechaNacimiento());
-//            System.out.println("Dado de alta el día: " + socio.getFechaAlta());
-//            System.out.println("-----------------------------");
-//        }
-//    } catch (SQLException e) {
-//        e.printStackTrace();
-//    }
     public static void agregarSocio(Connection conn, String logUser, String logPass, String nombre, String apellidos,
             String dniUser, Date fechaNacimiento, Date fechaAlta,
             String tipoUsuario, String tipoSocio) throws SQLException {
         System.out.println("Agregando un nuevo Socio...");
 
         // Insertar el nuevo usuario en la tabla Usuarios
-        String queryUsuario = "INSERT INTO Usuarios (logUser, logPass, nombre, apellidos, dniUser, fechaNacimiento, fechaAlta, tipo_usuario) "
+        String queryUsuario = ""
+                + "INSERT INTO Usuarios ("
+                + "logUser, "
+                + "logPass, "
+                + "nombre, "
+                + "apellidos, "
+                + "dniUser, "
+                + "fechaNacimiento, "
+                + "fechaAlta,"
+                + " tipo_usuario) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmtUsuario = conn.prepareStatement(queryUsuario, Statement.RETURN_GENERATED_KEYS)) {
@@ -201,7 +192,11 @@ public class Socios extends Usuarios {
                     int idUsuario = rs.getInt(1); // ID generado automáticamente
 
                     // Insertar en la tabla Socios
-                    String querySocio = "INSERT INTO Socios (id, tipoSocio, alquileresTotales, comprasTotales) "
+                    String querySocio = "INSERT INTO Socios ("
+                            + "id, "
+                            + "tipoSocio, "
+                            + "alquileresTotales, "
+                            + "comprasTotales) "
                             + "VALUES (?, ?, ?, ?)";
 
                     try (PreparedStatement pstmtSocio = conn.prepareStatement(querySocio)) {
@@ -218,5 +213,4 @@ public class Socios extends Usuarios {
             }
         }
     }
-
 }

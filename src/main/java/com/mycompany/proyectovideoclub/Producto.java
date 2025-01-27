@@ -13,6 +13,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ *
+ * @author oscar.lara
+ */
+
 public class Producto {
     private int id;
     private String titulo;
@@ -281,7 +286,10 @@ public class Producto {
     
      // Método para obtener todos los productos, ordenados alfabéticamente por título
     public static List<Producto> obtenerProductos(Connection conn) throws SQLException {
-        String query = "SELECT * FROM Productos ORDER BY titulo ASC"; // Orden por título alfabéticamente
+        String query = ""
+                + "SELECT * "
+                + "FROM Productos "
+                + "ORDER BY titulo ASC"; // Orden por título alfabéticamente
         List<Producto> productos = new ArrayList<>();
 
         try (Statement stmt = conn.createStatement();
@@ -303,22 +311,5 @@ public class Producto {
     public static Connection conectar() throws SQLException {
         return Database.getConnection();
     }
-    
-
-  
-//        try (Connection conn = Producto.conectar()) {
-//            List<Producto> productos = Producto.obtenerProductos(conn);
-//            
-//            // Mostrar los productos
-//            System.out.println("Productos disponibles en el videoclub:");
-//            for (Producto producto : productos) {
-//                System.out.println(producto.getTitulo() + " (" + producto.getAnioLanzamiento() + ")");
-//            }
-//        } catch (SQLException e) {
-//            System.err.println("Error de conexión o consulta: " + e.getMessage());
-//        }
-        
-        
-        
     }
 

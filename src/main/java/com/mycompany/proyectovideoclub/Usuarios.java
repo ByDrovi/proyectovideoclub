@@ -10,6 +10,7 @@ import java.time.LocalDate;
  *
  * @author oscar.lara
  */
+
 public class Usuarios {
     private Integer id;
     private String logUser;
@@ -124,7 +125,9 @@ public class Usuarios {
 
     
     public static Usuarios buscarUsuario(Connection conn, String buscarTexto) throws SQLException {
-    String sql = "SELECT * FROM usuarios WHERE nombre LIKE ? OR dniUser LIKE ?";
+    String sql = "SELECT * "
+            + "FROM usuarios "
+            + "WHERE nombre LIKE ? OR dniUser LIKE ?";
     try (PreparedStatement stmt = conn.prepareStatement(sql)) {
         String criterioBusqueda = "%" + buscarTexto + "%";
         stmt.setString(1, criterioBusqueda);
@@ -148,7 +151,5 @@ public class Usuarios {
     }
     return null;  // Si no encuentra el usuario
 }
-
-    
 }
 

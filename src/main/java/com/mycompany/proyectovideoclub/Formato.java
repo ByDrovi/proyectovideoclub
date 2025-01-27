@@ -4,6 +4,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @author oscar.lara
+ */
+
 public class Formato {
     
     private int id;

@@ -1,12 +1,13 @@
 package com.mycompany.proyectovideoclub;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 /**
  *
  * @author oscar.lara
  */
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class Database {
     public static Connection getConnection() throws SQLException {

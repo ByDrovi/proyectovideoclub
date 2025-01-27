@@ -26,6 +26,11 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ *
+ * @author oscar.lara
+ */
+
 public class UIDetallesPelicula extends JFrame {
 
     private DefaultTableModel tableModel;

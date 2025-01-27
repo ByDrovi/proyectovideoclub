@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author oscar.lara
  */
+
 public class UIAdmin extends javax.swing.JFrame {
 
     private DefaultTableModel modeloTablaDistribuidorasPeliculas;
@@ -36,7 +37,6 @@ public class UIAdmin extends javax.swing.JFrame {
         
         inicializarTablaFormatos();
         cargarFormatos();
-        
         
     }
 

@@ -111,27 +111,5 @@ public class Plataforma {
             }
         }
     }
-          
-//                  try (Connection conn = Plataforma.conectar()) {
-//
-//            // Consultar todas las distribuidoras
-//            System.out.println("Consultando todas las distribuidoras:");
-//            List<Plataforma> plataformas = Plataforma.consultarPlataformasVideojuegos(conn);
-//            for (Plataforma plataforma : plataformas) {
-//                System.out.println(plataforma.getId() + " - " + plataforma.getNombre());
-//            }
-//
-//            // Agregar una nueva distribuidora
-//            String nuevaPlataforma = "Nueva Plataforma"; // Cambia el nombre por el que desees
-//            Plataforma.agregarPlataformaVideojuegos(conn, nuevaPlataforma);
-//
-//            // Consultar distribuidora específica y sus películas
-//            String nombreDistribuidora = "PC"; // Cambia por el nombre de la distribuidora que deseas consultar
-//            Plataforma.consultarPlataformasConVideojuegos(conn, nombreDistribuidora);
-//
-//        } catch (SQLException e) {
-//            System.err.println("Error de conexión o en la consulta: " + e.getMessage());
-//        }
-
 }
 

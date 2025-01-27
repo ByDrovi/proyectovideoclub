@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author oscar.lara
  */
+
 public class GestionSocios extends javax.swing.JFrame {
 
     

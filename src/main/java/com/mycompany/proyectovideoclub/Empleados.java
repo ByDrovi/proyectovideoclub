@@ -73,15 +73,21 @@ public class Empleados extends Usuarios {
         return empleados;
     }
     
-
-    
 public static void agregarEmpleado(Connection conn, String logUser, String logPass, String nombre, String apellidos, 
                                    String dniUser, Date fechaNacimiento, Date fechaAlta, 
                                    String tipoUsuario, Date fechaBaja, boolean esActivo) throws SQLException {
     System.out.println("Agregando un nuevo empleado...");
 
     // 1. Insertar el nuevo usuario en la tabla Usuarios
-    String queryUsuario = "INSERT INTO Usuarios (logUser, logPass, nombre, apellidos, dniUser, fechaNacimiento, fechaAlta, tipo_usuario) " +
+    String queryUsuario = "INSERT INTO Usuarios ("
+            + "logUser, "
+            + "logPass, "
+            + "nombre, "
+            + "apellidos, "
+            + "dniUser, "
+            + "fechaNacimiento, "
+            + "fechaAlta, "
+            + "tipo_usuario) " +
                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     try (PreparedStatement stmt = conn.prepareStatement(queryUsuario)) {
@@ -97,7 +103,14 @@ public static void agregarEmpleado(Connection conn, String logUser, String logPa
     }
 
     // 2. Si es un empleado, insertar en la tabla Empleados (usamos el ID del usuario recién insertado)
-    String queryEmpleado = "INSERT INTO Empleados (id, fechaBaja, esActivo) VALUES ((SELECT id FROM Usuarios WHERE logUser = ?), ?, ?)";
+    String queryEmpleado = "INSERT INTO Empleados ("
+            + "id, "
+            + "fechaBaja, "
+            + "esActivo) "
+            + "VALUES (("
+                        + "SELECT id "
+                        + "FROM Usuarios "
+                        + "WHERE logUser = ?), ?, ?)";
 
     try (PreparedStatement stmt = conn.prepareStatement(queryEmpleado)) {
         stmt.setString(1, logUser);
@@ -106,10 +119,6 @@ public static void agregarEmpleado(Connection conn, String logUser, String logPa
         stmt.executeUpdate();
     }
 }
-
- 
-
-       
 }  
 
 

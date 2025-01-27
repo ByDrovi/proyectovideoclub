@@ -27,198 +27,194 @@ import javax.swing.SwingUtilities;
  */
 public class GestionPeliculas extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GestionPeliculas
-     */
-public GestionPeliculas() {
-    initComponents();
-    
-    comboBoxFormato = new JComboBox<>();
-    panel.add(new JLabel("Formato:"));
-    panel.add(comboBoxFormato);
+    public GestionPeliculas() {
+        initComponents();
 
-    // Cargar los nombres de los formatos al inicializar
-    cargarNombresDeFormatos();
+        comboBoxFormato = new JComboBox<>();
+        panel.add(new JLabel("Formato:"));
+        panel.add(comboBoxFormato);
 
-    // Crear el JSpinner para "Disponible Alquiler"
-    JSpinner spinnerDisponibleAlquiler = new JSpinner();
-    spinnerDisponibleAlquiler.setModel(new SpinnerNumberModel(0, 0, 100, 1)); // Valor inicial: 1, mínimo: 1, máximo: 100, incremento: 1
-    panel.add(new JLabel("Disponible Alquiler:"));
-    panel.add(spinnerDisponibleAlquiler); // Agregar el spinner al panel
+        // Cargar los nombres de los formatos al inicializar
+        cargarNombresDeFormatos();
 
-    // Acción para seleccionar imagen disponible
-    btnSeleccionarDisponible.addActionListener(e -> {
-        String rutaImagen = seleccionarImagen();
-        if (rutaImagen != null) {
-            tfDisponible.setText(rutaImagen); // Asigna la ruta al campo de texto
-            cargarPreviewEnLabel(rutaImagen, jLabelPreviewDisponible); // Muestra la imagen en el JLabel
-        }
-    });
+        // Crear el JSpinner para "Disponible Alquiler"
+        JSpinner spinnerDisponibleAlquiler = new JSpinner();
+        spinnerDisponibleAlquiler.setModel(new SpinnerNumberModel(0, 0, 100, 1)); // Valor inicial: 1, mínimo: 1, máximo: 100, incremento: 1
+        panel.add(new JLabel("Disponible Alquiler:"));
+        panel.add(spinnerDisponibleAlquiler); // Agregar el spinner al panel
 
-    // Acción para seleccionar imagen alquilado
-    btnSeleccionarAlquilado.addActionListener(e -> {
-        String rutaImagen = seleccionarImagen();
-        if (rutaImagen != null) {
-            tfAlquilado.setText(rutaImagen); // Asigna la ruta al campo de texto
-            cargarPreviewEnLabel(rutaImagen, jLabelPreviewAlquilado); // Muestra la imagen en el JLabel
-        }
-    });
-
-    // Acción para guardar la película
-    btnGuardar.addActionListener(evt -> {
-        try {
-            // Capturar valores desde la interfaz
-            String titulo = tfTitulo.getText();
-            int anioLanzamiento = Integer.parseInt(tfAnioLanzamiento.getText());
-            double costeUnitario = Double.parseDouble(tfCosteUnitario.getText());
-            int numDisponibleAlquiler = (int) spinnerDisponibleAlquiler.getValue(); // Obtener valor del spinner
-            double recargoDevolucion = Double.parseDouble(tfRecargo.getText());
-            boolean esEstreno = jRadioButtonEstreno.isSelected();
-            String genero = tfGenero.getText();
-            String subgenero = tfSubgenero.getText();
-            String sinopsis = tfSinopsis.getText();
-            String director = tfDirector.getText();
-            int duracion = Integer.parseInt(tfDuracion.getText());
-            String actorProtagonista = tfProtagonista.getText();
-            String actorSecundario1 = tfSecun1.getText();
-            String actorSecundario2 = tfSecun2.getText();
-            int formatoId = Integer.parseInt(tfFormato.getText());
-            int distribuidoraId = Integer.parseInt(tfDistribuidora.getText());
-            double cuotaAlquilerPeliculas = Double.parseDouble(tfCuotaAlquilerPelicula.getText());
-
-            // Obtener el texto completo de la ruta ingresada en los campos de texto
-            String rutaCompletaDisponible = tfDisponible.getText();
-            String rutaCompletaAlquilado = tfAlquilado.getText();
-
-            // Extraer solo el nombre del archivo de cada ruta
-            String imagenProductoDisponible = new File(rutaCompletaDisponible).getName();
-            String imagenProductoAlquilado = new File(rutaCompletaAlquilado).getName();
-
-            // Convertir fechas
-            Date fechaLanzamiento = convertirFecha(tfFechaLanzamiento.getText());
-            Date fechaAltaDatabase = convertirFecha(tfFechaAlta.getText());
-
-            // Validar campos obligatorios
-            if (titulo.isEmpty() || genero.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, rellena todos los campos obligatorios.");
-                return;
+        // Acción para seleccionar imagen disponible
+        btnSeleccionarDisponible.addActionListener(e -> {
+            String rutaImagen = seleccionarImagen();
+            if (rutaImagen != null) {
+                tfDisponible.setText(rutaImagen); // Asigna la ruta al campo de texto
+                cargarPreviewEnLabel(rutaImagen, jLabelPreviewDisponible); // Muestra la imagen en el JLabel
             }
+        });
 
-            try (Connection conn = Database.getConnection()) {
-                // Insertar en Productos y recuperar el ID generado
-                String queryProductos = "INSERT INTO Productos ("
-                        + "titulo, "
-                        + "anioLanzamiento, "
-                        + "costeUnitario, f"
-                        + "echaLanzamiento, "
-                        + "fechaAltaDatabase, "
-                        + "numDisponibleAlquiler, "
-                        + "recargoDevolucion, "
-                        + "esEstreno, "
-                        + "genero, "
-                        + "subgenero, "
-                        + "sinopsis, "
-                        + "imagenProductoDisponible, "
-                        + "imagenProductoAlquilado) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                try (PreparedStatement stmtProductos = conn.prepareStatement(queryProductos, Statement.RETURN_GENERATED_KEYS)) {
-                    stmtProductos.setString(1, titulo);
-                    stmtProductos.setInt(2, anioLanzamiento);
-                    stmtProductos.setDouble(3, costeUnitario);
-                    stmtProductos.setDate(4, fechaLanzamiento);
-                    stmtProductos.setDate(5, fechaAltaDatabase);
-                    stmtProductos.setInt(6, numDisponibleAlquiler); // Usar valor del spinner
-                    stmtProductos.setDouble(7, recargoDevolucion);
-                    stmtProductos.setBoolean(8, esEstreno);
-                    stmtProductos.setString(9, genero);
-                    stmtProductos.setString(10, subgenero);
-                    stmtProductos.setString(11, sinopsis);
-                    stmtProductos.setString(12, imagenProductoDisponible);
-                    stmtProductos.setString(13, imagenProductoAlquilado);
-                    stmtProductos.executeUpdate();
-
-                    ResultSet generatedKeys = stmtProductos.getGeneratedKeys();
-                    if (generatedKeys.next()) {
-                        int productoId = generatedKeys.getInt(1);
-
-                        // Insertar en Peliculas usando el ID de Productos
-                        String queryPeliculas = "INSERT INTO Peliculas ("
-                                + "id, "
-                                + "director, "
-                                + "duracion, "
-                                + "actorProtagonista, "
-                                + "actorSecundario1, "
-                                + "actorSecundario2, "
-                                + "formato_id, "
-                                + "distribuidora_id, "
-                                + "cuotaAlquilerPeliculas) "
-                                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        try (PreparedStatement stmtPeliculas = conn.prepareStatement(queryPeliculas)) {
-                            stmtPeliculas.setInt(1, productoId);
-                            stmtPeliculas.setString(2, director);
-                            stmtPeliculas.setInt(3, duracion);
-                            stmtPeliculas.setString(4, actorProtagonista);
-                            stmtPeliculas.setString(5, actorSecundario1);
-                            stmtPeliculas.setString(6, actorSecundario2);
-                            stmtPeliculas.setInt(7, formatoId);
-                            stmtPeliculas.setInt(8, distribuidoraId);
-                            stmtPeliculas.setDouble(9, cuotaAlquilerPeliculas);
-                            stmtPeliculas.executeUpdate();
-
-                            JOptionPane.showMessageDialog(null, "Película agregada con éxito.");
-                        }
-                    } else {
-                        throw new SQLException("No se pudo obtener el ID generado para el producto.");
-                    }
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error al agregar película: " + ex.getMessage());
+        // Acción para seleccionar imagen alquilado
+        btnSeleccionarAlquilado.addActionListener(e -> {
+            String rutaImagen = seleccionarImagen();
+            if (rutaImagen != null) {
+                tfAlquilado.setText(rutaImagen); // Asigna la ruta al campo de texto
+                cargarPreviewEnLabel(rutaImagen, jLabelPreviewAlquilado); // Muestra la imagen en el JLabel
             }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Error en los datos numéricos. Por favor, verifica los campos.");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error inesperado: " + ex.getMessage());
-        }
-    });
-}
+        });
 
-    // Método para cargar los nombres de los formatos desde la base de datos
-private void cargarNombresDeFormatos() {
-    SwingUtilities.invokeLater(() -> {  // Aseguramos que se ejecute en el hilo de la interfaz gráfica
-        try (Connection conn = Database.getConnection()) {
-            if (conn == null) {
-                JOptionPane.showMessageDialog(this, "Error: conexión a la base de datos no válida.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+        // Acción para guardar la película
+        btnGuardar.addActionListener(evt -> {
+            try {
+                // Capturar valores desde la interfaz
+                String titulo = tfTitulo.getText();
+                int anioLanzamiento = Integer.parseInt(tfAnioLanzamiento.getText());
+                double costeUnitario = Double.parseDouble(tfCosteUnitario.getText());
+                int numDisponibleAlquiler = (int) spinnerDisponibleAlquiler.getValue(); // Obtener valor del spinner
+                double recargoDevolucion = Double.parseDouble(tfRecargo.getText());
+                boolean esEstreno = jRadioButtonEstreno.isSelected();
+                String genero = tfGenero.getText();
+                String subgenero = tfSubgenero.getText();
+                String sinopsis = tfSinopsis.getText();
+                String director = tfDirector.getText();
+                int duracion = Integer.parseInt(tfDuracion.getText());
+                String actorProtagonista = tfProtagonista.getText();
+                String actorSecundario1 = tfSecun1.getText();
+                String actorSecundario2 = tfSecun2.getText();
+                int formatoId = Integer.parseInt(tfFormato.getText());
+                int distribuidoraId = Integer.parseInt(tfDistribuidora.getText());
+                double cuotaAlquilerPeliculas = Double.parseDouble(tfCuotaAlquilerPelicula.getText());
 
-            String query = "SELECT id, nombre "
-                    + "FROM Formatos";
-            try (PreparedStatement stmt = conn.prepareStatement(query);
-                 ResultSet rs = stmt.executeQuery()) {
+                // Obtener el texto completo de la ruta ingresada en los campos de texto
+                String rutaCompletaDisponible = tfDisponible.getText();
+                String rutaCompletaAlquilado = tfAlquilado.getText();
 
-                comboBoxFormato.removeAllItems();  // Limpiar el JComboBox
+                // Extraer solo el nombre del archivo de cada ruta
+                String imagenProductoDisponible = new File(rutaCompletaDisponible).getName();
+                String imagenProductoAlquilado = new File(rutaCompletaAlquilado).getName();
 
-                if (!rs.isBeforeFirst()) {  // Comprueba si hay resultados
-                    System.out.println("No se encontraron formatos en la base de datos.");
-                    JOptionPane.showMessageDialog(this, "No hay formatos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                // Convertir fechas
+                Date fechaLanzamiento = convertirFecha(tfFechaLanzamiento.getText());
+                Date fechaAltaDatabase = convertirFecha(tfFechaAlta.getText());
+
+                // Validar campos obligatorios
+                if (titulo.isEmpty() || genero.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor, rellena todos los campos obligatorios.");
                     return;
                 }
 
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String nombre = rs.getString("nombre");
-                    comboBoxFormato.addItem(id + " - " + nombre);  // Añadir al JComboBox
-                    System.out.println("Formato cargado: " + id + " - " + nombre);  // Mensaje de depuración
+                try ( Connection conn = Database.getConnection()) {
+                    // Insertar en Productos y recuperar el ID generado
+                    String queryProductos = "INSERT INTO Productos ("
+                            + "titulo, "
+                            + "anioLanzamiento, "
+                            + "costeUnitario, f"
+                            + "echaLanzamiento, "
+                            + "fechaAltaDatabase, "
+                            + "numDisponibleAlquiler, "
+                            + "recargoDevolucion, "
+                            + "esEstreno, "
+                            + "genero, "
+                            + "subgenero, "
+                            + "sinopsis, "
+                            + "imagenProductoDisponible, "
+                            + "imagenProductoAlquilado) "
+                            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    try ( PreparedStatement stmtProductos = conn.prepareStatement(queryProductos, Statement.RETURN_GENERATED_KEYS)) {
+                        stmtProductos.setString(1, titulo);
+                        stmtProductos.setInt(2, anioLanzamiento);
+                        stmtProductos.setDouble(3, costeUnitario);
+                        stmtProductos.setDate(4, fechaLanzamiento);
+                        stmtProductos.setDate(5, fechaAltaDatabase);
+                        stmtProductos.setInt(6, numDisponibleAlquiler); // Usar valor del spinner
+                        stmtProductos.setDouble(7, recargoDevolucion);
+                        stmtProductos.setBoolean(8, esEstreno);
+                        stmtProductos.setString(9, genero);
+                        stmtProductos.setString(10, subgenero);
+                        stmtProductos.setString(11, sinopsis);
+                        stmtProductos.setString(12, imagenProductoDisponible);
+                        stmtProductos.setString(13, imagenProductoAlquilado);
+                        stmtProductos.executeUpdate();
+
+                        ResultSet generatedKeys = stmtProductos.getGeneratedKeys();
+                        if (generatedKeys.next()) {
+                            int productoId = generatedKeys.getInt(1);
+
+                            // Insertar en Peliculas usando el ID de Productos
+                            String queryPeliculas = "INSERT INTO Peliculas ("
+                                    + "id, "
+                                    + "director, "
+                                    + "duracion, "
+                                    + "actorProtagonista, "
+                                    + "actorSecundario1, "
+                                    + "actorSecundario2, "
+                                    + "formato_id, "
+                                    + "distribuidora_id, "
+                                    + "cuotaAlquilerPeliculas) "
+                                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            try ( PreparedStatement stmtPeliculas = conn.prepareStatement(queryPeliculas)) {
+                                stmtPeliculas.setInt(1, productoId);
+                                stmtPeliculas.setString(2, director);
+                                stmtPeliculas.setInt(3, duracion);
+                                stmtPeliculas.setString(4, actorProtagonista);
+                                stmtPeliculas.setString(5, actorSecundario1);
+                                stmtPeliculas.setString(6, actorSecundario2);
+                                stmtPeliculas.setInt(7, formatoId);
+                                stmtPeliculas.setInt(8, distribuidoraId);
+                                stmtPeliculas.setDouble(9, cuotaAlquilerPeliculas);
+                                stmtPeliculas.executeUpdate();
+
+                                JOptionPane.showMessageDialog(null, "Película agregada con éxito.");
+                            }
+                        } else {
+                            throw new SQLException("No se pudo obtener el ID generado para el producto.");
+                        }
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al agregar película: " + ex.getMessage());
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Error en los datos numéricos. Por favor, verifica los campos.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error inesperado: " + ex.getMessage());
+            }
+        });
+    }
+
+    // Método para cargar los nombres de los formatos desde la base de datos
+    private void cargarNombresDeFormatos() {
+        SwingUtilities.invokeLater(() -> {  // Aseguramos que se ejecute en el hilo de la interfaz gráfica
+            try ( Connection conn = Database.getConnection()) {
+                if (conn == null) {
+                    JOptionPane.showMessageDialog(this, "Error: conexión a la base de datos no válida.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
 
+                String query = "SELECT id, nombre "
+                        + "FROM Formatos";
+                try ( PreparedStatement stmt = conn.prepareStatement(query);  ResultSet rs = stmt.executeQuery()) {
+
+                    comboBoxFormato.removeAllItems();  // Limpiar el JComboBox
+
+                    if (!rs.isBeforeFirst()) {  // Comprueba si hay resultados
+                        System.out.println("No se encontraron formatos en la base de datos.");
+                        JOptionPane.showMessageDialog(this, "No hay formatos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+
+                    while (rs.next()) {
+                        int id = rs.getInt("id");
+                        String nombre = rs.getString("nombre");
+                        comboBoxFormato.addItem(id + " - " + nombre);  // Añadir al JComboBox
+                        System.out.println("Formato cargado: " + id + " - " + nombre);  // Mensaje de depuración
+                    }
+
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al cargar formatos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al cargar formatos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    });
-}
+        });
+    }
 
 // Método para abrir JFileChooser y seleccionar una imagen
     private String seleccionarImagen() {
@@ -251,23 +247,22 @@ private void cargarNombresDeFormatos() {
         // Si el usuario cancela la selección
         return null;
     }
-    
-// Método para cargar imagen en el JLabel
-private void cargarPreviewEnLabel(String rutaImagen, JLabel label) {
-    try {
-        // Cargar la imagen desde la ruta
-        ImageIcon imgProd = new ImageIcon(rutaImagen);
-        
-        // Escalar la imagen al tamaño de la JLabel
-        ImageIcon tamaño = new ImageIcon(imgProd.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
-        
-        // Establecer la imagen escalada en el JLabel
-        label.setIcon(tamaño);
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Error al cargar la imagen: " + e.getMessage());
-    }
-}
 
+// Método para cargar imagen en el JLabel
+    private void cargarPreviewEnLabel(String rutaImagen, JLabel label) {
+        try {
+            // Cargar la imagen desde la ruta
+            ImageIcon imgProd = new ImageIcon(rutaImagen);
+
+            // Escalar la imagen al tamaño de la JLabel
+            ImageIcon tamaño = new ImageIcon(imgProd.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
+
+            // Establecer la imagen escalada en el JLabel
+            label.setIcon(tamaño);
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error al cargar la imagen: " + e.getMessage());
+        }
+    }
 
     // Método para convertir String a java.sql.Date
     private Date convertirFecha(String fechaStr) {
@@ -906,7 +901,7 @@ private void cargarPreviewEnLabel(String rutaImagen, JLabel label) {
     }//GEN-LAST:event_comboBoxDistribuidoraActionPerformed
 
     private void comboBoxFormatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxFormatoActionPerformed
-        
+
     }//GEN-LAST:event_comboBoxFormatoActionPerformed
 
     private void btnSeleccionarAlquiladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarAlquiladoActionPerformed

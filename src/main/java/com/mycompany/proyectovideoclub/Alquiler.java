@@ -10,6 +10,11 @@ import java.time.LocalDate;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
+/**
+ *
+ * @author oscar.lara
+ */
+
 public class Alquiler {
 
     private int id;
@@ -110,7 +115,12 @@ public class Alquiler {
 
             // Insertar el alquiler en la tabla Alquileres
             String queryInsert
-                    = "INSERT INTO Alquileres (idProducto, idSocio, fechaAlquiler, fechaEntrega, cuotaAlquiler) "
+                    = "INSERT INTO Alquileres ("
+                    + "idProducto, "
+                    + "idSocio, "
+                    + "fechaAlquiler, "
+                    + "fechaEntrega, "
+                    + "cuotaAlquiler) "
                     + "VALUES (?, ?, ?, ?, ?)";
 
             try ( PreparedStatement insertStmt = conn.prepareStatement(queryInsert)) {
@@ -124,7 +134,9 @@ public class Alquiler {
                 if (rowsInserted > 0) {
                     // Actualizar unidades disponibles
                     String queryUpdateUnidades
-                            = "UPDATE Productos SET numDisponibleAlquiler = numDisponibleAlquiler - 1 WHERE id = ?";
+                            = "UPDATE Productos "
+                            + "SET numDisponibleAlquiler = numDisponibleAlquiler - 1 "
+                            + "WHERE id = ?";
 
                     try ( PreparedStatement updateStmt = conn.prepareStatement(queryUpdateUnidades)) {
                         updateStmt.setInt(1, productoId);

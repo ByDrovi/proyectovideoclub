@@ -109,26 +109,5 @@ public class DistribuidoraPeliculas {
             }
         }
     }
-    
-            // Conexión a la base de datos
-//        try (Connection conn = DistribuidoraPeliculas.conectar()) {
-//
-//            // Consultar todas las distribuidoras
-//            System.out.println("Consultando todas las distribuidoras:");
-//            List<DistribuidoraPeliculas> distribuidoras = DistribuidoraPeliculas.consultarDistribuidorasPeliculas(conn);
-//            for (DistribuidoraPeliculas distribuidora : distribuidoras) {
-//                System.out.println(distribuidora.getId() + " - " + distribuidora.getNombre());
-//            }
-//
-//            // Agregar una nueva distribuidora
-//            String nuevoNombre = "Nueva Distribuidora"; // Cambia el nombre por el que desees
-//            DistribuidoraPeliculas.agregarDistribuidoraPeliculas(conn, nuevoNombre);
-//
-//            // Consultar distribuidora específica y sus películas
-//            String nombreDistribuidora = "20th Century Fox"; // Cambia por el nombre de la distribuidora que deseas consultar
-//            DistribuidoraPeliculas.consultarDistribuidoraConPeliculas(conn, nombreDistribuidora);
-//
-//        } catch (SQLException e) {
-//            System.err.println("Error de conexión o en la consulta: " + e.getMessage());
-//        }
+   
 }
