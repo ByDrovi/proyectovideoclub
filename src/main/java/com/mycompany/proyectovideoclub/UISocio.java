@@ -58,32 +58,37 @@ public class UISocio extends JFrame {
         inicializarComponentes();
     }
 
-    private void cargarPeliculas() {
-        // Asumiendo que tienes una conexión a la base de datos
+private void cargarPeliculas() {
+        // Consulta SQL con filtro por título
         String query = ""
                 + "SELECT p.titulo, pl.actorProtagonista, f.nombre AS formato_id, p.anioLanzamiento, p.numDisponibleAlquiler, p.genero, p.subgenero "
                 + "FROM Productos p "
                 + "JOIN Peliculas pl ON p.id = pl.id "
                 + "JOIN Formatos f ON pl.formato_id = f.id "
-                + "WHERE p.esBaja = FALSE"; // Solo películas activas (no dadas de baja)
+                + "WHERE p.esBaja = FALSE AND p.titulo LIKE ?"; // Filtrar por título
+        System.out.println(filtroTabla.getText());
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/videoclub", "root", ""); PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/videoclub", "root", "");  Statement stmt = conn.createStatement();  ResultSet rs = stmt.executeQuery(query)) {
+            // Configurar el parámetro del filtro
+            pstmt.setString(1, "%" + filtroTabla.getText() + "%");
 
-            // Limpiar el modelo de tabla antes de cargar los nuevos datos
-            tableModel.setRowCount(0);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                // Limpiar el modelo de tabla antes de cargar los nuevos datos
+                tableModel.setRowCount(0);
 
-            // Recorrer los resultados y llenar el modelo de la tabla
-            while (rs.next()) {
-                String titulo = rs.getString("titulo");
-                String formato = rs.getString("formato_id");
-                int anioLanzamiento = rs.getInt("anioLanzamiento");
-                int numDisponibleAlquiler = rs.getInt("numDisponibleAlquiler");
-                String genero = rs.getString("genero");
-                String subgenero = rs.getString("subgenero");
+                // Recorrer los resultados y llenar el modelo de la tabla
+                while (rs.next()) {
+                    String titulo = rs.getString("titulo");
+                    String formato = rs.getString("formato_id");
+                    int anioLanzamiento = rs.getInt("anioLanzamiento");
+                    int numDisponibleAlquiler = rs.getInt("numDisponibleAlquiler");
+                    String genero = rs.getString("genero");
+                    String subgenero = rs.getString("subgenero");
 
-                // Agregar los datos a la tabla
-                Object[] row = {titulo, formato, anioLanzamiento, numDisponibleAlquiler, genero, subgenero};
-                tableModel.addRow(row);
+                    // Agregar los datos a la tabla
+                    Object[] row = {titulo, formato, anioLanzamiento, numDisponibleAlquiler, genero, subgenero};
+                    tableModel.addRow(row);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Mostrar cualquier error en la consola
@@ -386,6 +391,8 @@ public class UISocio extends JFrame {
         btnDevolucion = new javax.swing.JButton();
         btnActualizarTabla = new javax.swing.JButton();
         welcomeUser = new javax.swing.JLabel();
+        filtroTabla = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabelProximamente = new javax.swing.JLabel();
@@ -454,6 +461,14 @@ public class UISocio extends JFrame {
 
         welcomeUser.setText("Bienvenido");
 
+        filtroTabla.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                filtroTablaKeyTyped(evt);
+            }
+        });
+
+        jLabel3.setText("Buscar:");
+
         javax.swing.GroupLayout jPanelSocioLayout = new javax.swing.GroupLayout(jPanelSocio);
         jPanelSocio.setLayout(jPanelSocioLayout);
         jPanelSocioLayout.setHorizontalGroup(
@@ -461,50 +476,67 @@ public class UISocio extends JFrame {
             .addGroup(jPanelSocioLayout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanelSocioLayout.createSequentialGroup()
-                                    .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel2))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnActualizarTabla))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
-                                    .addComponent(btnSeguimiento)
-                                    .addGap(207, 207, 207)
-                                    .addComponent(toggleAlquiler)))
-                            .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addGroup(jPanelSocioLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnActualizarTabla))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
+                                .addComponent(btnSeguimiento)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(filtroTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(14, 14, 14))
+                    .addGroup(jPanelSocioLayout.createSequentialGroup()
+                        .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
+                                .addComponent(btnDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(toggleAlquiler))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+                            .addGroup(jPanelSocioLayout.createSequentialGroup()
+                                .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanelSocioLayout.createSequentialGroup()
+                                        .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel2))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jPanelSocioLayout.setVerticalGroup(
             jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSocioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanelSocioLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(6, 6, 6)
+                                .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addComponent(btnActualizarTabla)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnActualizarTabla))))
-                .addGap(18, 33, Short.MAX_VALUE)
+                            .addComponent(jLabel3)
+                            .addComponent(filtroTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSeguimiento))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(toggleAlquiler)
-                    .addComponent(btnSeguimiento))
-                .addGap(18, 18, 18)
-                .addComponent(btnDevolucion)
-                .addContainerGap(65, Short.MAX_VALUE))
+                    .addComponent(btnDevolucion))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         jLabel1.setText("PRÓXIMAMENTE");
@@ -537,7 +569,7 @@ public class UISocio extends JFrame {
                 .addComponent(jLabel1)
                 .addGap(116, 116, 116)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -578,14 +610,20 @@ public class UISocio extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_toggleAlquilerActionPerformed
 
+    private void filtroTablaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filtroTablaKeyTyped
+        cargarPeliculas();
+    }//GEN-LAST:event_filtroTablaKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarTabla;
     private javax.swing.JButton btnDevolucion;
     private javax.swing.JButton btnSeguimiento;
     private javax.swing.JDialog detallesDialog;
+    private javax.swing.JTextField filtroTabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelProximamente;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelSocio;

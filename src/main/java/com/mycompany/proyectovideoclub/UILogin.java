@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -24,9 +26,8 @@ import javax.swing.JTextField;
  *
  * @author oscar.lara
  */
-
 public class UILogin extends javax.swing.JFrame {
-    
+
     public UILogin() {
         setTitle("Videoclub - Login");
         setSize(1800, 1600);
@@ -34,8 +35,13 @@ public class UILogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         initComponents();
         Utilidades.cargarImagenEnLabel(labelLogin, "/images/locklogin.png");
-        
-         loginButton = new Utilidades.CustomButton("Iniciar sesión");
+
+        loginButton = new Utilidades.CustomButton("Iniciar sesión");
+        this.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowOpened(WindowEvent e) {
+                    jPanel2.requestFocusInWindow();  // Solicitar que el panel reciba el foco
+                }});
     }
 
     private void autenticar() throws SQLException {
@@ -95,14 +101,32 @@ public class UILogin extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        userField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         userField.setText("User");
+        userField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                userFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                userFieldFocusLost(evt);
+            }
+        });
         userField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userFieldActionPerformed(evt);
             }
         });
 
+        passField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         passField.setText("jPasswordField1");
+        passField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passFieldFocusLost(evt);
+            }
+        });
 
         loginButton.setText("Iniciar sesión");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
@@ -170,23 +194,23 @@ public class UILogin extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(318, 318, 318)
-                        .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(299, 299, 299)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(363, Short.MAX_VALUE))
+                .addGap(299, 299, 299)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(95, 95, 95)
+                .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(125, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(180, 180, 180)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(180, 180, 180)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(190, 190, 190)
+                        .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(248, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -218,6 +242,32 @@ public class UILogin extends javax.swing.JFrame {
             Logger.getLogger(UILogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_verificarLogin
+
+    private void userFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userFieldFocusGained
+        if (userField.getText().equals("User")) {
+            userField.setText("");
+        }
+    }//GEN-LAST:event_userFieldFocusGained
+
+    private void userFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userFieldFocusLost
+        if (userField.getText().equals("")) {
+            userField.setText("User");
+        }
+    }//GEN-LAST:event_userFieldFocusLost
+
+    private void passFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passFieldFocusGained
+        String pass = new String(passField.getPassword());
+        if (pass.equals("jPasswordField1")) {
+            passField.setText("");
+        }
+    }//GEN-LAST:event_passFieldFocusGained
+
+    private void passFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passFieldFocusLost
+        char[] pass = passField.getPassword();
+        if (pass.length == 0) {
+            passField.setText("jPasswordField1");
+        }
+    }//GEN-LAST:event_passFieldFocusLost
 
     /**
      * @param args the command line arguments

@@ -30,15 +30,15 @@ public class GestionPeliculas extends javax.swing.JFrame {
     public GestionPeliculas() {
         initComponents();
 
-        comboBoxFormato = new JComboBox<>();
-        panel.add(new JLabel("Formato:"));
-        panel.add(comboBoxFormato);
+//        comboBoxFormato = new JComboBox<>();
+//        panel.add(new JLabel("Formato:"));
+//        panel.add(comboBoxFormato);
 
         // Cargar los nombres de los formatos al inicializar
         cargarNombresDeFormatos();
 
         // Crear el JSpinner para "Disponible Alquiler"
-        JSpinner spinnerDisponibleAlquiler = new JSpinner();
+        JSpinner spinnerDisponibleAlquiler = new JSpinner(); // CUIDADO ESTO PUEDE DAR ERROR
         spinnerDisponibleAlquiler.setModel(new SpinnerNumberModel(0, 0, 100, 1)); // Valor inicial: 1, mínimo: 1, máximo: 100, incremento: 1
         panel.add(new JLabel("Disponible Alquiler:"));
         panel.add(spinnerDisponibleAlquiler); // Agregar el spinner al panel
