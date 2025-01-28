@@ -1,4 +1,5 @@
 com\mycompany\proyectovideoclub\GestionPeliculas$12.class
+com\mycompany\proyectovideoclub\UILogin$4.class
 com\mycompany\proyectovideoclub\UIDetallesPelicula.class
 com\mycompany\proyectovideoclub\GestionPeliculas$6.class
 com\mycompany\proyectovideoclub\DistribuidoraVideojuegos.class
@@ -18,7 +19,6 @@ com\mycompany\proyectovideoclub\GestionPeliculas.class
 com\mycompany\proyectovideoclub\Alquiler.class
 com\mycompany\proyectovideoclub\Utilidades.class
 com\mycompany\proyectovideoclub\UIAdmin$7.class
-com\mycompany\proyectovideoclub\CustomRoundedButton$1.class
 com\mycompany\proyectovideoclub\UISocio$3.class
 com\mycompany\proyectovideoclub\GestionPeliculas$7.class
 com\mycompany\proyectovideoclub\LoginService.class

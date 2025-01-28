@@ -1,60 +1,54 @@
-
 package com.mycompany.proyectovideoclub;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
-/**
- *
- * @author oscar.lara
- */
+public class ImagenesDeslizantes {
 
-public class ImagenesDeslizantes extends JFrame {
-    
-    private JLabel imagenLabel;
     private int indiceActual = 0;
     private String[] imagenes = {
-            "estreno1.jpg",
-            "estreno2.jpg",
-            "estreno3.jpg"
+            "/images/estreno1.jpg",
+            "/images/estreno2.jpg",
+            "/images/estreno3.jpg"
     };
 
-    public ImagenesDeslizantes() {
-        setTitle("Nuevos Estrenos");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
+    public void iniciarDeslizamiento(JLabel jLabelProximamente) {
         // Cargar la primera imagen
-        imagenLabel = new JLabel();
-        imagenLabel.setHorizontalAlignment(JLabel.CENTER);
-        cargarImagen(imagenes[indiceActual]);
-        add(imagenLabel, BorderLayout.CENTER);
+        cargarImagen(jLabelProximamente, imagenes[indiceActual]);
 
-        // Configurar el Timer
-        Timer timer = new Timer(3000, new ActionListener() { // Cambiar cada 3 segundos
+        // Configurar el Timer para cambiar la imagen cada 3 segundos
+        Timer timer = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 indiceActual = (indiceActual + 1) % imagenes.length; // Avanzar al siguiente índice
-                cargarImagen(imagenes[indiceActual]);
+                cargarImagen(jLabelProximamente, imagenes[indiceActual]);
             }
         });
         timer.start();
-
-        setVisible(true);
     }
 
-    private void cargarImagen(String ruta) {
-        // Cargar la imagen y establecerla en el JLabel
-        ImageIcon icono = new ImageIcon(ruta);
-        Image imagen = icono.getImage().getScaledInstance(600, 400, Image.SCALE_SMOOTH);
-        imagenLabel.setIcon(new ImageIcon(imagen));
+public static void cargarImagen(JLabel label, String rutaRelativa) {
+    try {
+        // Obtener la ruta de la imagen
+        URL ruta = Utilidades.class.getResource(rutaRelativa);
+        if (ruta != null) {
+            // Cargar la imagen desde la ruta proporcionada
+            ImageIcon icono = new ImageIcon(ruta);
+            // Escalar la imagen para que coincida con las dimensiones del JLabel
+            Image imagenEscalada = icono.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+            // Establecer la imagen escalada como icono del JLabel
+            label.setIcon(new ImageIcon(imagenEscalada));
+        } else {
+            // Si la ruta no es válida, mostrar un error
+            System.err.println("No se encontró la imagen en: " + rutaRelativa);
+        }
+    } catch (Exception e) {
+        // Manejar cualquier otra excepción, como NullPointerException
+        System.err.println("Error al cargar la imagen: " + rutaRelativa);
     }
-
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> new ImagenesDeslizantes());
-//    }
+}
 }
 

@@ -34,29 +34,7 @@ public class Menu {
     
 
     public static void main(String[] args) {
-        
-        // SwingUtilites.invokeLater(() -> new Menu());
-        
-        
-        
-        
-        
-        
-        
-        //Ejemplo button
-//        SwingUtilities.invokeLater(() -> {
-//            JFrame frame = new JFrame("Rounded Button Test");
-//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//            frame.setSize(400, 300);
-//            frame.setLayout(new FlowLayout());
-//
-//            // Crear un botón redondeado
-//            CustomRoundedButton roundedButton = new  CustomRoundedButton("Click Me");
-//            frame.add(roundedButton);
-//
-//            frame.setVisible(true);
-//        });
-        
+       
         
         
         

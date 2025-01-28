@@ -38,7 +38,6 @@ import javax.swing.JButton;
  *
  * @author oscar.lara
  */
-
 public class UISocio extends JFrame {
 
     private static DefaultTableModel tableModel;  // Declarar estático si se usa en un contexto estático
@@ -93,6 +92,11 @@ public class UISocio extends JFrame {
 
     private void inicializarComponentes() {
         welcomeUser.setText("¡Hola, " + usuarioLogin.getNombre() + "!");
+
+        jLabelProximamente.setHorizontalAlignment(JLabel.CENTER);
+        jLabelProximamente.setBounds(50, 50, 600, 400); // Ajusta las dimensiones según sea necesario
+        ImagenesDeslizantes deslizantes = new ImagenesDeslizantes();
+        deslizantes.iniciarDeslizamiento(jLabelProximamente);
 
         // Crear el modelo de tabla con las nuevas columnas
         String[] columnNames = {"Título", "Formato", "Duración", "Unidades", "Género", "Subgénero"};
@@ -382,8 +386,9 @@ public class UISocio extends JFrame {
         btnDevolucion = new javax.swing.JButton();
         btnActualizarTabla = new javax.swing.JButton();
         welcomeUser = new javax.swing.JLabel();
-        jLabelProximamente = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabelProximamente = new javax.swing.JLabel();
 
         javax.swing.GroupLayout detallesDialogLayout = new javax.swing.GroupLayout(detallesDialog.getContentPane());
         detallesDialog.getContentPane().setLayout(detallesDialogLayout);
@@ -417,7 +422,7 @@ public class UISocio extends JFrame {
             }
         });
 
-        toggleAlquiler.setText("Alquilar");
+        toggleAlquiler.setText("Alquilarrrr");
         toggleAlquiler.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 toggleAlquilerActionPerformed(evt);
@@ -456,7 +461,7 @@ public class UISocio extends JFrame {
             .addGroup(jPanelSocioLayout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -474,7 +479,7 @@ public class UISocio extends JFrame {
                                     .addGap(207, 207, 207)
                                     .addComponent(toggleAlquiler)))
                             .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 166, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelSocioLayout.setVerticalGroup(
@@ -504,6 +509,23 @@ public class UISocio extends JFrame {
 
         jLabel1.setText("PRÓXIMAMENTE");
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addComponent(jLabelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(jLabelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(80, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -512,10 +534,10 @@ public class UISocio extends JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jPanelSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addContainerGap(215, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addGap(116, 116, 116)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(150, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -526,10 +548,11 @@ public class UISocio extends JFrame {
                         .addComponent(jPanelSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(157, 157, 157)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1)))
+                .addGap(6, 6, 6))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68))
         );
 
         pack();
@@ -543,10 +566,6 @@ public class UISocio extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSeguimientoActionPerformed
 
-    private void toggleAlquilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleAlquilerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_toggleAlquilerActionPerformed
-
     private void btnActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTablaActionPerformed
         cargarPeliculas();
     }//GEN-LAST:event_btnActualizarTablaActionPerformed
@@ -554,6 +573,10 @@ public class UISocio extends JFrame {
     private void btnDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolucionActionPerformed
 
     }//GEN-LAST:event_btnDevolucionActionPerformed
+
+    private void toggleAlquilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleAlquilerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_toggleAlquilerActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -564,6 +587,7 @@ public class UISocio extends JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelProximamente;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelSocio;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel nombreLabel;

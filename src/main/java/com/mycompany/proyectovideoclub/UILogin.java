@@ -1,8 +1,12 @@
 package com.mycompany.proyectovideoclub;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -133,6 +137,33 @@ public class UILogin extends javax.swing.JFrame {
                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(21, Short.MAX_VALUE))
         );
+
+        CustomRoundedButton customModel = new CustomRoundedButton();
+        customModel.setNormalColor(Color.BLACK);
+        customModel.setHoverColor(Color.DARK_GRAY);
+
+        // Crear un botón estándar de Swing
+
+        loginButton.setModel(customModel); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        loginButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                loginButton.setBackground(customModel.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                loginButton.setBackground(customModel.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        loginButton.setFocusPainted(false); // Quitar el borde de enfoque
+        loginButton.setBackground(customModel.getNormalColor()); // Color inicial
+        loginButton.setForeground(Color.WHITE); // Color del texto
+        loginButton.setFont(new Font("Arial", Font.BOLD,16));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
