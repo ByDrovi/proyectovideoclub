@@ -26,8 +26,6 @@ public class Alquiler {
     private Date fechaRealEntrega;
     private String estado;
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
     // Constructor vacío
     public Alquiler() {
     }
