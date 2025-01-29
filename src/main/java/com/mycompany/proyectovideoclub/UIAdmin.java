@@ -174,7 +174,7 @@ public class UIAdmin extends javax.swing.JFrame {
                 .addContainerGap(9, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("File");
+        jMenu1.setText("Salir");
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
