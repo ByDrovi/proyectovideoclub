@@ -39,14 +39,6 @@ public class DistribuidoraPeliculas {
         this.nombre = nombre;
     }
 
-    // Método para conectar a la base de datos
-    public static Connection conectar() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/videoclub";
-        String usuario = "root"; 
-        String contraseña = "";
-        return DriverManager.getConnection(url, usuario, contraseña);
-    }
-
     // Consultar todas las distribuidoras
     public static List<DistribuidoraPeliculas> consultarDistribuidorasPeliculas(Connection conn) throws SQLException {
         String query = "SELECT * FROM DistribuidorasPeliculas";

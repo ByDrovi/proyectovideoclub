@@ -50,7 +50,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
                 }
 
                 // Agregar empleado a la base de datos
-                try ( Connection conn = Empleados.conectar()) {
+                try (Connection conn = Database.getConnection()) {
                     Empleados.agregarEmpleado(
                             conn,
                             logUser,

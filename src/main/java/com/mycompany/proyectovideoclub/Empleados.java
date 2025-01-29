@@ -33,14 +33,6 @@ public class Empleados extends Usuarios {
         this.esActivo = esActivo;
     }
 
-    // Método para conectar a la base de datos
-    public static Connection conectar() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/videoclub";
-        String usuario = "root";
-        String contraseña = "";
-        return DriverManager.getConnection(url, usuario, contraseña);
-    }
-
     public static List<Empleados> consultarEmpleados(Connection conn) throws SQLException {
         System.out.println("Listado de empleados actualmente activos");
         String query = "SELECT u.id, u.nombre, u.apellidos, u.dniUser, e.fechaBaja, e.esActivo " +

@@ -36,6 +36,7 @@ public class GestionPeliculas extends javax.swing.JFrame {
 
         // Cargar los nombres de los formatos al inicializar
         cargarNombresDeFormatos();
+        cargarDistribuidoras();
 
         // Crear el JSpinner para "Disponible Alquiler"
         JSpinner spinnerDisponibleAlquiler = new JSpinner(); // CUIDADO ESTO PUEDE DAR ERROR
@@ -180,7 +181,7 @@ public class GestionPeliculas extends javax.swing.JFrame {
         });
     }
 
-    // Método para cargar los nombres de los formatos desde la base de datos
+        // Método para cargar los nombres de los formatos desde la base de datos
     private void cargarNombresDeFormatos() {
         SwingUtilities.invokeLater(() -> {  // Aseguramos que se ejecute en el hilo de la interfaz gráfica
             try ( Connection conn = Database.getConnection()) {
@@ -206,6 +207,42 @@ public class GestionPeliculas extends javax.swing.JFrame {
                         String nombre = rs.getString("nombre");
                         comboBoxFormato.addItem(id + " - " + nombre);  // Añadir al JComboBox
                         System.out.println("Formato cargado: " + id + " - " + nombre);  // Mensaje de depuración
+                    }
+
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al cargar formatos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+    }
+    
+    // Método para cargar los nombres de los formatos desde la base de datos
+    private void cargarDistribuidoras() {
+        SwingUtilities.invokeLater(() -> {  // Aseguramos que se ejecute en el hilo de la interfaz gráfica
+            try ( Connection conn = Database.getConnection()) {
+                if (conn == null) {
+                    JOptionPane.showMessageDialog(this, "Error: conexión a la base de datos no válida.", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String query = "SELECT id, nombre "
+                        + "FROM distribuidoraspeliculas";
+                try ( PreparedStatement stmt = conn.prepareStatement(query);  ResultSet rs = stmt.executeQuery()) {
+
+                    comboBoxDistribuidora.removeAllItems();  // Limpiar el JComboBox
+
+                    if (!rs.isBeforeFirst()) {  // Comprueba si hay resultados
+                        System.out.println("No se encontraron formatos en la base de datos.");
+                        JOptionPane.showMessageDialog(this, "No hay formatos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+
+                    while (rs.next()) {
+                        int id = rs.getInt("id");
+                        String nombre = rs.getString("nombre");
+                        comboBoxDistribuidora.addItem(id + " - " + nombre);  // Añadir al JComboBox
+                        System.out.println("Distribuidora cargada: " + id + " - " + nombre);  // Mensaje de depuración
                     }
 
                 }
@@ -626,7 +663,6 @@ public class GestionPeliculas extends javax.swing.JFrame {
             }
         });
 
-        comboBoxDistribuidora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "20TH Century Fox" }));
         comboBoxDistribuidora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxDistribuidoraActionPerformed(evt);

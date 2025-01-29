@@ -231,7 +231,7 @@ public class UIAdmin extends javax.swing.JFrame {
 
     // Cargar distribuidoras desde la base de datos y mostrarlas en la tabla
     private void cargarDistribuidorasPeliculas() {
-        try ( Connection conn = DistribuidoraPeliculas.conectar()) {
+        try (Connection conn = Database.getConnection()) {
             List<DistribuidoraPeliculas> distribuidoras = DistribuidoraPeliculas.consultarDistribuidorasPeliculas(conn);
             modeloTablaDistribuidorasPeliculas.setRowCount(0);  // Limpiar tabla antes de agregar
             for (DistribuidoraPeliculas d : distribuidoras) {
@@ -271,7 +271,7 @@ public class UIAdmin extends javax.swing.JFrame {
 
     // Cargar distribuidoras desde la base de datos y mostrarlas en la tabla
     private void cargarDistribuidorasVideojuegos() {
-        try ( Connection conn = DistribuidoraPeliculas.conectar()) {
+        try (Connection conn = Database.getConnection()) {
             List<DistribuidoraVideojuegos> distribuidoras = DistribuidoraVideojuegos.consultarDistribuidorasVideojuegos(conn);
             modeloTablaDistribuidorasVideojuegos.setRowCount(0);  // Limpiar tabla antes de agregar
             for (DistribuidoraVideojuegos d : distribuidoras) {
@@ -286,7 +286,7 @@ public class UIAdmin extends javax.swing.JFrame {
     private void agregarDistribuidoraPeliculas() {
         String nombreDistribuidora = tfNuevaDisPeliculas.getText().trim();
         if (!nombreDistribuidora.isEmpty()) {
-            try ( Connection conn = DistribuidoraPeliculas.conectar()) {
+            try (Connection conn = Database.getConnection()) {
                 DistribuidoraPeliculas.agregarDistribuidoraPeliculas(conn, nombreDistribuidora);
                 cargarDistribuidorasPeliculas();  // Recargar lista
                 tfNuevaDisPeliculas.setText("");  // Limpiar campo
@@ -329,7 +329,7 @@ public class UIAdmin extends javax.swing.JFrame {
     private void agregarDistribuidoraVideojuegos() {
         String nombreDistribuidora = tfNuevaDisVideojuegos.getText().trim();
         if (!nombreDistribuidora.isEmpty()) {
-            try ( Connection conn = DistribuidoraVideojuegos.conectar()) {
+            try ( Connection conn = Database.getConnection()) {
                 DistribuidoraVideojuegos.agregarDistribuidoraVideojuegos(conn, nombreDistribuidora);
                 cargarDistribuidorasPeliculas();  // Recargar lista
                 tfNuevaDisVideojuegos.setText("");  // Limpiar campo

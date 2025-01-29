@@ -1,7 +1,6 @@
 package com.mycompany.proyectovideoclub;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,12 +44,6 @@ public class Plataforma {
         this.nombre = nombre;
     }
 
-    public static Connection conectar() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/videoclub";
-        String usuario = "root"; 
-        String contraseña = "";
-        return DriverManager.getConnection(url, usuario, contraseña);
-    }
 
      public static List<Plataforma> consultarPlataformasVideojuegos(Connection conn) throws SQLException {
         String query = "SELECT * FROM Plataformas";

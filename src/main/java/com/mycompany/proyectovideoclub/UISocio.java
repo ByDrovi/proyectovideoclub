@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,11 +27,19 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import com.mycompany.proyectovideoclub.Database;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.time.LocalDate;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -58,21 +65,20 @@ public class UISocio extends JFrame {
         inicializarComponentes();
     }
 
-private void cargarPeliculas() {
+    private void cargarPeliculas() {
         // Consulta SQL con filtro por título
         String query = ""
                 + "SELECT p.titulo, pl.actorProtagonista, f.nombre AS formato_id, p.anioLanzamiento, p.numDisponibleAlquiler, p.genero, p.subgenero "
                 + "FROM Productos p "
                 + "JOIN Peliculas pl ON p.id = pl.id "
                 + "JOIN Formatos f ON pl.formato_id = f.id "
-                + "WHERE p.esBaja = FALSE AND p.titulo LIKE ?"; // Filtrar por título
-        System.out.println(filtroTabla.getText());
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/videoclub", "root", ""); PreparedStatement pstmt = conn.prepareStatement(query)) {
+                + "WHERE p.esBaja = FALSE AND LOWER(p.titulo) LIKE LOWER(?)"; // Filtrar por título
+        try ( Connection conn = Database.getConnection();  PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             // Configurar el parámetro del filtro
-            pstmt.setString(1, "%" + filtroTabla.getText() + "%");
+            pstmt.setString(1, "%" + filtroTabla.getText().toLowerCase() + "%");
 
-            try (ResultSet rs = pstmt.executeQuery()) {
+            try ( ResultSet rs = pstmt.executeQuery()) {
                 // Limpiar el modelo de tabla antes de cargar los nuevos datos
                 tableModel.setRowCount(0);
 
@@ -98,10 +104,8 @@ private void cargarPeliculas() {
     private void inicializarComponentes() {
         welcomeUser.setText("¡Hola, " + usuarioLogin.getNombre() + "!");
 
-        jLabelProximamente.setHorizontalAlignment(JLabel.CENTER);
-        jLabelProximamente.setBounds(50, 50, 600, 400); // Ajusta las dimensiones según sea necesario
         ImagenesDeslizantes deslizantes = new ImagenesDeslizantes();
-        deslizantes.iniciarDeslizamiento(jLabelProximamente);
+        deslizantes.iniciarDeslizamiento(jLabelProximamente, siguiente);
 
         // Crear el modelo de tabla con las nuevas columnas
         String[] columnNames = {"Título", "Formato", "Duración", "Unidades", "Género", "Subgénero"};
@@ -121,9 +125,14 @@ private void cargarPeliculas() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) { // Detecta un clic doble
-                    int selectedRow = table.getSelectedRow();
-                    if (selectedRow != -1) {
-                        mostrarDetallesPelicula(selectedRow); // Mostrar detalles de la película seleccionada
+                    int selectedRowView = table.getSelectedRow(); // Obtiene el índice visual de la fila seleccionada
+
+                    if (selectedRowView != -1) {
+                        // Convierte el índice visual a índice en el modelo de datos
+                        int selectedRowModel = table.convertRowIndexToModel(selectedRowView);
+
+                        // Llama al método para mostrar los detalles con el índice correcto en el modelo de datos
+                        mostrarDetallesPelicula(selectedRowModel);
                     }
                 }
             }
@@ -174,15 +183,21 @@ private void cargarPeliculas() {
             try {
                 // Obtener datos necesarios
                 String fechaDevolucionStr = tfFechaHoy.getText(); // Fecha de devolución desde el JTextField
+                if (fechaDevolucionStr.isBlank()) {
+                    JOptionPane.showMessageDialog(UISocio.this, "Selecciona la fecha en la que estas devolviendo", "Error", JOptionPane.ERROR_MESSAGE);
+                    toggleAlquiler.setSelected(false);
+                    return;
+                }
                 LocalDate fechaDevolucion = LocalDate.parse(fechaDevolucionStr); // Convertir a LocalDate
-                int selectedRow = table.getSelectedRow();
+                int selectedRowView = table.getSelectedRow();
 
-                if (selectedRow == -1) {
+                if (selectedRowView == -1) {
                     JOptionPane.showMessageDialog(UISocio.this, "Seleccione una película para devolver.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                String titulo = (String) tableModel.getValueAt(selectedRow, 0); // Título de la película seleccionada
+                int selectedRowModel = table.convertRowIndexToModel(selectedRowView);
+                String titulo = (String) tableModel.getValueAt(selectedRowModel, 0); // Título de la película seleccionada
 
                 // Obtener el ID del producto
                 String queryProductoId = ""
@@ -212,7 +227,6 @@ private void cargarPeliculas() {
 
     private void mostrarDetallesPelicula(int rowIndex) {
         String titulo = (String) tableModel.getValueAt(rowIndex, 0); // Obtener el título de la película seleccionada
-
         // Consulta SQL para obtener los detalles de la película
         String query = ""
                 + "SELECT "
@@ -241,8 +255,10 @@ private void cargarPeliculas() {
 
                 // Panel para la portada
                 JPanel portadaPanel = new JPanel();
+                portadaPanel.setLayout(new BorderLayout());
                 JLabel portadaLabel = new JLabel();
-                portadaPanel.add(portadaLabel);
+                portadaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                portadaPanel.add(portadaLabel, BorderLayout.CENTER);
 
                 // Obtener la imagen de portada (alquilado o disponible)
                 String imagenPath = "images/" + titulo + (rs.getInt("numDisponibleAlquiler") == 0 ? "_alquilado.png" : "_disponible.png");
@@ -250,67 +266,85 @@ private void cargarPeliculas() {
 
                 if (imageUrl != null) {
                     ImageIcon portada = new ImageIcon(imageUrl);
-                    Image img = portada.getImage();  // Obtener la imagen original
-
-                    // Redimensionar la imagen manteniendo las proporciones
-                    int width = 150;  // Ancho deseado
-                    int height = -1;  // Mantener proporciones (el valor negativo indicará auto-ajuste)
-                    Image imgEscalada = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-
-                    portadaLabel.setIcon(new ImageIcon(imgEscalada));  // Asignar la imagen redimensionada al JLabel
+                    Image imgEscalada = portada.getImage().getScaledInstance(220, -1, Image.SCALE_SMOOTH);
+                    portadaLabel.setIcon(new ImageIcon(imgEscalada));
                 } else {
                     portadaLabel.setText("Imagen no disponible");
                 }
 
-                // Panel para los detalles
+                // Panel para los detalles con BoxLayout en Y_AXIS
                 JPanel detallesPanel = new JPanel();
                 detallesPanel.setLayout(new BoxLayout(detallesPanel, BoxLayout.Y_AXIS));
+                detallesPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Margen para mejor visualización
+
+                // Campo de título con altura fija
+                JTextField campoTitulo = new JTextField(rs.getString("titulo"));
+                campoTitulo.setEditable(false);
+                campoTitulo.setCaretColor(new Color(214, 217, 223));
+                campoTitulo.setFont(new Font("Arial", Font.BOLD, 18));
+                campoTitulo.setBorder(null);
+                campoTitulo.setAlignmentX(Component.LEFT_ALIGNMENT); // Alineación correcta en BoxLayout
+                campoTitulo.setBackground(new Color(214, 217, 223));
+
+                // Crear un panel para envolverlo y darle altura
+                JPanel tituloPanel = new JPanel(new BorderLayout());
+                tituloPanel.add(campoTitulo, BorderLayout.CENTER);
+                tituloPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45)); // Fija la altura del JTextField
 
                 // Concatenar actores en una sola cadena bajo la etiqueta "Reparto"
-                String reparto = "Reparto: " + rs.getString("actorProtagonista") + ", "
+                String reparto = "  Reparto: " + rs.getString("actorProtagonista") + ", "
                         + rs.getString("actorSecundario1") + ", "
                         + rs.getString("actorSecundario2");
 
-                // Utilizamos JTextArea para el texto largo
+                // Área de detalles con fondo transparente
                 JTextArea detallesTextArea = new JTextArea();
-                detallesTextArea.setEditable(false);  // Hacer el área de texto no editable
-                detallesTextArea.setLineWrap(true);   // Activar el word wrap
+                detallesTextArea.setEditable(false);
+                detallesTextArea.setLineWrap(true);
                 detallesTextArea.setWrapStyleWord(true);
-
-                // Hacer que el word wrap ocurra solo al final de las palabras
+                detallesTextArea.setBorder(null);
+                detallesTextArea.setBackground(new Color(214, 217, 223));
                 detallesTextArea.setText(
-                        "" + rs.getString("titulo") + "\n"
-                        + "Formato: " + rs.getString("formato") + "\n"
-                        + "Año: " + rs.getInt("anioLanzamiento") + "\n"
-                        + "Género: " + rs.getString("genero") + "\n"
-                        + "Subgénero: " + rs.getString("subgenero") + "\n"
-                        + "Unidades disponibles: " + rs.getInt("numDisponibleAlquiler") + "\n"
-                        + reparto + "\n"
-                        + // Mostrar el reparto concatenado
-                        "Sinopsis: " + rs.getString("sinopsis") + "\n"
-                        + "Precio de alquiler: " + rs.getDouble("cuotaAlquilerPeliculas")
+                        "  Formato: " + rs.getString("formato") + "\n\n"
+                        + "  Año: " + rs.getInt("anioLanzamiento") + "\n\n"
+                        + "  Género: " + rs.getString("genero") + "\n\n"
+                        + "  Subgénero: " + rs.getString("subgenero") + "\n\n"
+                        + "  Unidades disponibles: " + rs.getInt("numDisponibleAlquiler") + "\n\n"
+                        + reparto + "\n\n"
+                        + "  Sinopsis: " + rs.getString("sinopsis") + "\n\n"
+                        + "  Precio de alquiler: " + rs.getDouble("cuotaAlquilerPeliculas") + "€"
                 );
 
-                // Añadir el JTextArea al panel de detalles
-                detallesPanel.add(new JScrollPane(detallesTextArea));  // Usamos JScrollPane para habilitar el scroll
+                // ScrollPane para detallesTextArea
+                JScrollPane scrollPane = new JScrollPane(detallesTextArea);
+                scrollPane.setBorder(null);
+                scrollPane.setOpaque(false);
+                scrollPane.getViewport().setOpaque(false);
+                scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT); // Alineación correcta en BoxLayout
 
-                // Agregar un botón de "Alquilar" (toggle)
+                // Botón de "Alquilar"
                 toggleAlquiler = new JToggleButton("Alquilar");
-                toggleAlquiler.setEnabled(rs.getInt("numDisponibleAlquiler") > 0); // Activar/desactivar según la disponibilidad
+                toggleAlquiler.setEnabled(rs.getInt("numDisponibleAlquiler") > 0);
+                toggleAlquiler.setAlignmentX(Component.LEFT_ALIGNMENT);
                 toggleAlquiler.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (toggleAlquiler.isSelected()) {
                             try ( Connection conn = Database.getConnection()) {
                                 String fechaAlquilerStr = tfFechaHoy.getText(); // Fecha de alquiler desde el JTextField
+                                if (fechaAlquilerStr.isBlank()) {
+                                    JOptionPane.showMessageDialog(UISocio.this, "Selecciona la fecha en la que quieres alquilar", "Error", JOptionPane.ERROR_MESSAGE);
+                                    toggleAlquiler.setSelected(false);
+                                    return;
+                                }
                                 LocalDate fechaAlquiler = LocalDate.parse(fechaAlquilerStr); // Convertir a LocalDate
-                                int selectedRow = table.getSelectedRow();
-                                if (selectedRow == -1) {
+                                int selectedRowView = table.getSelectedRow();
+                                if (selectedRowView == -1) {
                                     JOptionPane.showMessageDialog(UISocio.this, "Seleccione una película para alquilar.", "Error", JOptionPane.ERROR_MESSAGE);
                                     toggleAlquiler.setSelected(false);
                                     return;
                                 }
-                                String titulo = (String) tableModel.getValueAt(selectedRow, 0); // Título de la película seleccionada
+                                int selectedRowModel = table.convertRowIndexToModel(selectedRowView);
+                                String titulo = (String) tableModel.getValueAt(selectedRowModel, 0);
 
                                 // Consulta para obtener cuota de alquiler y unidades disponibles
                                 String queryDetalles = ""
@@ -353,7 +387,11 @@ private void cargarPeliculas() {
                     }
                 });
 
-                // Añadir el botón de alquiler al panel de detalles
+                // Agregar componentes al panel de detalles
+                detallesPanel.add(tituloPanel);
+                detallesPanel.add(Box.createVerticalStrut(10)); // Espaciado
+                detallesPanel.add(scrollPane);
+                detallesPanel.add(Box.createVerticalStrut(10)); // Espaciado
                 detallesPanel.add(toggleAlquiler);
 
                 // Añadir los paneles al JDialog
@@ -380,22 +418,23 @@ private void cargarPeliculas() {
     private void initComponents() {
 
         detallesDialog = new javax.swing.JDialog();
+        toggleAlquiler = new javax.swing.JToggleButton();
         jPanelSocio = new javax.swing.JPanel();
         nombreLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         tfFechaHoy = new javax.swing.JTextField();
-        toggleAlquiler = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
         btnSeguimiento = new javax.swing.JButton();
         btnDevolucion = new javax.swing.JButton();
-        btnActualizarTabla = new javax.swing.JButton();
         welcomeUser = new javax.swing.JLabel();
         filtroTabla = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabelProximamente = new javax.swing.JLabel();
+        siguiente = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        btnActualizarTabla = new javax.swing.JButton();
 
         javax.swing.GroupLayout detallesDialogLayout = new javax.swing.GroupLayout(detallesDialog.getContentPane());
         detallesDialog.getContentPane().setLayout(detallesDialogLayout);
@@ -409,6 +448,13 @@ private void cargarPeliculas() {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        toggleAlquiler.setText("Alquilarrrr");
+        toggleAlquiler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleAlquilerActionPerformed(evt);
+            }
+        });
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -429,13 +475,6 @@ private void cargarPeliculas() {
             }
         });
 
-        toggleAlquiler.setText("Alquilarrrr");
-        toggleAlquiler.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                toggleAlquilerActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Fecha actual:");
 
         btnSeguimiento.setText("Seguimiento");
@@ -452,18 +491,22 @@ private void cargarPeliculas() {
             }
         });
 
-        btnActualizarTabla.setText("Actualizar");
-        btnActualizarTabla.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarTablaActionPerformed(evt);
-            }
-        });
-
         welcomeUser.setText("Bienvenido");
 
-        filtroTabla.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                filtroTablaKeyTyped(evt);
+        filtroTabla.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                cargarPeliculas();
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                cargarPeliculas();
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                cargarPeliculas();
             }
         });
 
@@ -477,26 +520,18 @@ private void cargarPeliculas() {
                 .addGap(11, 11, 11)
                 .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
-                        .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelSocioLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnActualizarTabla))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
-                                .addComponent(btnSeguimiento)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(filtroTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnSeguimiento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(filtroTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14))
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
-                                .addComponent(btnDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(toggleAlquiler))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
                             .addGroup(jPanelSocioLayout.createSequentialGroup()
                                 .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanelSocioLayout.createSequentialGroup()
                                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -521,11 +556,9 @@ private void cargarPeliculas() {
                                 .addComponent(jLabel2)
                                 .addGap(6, 6, 6)
                                 .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                        .addComponent(btnActualizarTabla)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(filtroTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -533,30 +566,25 @@ private void cargarPeliculas() {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(toggleAlquiler)
-                    .addComponent(btnDevolucion))
+                .addComponent(btnDevolucion)
                 .addContainerGap(106, Short.MAX_VALUE))
         );
 
-        jLabel1.setText("PRÓXIMAMENTE");
+        jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jLabelProximamente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 210, 270));
+        jPanel1.add(siguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 210, 270));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(jLabelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(88, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addComponent(jLabelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
-        );
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("PRÓXIMAMENTE");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, -1, -1));
+
+        btnActualizarTabla.setText("Actualizar");
+        btnActualizarTabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarTablaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -565,26 +593,38 @@ private void cargarPeliculas() {
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jPanelSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(jLabel1)
-                .addGap(116, 116, 116)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnActualizarTabla)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 147, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(144, 144, 144))))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(608, 608, 608)
+                    .addComponent(toggleAlquiler)
+                    .addContainerGap(609, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jPanelSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(157, 157, 157)
-                        .addComponent(jLabel1)))
+                        .addGap(51, 51, 51)
+                        .addComponent(btnActualizarTabla)
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanelSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(286, 286, 286)
+                    .addComponent(toggleAlquiler)
+                    .addContainerGap(286, Short.MAX_VALUE)))
         );
 
         pack();
@@ -610,10 +650,6 @@ private void cargarPeliculas() {
         // TODO add your handling code here:
     }//GEN-LAST:event_toggleAlquilerActionPerformed
 
-    private void filtroTablaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filtroTablaKeyTyped
-        cargarPeliculas();
-    }//GEN-LAST:event_filtroTablaKeyTyped
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarTabla;
@@ -629,6 +665,7 @@ private void cargarPeliculas() {
     private javax.swing.JPanel jPanelSocio;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel nombreLabel;
+    private javax.swing.JLabel siguiente;
     private javax.swing.JTable table;
     private javax.swing.JTextField tfFechaHoy;
     private javax.swing.JToggleButton toggleAlquiler;

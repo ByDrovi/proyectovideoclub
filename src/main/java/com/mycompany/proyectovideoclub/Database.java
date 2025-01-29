@@ -11,10 +11,8 @@ import java.sql.SQLException;
 
 public class Database {
     public static Connection getConnection() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/videoclub";
-        String user = "root"; // 
-        String password = ""; // 
-        return DriverManager.getConnection(url, user, password);
+        String url = "jdbc:postgresql://ep-winter-lab-a8dct6d0-pooler.eastus2.azure.neon.tech/neondb?user=neondb_owner&password=npg_xGP9ftMckXw0&sslmode=require";
+        return DriverManager.getConnection(url);
     }
     
 }

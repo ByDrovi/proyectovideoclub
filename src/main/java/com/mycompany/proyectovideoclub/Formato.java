@@ -47,24 +47,19 @@ public class Formato {
         this.cantidadProductos = cantidadProductos;
     }
 
-    // Conexión a la base de datos
-    private static Connection conectar() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/videoclub";
-        String user = "root";
-        String password = "";
-        return DriverManager.getConnection(url, user, password);
-    }
 
 public static List<Formato> obtenerFormatos() {
     List<Formato> formatos = new ArrayList<>();
     String sql = """
-        SELECT f.id, f.nombre, COALESCE(SUM(p.numDisponibleAlquiler), 0) AS numDisponibleAlquiler
+        SELECT f.id, f.nombre, COALESCE(SUM(prod.numdisponiblealquiler), 0) AS numDisponibleAlquiler
         FROM Formatos f
-        LEFT JOIN Productos p ON f.id = p.id_formato
+        LEFT JOIN Peliculas p ON f.id = p.formato_id
+        LEFT JOIN Productos prod ON p.id = prod.id
+        WHERE prod.esBaja = FALSE AND prod.enStock = TRUE
         GROUP BY f.id, f.nombre
     """;
 
-    try (Connection conn = conectar();
+    try (Connection conn = Database.getConnection();
          Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery(sql)) {
 

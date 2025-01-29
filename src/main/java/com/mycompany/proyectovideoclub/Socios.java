@@ -2,7 +2,6 @@ package com.mycompany.proyectovideoclub;
 
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,7 +85,7 @@ public class Socios extends Usuarios {
                 + "WHERE u.id = ?";
 
         // Consultar los datos del usuario y del socio
-        try (Connection conn = conectar(); PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = Database.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, usuarioId); // Establecer el parámetro del ID del usuario
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -116,14 +115,6 @@ public class Socios extends Usuarios {
         }
     }
     // #######################################################################################################################################
-
-    // Método para conectar a la base de datos
-    public static Connection conectar() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/videoclub";
-        String usuario = "root";
-        String contraseña = "";
-        return DriverManager.getConnection(url, usuario, contraseña);
-    }
 
     public static List<Socios> consultarSocios(Connection conn) throws SQLException {
         System.out.println("Listado de SOCIOS:");
