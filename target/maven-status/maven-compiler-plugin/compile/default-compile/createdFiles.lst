@@ -33,7 +33,6 @@ com\mycompany\proyectovideoclub\GestionEmpleados.class
 com\mycompany\proyectovideoclub\GestionPeliculas$4.class
 com\mycompany\proyectovideoclub\GestionPeliculas$1.class
 com\mycompany\proyectovideoclub\GestionSocios$2.class
-com\mycompany\proyectovideoclub\GestionEmpleados$5.class
 com\mycompany\proyectovideoclub\GestionPeliculas$10.class
 com\mycompany\proyectovideoclub\GestionSocios.class
 com\mycompany\proyectovideoclub\UIAdmin$1.class
@@ -44,7 +43,6 @@ com\mycompany\proyectovideoclub\UIAdmin$4.class
 com\mycompany\proyectovideoclub\GestionSocios$1.class
 com\mycompany\proyectovideoclub\ImagenesDeslizantes$1.class
 com\mycompany\proyectovideoclub\GestionPeliculas$8.class
-com\mycompany\proyectovideoclub\Menu.class
 com\mycompany\proyectovideoclub\UIAdmin$5.class
 com\mycompany\proyectovideoclub\UISocio$8.class
 com\mycompany\proyectovideoclub\UIEmpleado$1.class
@@ -54,7 +52,6 @@ com\mycompany\proyectovideoclub\GestionPeliculas$5.class
 com\mycompany\proyectovideoclub\Pelicula.class
 com\mycompany\proyectovideoclub\GestionPeliculas$11.class
 com\mycompany\proyectovideoclub\Database.class
-com\mycompany\proyectovideoclub\GestionSocios$4.class
 com\mycompany\proyectovideoclub\Producto.class
 com\mycompany\proyectovideoclub\UILogin$3.class
 com\mycompany\proyectovideoclub\GestionEmpleados$3.class

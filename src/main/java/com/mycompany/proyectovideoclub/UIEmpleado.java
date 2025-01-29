@@ -195,15 +195,15 @@ public class UIEmpleado extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            UIEmpleado ui = new UIEmpleado();
-            ui.setVisible(true);
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> {
+//            UIEmpleado ui = new UIEmpleado();
+//            ui.setVisible(true);
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCargarProximamente;
