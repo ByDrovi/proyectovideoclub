@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.net.URL;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,6 +27,17 @@ public class Utilidades {
             label.setIcon(tamaño);
         } else {
             System.err.println("No se encontró la imagen en: " + rutaRelativa);
+        }
+    }
+    
+        private Date convertirFecha(String fechaStr) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            java.util.Date utilDate = sdf.parse(fechaStr);
+            return new java.sql.Date(utilDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

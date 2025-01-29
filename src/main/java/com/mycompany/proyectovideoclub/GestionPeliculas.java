@@ -1,8 +1,12 @@
 package com.mycompany.proyectovideoclub;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.Date;
@@ -80,8 +84,18 @@ public class GestionPeliculas extends javax.swing.JFrame {
                 String actorProtagonista = tfProtagonista.getText();
                 String actorSecundario1 = tfSecun1.getText();
                 String actorSecundario2 = tfSecun2.getText();
+                
+//                Formato formatoSeleccionado = (Formato) comboBoxFormato.getSelectedItem();
+//                int formatoId = formatoSeleccionado.getId(); // Suponiendo que tiene un método getId()
+//
+//                DistribuidoraPeliculas distribuidoraSeleccionada = (DistribuidoraPeliculas) comboBoxDistribuidora.getSelectedItem();
+//                int distribuidoraPeliculasId = distribuidoraSeleccionada.getId();
+                
+//############################################################################################
                 int formatoId = Integer.parseInt(tfFormato.getText());
-                int distribuidoraId = Integer.parseInt(tfDistribuidora.getText());
+                int distribuidoraId = Integer.parseInt(tfDistribuidora.getText());             
+//############################################################################################          
+
                 double cuotaAlquilerPeliculas = Double.parseDouble(tfCuotaAlquilerPelicula.getText());
 
                 // Obtener el texto completo de la ruta ingresada en los campos de texto
@@ -487,21 +501,20 @@ public class GestionPeliculas extends javax.swing.JFrame {
                             .addComponent(jLabelSinopsis))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(tfDuracion, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfDuracion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                             .addComponent(tfDirector, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfGenero, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfSubgenero, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfSecun1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfSecun2)
                             .addComponent(tfSinopsis)
-                            .addComponent(tfProtagonista))
-                        .addGap(27, 27, 27))
+                            .addComponent(tfProtagonista)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(38, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(27, 27, 27))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -538,15 +551,41 @@ public class GestionPeliculas extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tfSinopsis, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelSinopsis))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(97, 97, 97)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
+
+        CustomRoundedButton customModel = new CustomRoundedButton();
+        customModel.setNormalColor(Color.BLACK);
+        customModel.setHoverColor(Color.DARK_GRAY);
+
+        // Crear un botón estándar de Swing
+
+        btnGuardar.setModel(customModel); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        btnGuardar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnGuardar.setBackground(customModel.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnGuardar.setBackground(customModel.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        btnGuardar.setFocusPainted(false); // Quitar el borde de enfoque
+        btnGuardar.setBackground(customModel.getNormalColor()); // Color inicial
+        btnGuardar.setForeground(Color.WHITE); // Color del texto
+        btnGuardar.setFont(new Font("Arial", Font.BOLD,16));
 
         jLabelFechaAlta.setText("Fecha de alta: ");
 
@@ -864,16 +903,16 @@ public class GestionPeliculas extends javax.swing.JFrame {
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(538, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(275, 275, 275)
+                        .addGap(257, 257, 257)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addContainerGap()

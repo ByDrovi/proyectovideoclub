@@ -1,30 +1,27 @@
 package com.mycompany.proyectovideoclub;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author oscar.lara
  */
-
 public class GestionSocios extends javax.swing.JFrame {
 
-    
     /**
      * Creates new form GestionEmpleados
      */
     public GestionSocios() {
         initComponents();
-                btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 String logUser = tflogUser.getText();
                 String logPass = tflogPass.getText();
@@ -33,14 +30,12 @@ public class GestionSocios extends javax.swing.JFrame {
                 String dniUser = tfdni.getText();
                 String fechaNacimientoStr = tfNacimiento.getText();
                 String fechaAltaStr = tfAlta.getText();
-                
-                //  Hay campos para rellenar, otros no. Solo solo 
-//                int alquileresTotales = Integer.parseInt(tfAlquileresTotales.getText());
-//                int comprasTotales = Integer.parseInt(tfComprasTotales.getText());
-//                boolean recargoActivo = recargoActivoCheckBox.isSelected();
 
-
-                // Validar que los campos obligatorios no estén vacíos
+                //   Hay campos para rellenar, otros no. Solo solo 
+                //   int alquileresTotales = Integer.parseInt(tfAlquileresTotales.getText());
+                //   int comprasTotales = Integer.parseInt(tfComprasTotales.getText());
+                //   boolean recargoActivo = recargoActivoCheckBox.isSelected();
+                //   Validar que los campos obligatorios no estén vacíos
                 if (logUser.isEmpty() || logPass.isEmpty() || nombre.isEmpty() || apellidos.isEmpty() || dniUser.isEmpty()) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Rellena todos los campos.");
                     return;
@@ -56,18 +51,18 @@ public class GestionSocios extends javax.swing.JFrame {
                 }
 
                 // Agregar empleado a la base de datos
-                try (Connection conn = Database.getConnection()) {
-                   Socios.agregarSocio(
-                        conn,
-                        logUser,
-                        logPass,
-                        nombre,
-                        apellidos,
-                        dniUser,
-                        fechaNacimiento,
-                        fechaAlta,
-                        "Socio",
-                        "Estandar"  // Tipo de usuario
+                try ( Connection conn = Database.getConnection()) {
+                    Socios.agregarSocio(
+                            conn,
+                            logUser,
+                            logPass,
+                            nombre,
+                            apellidos,
+                            dniUser,
+                            fechaNacimiento,
+                            fechaAlta,
+                            "Socio",
+                            "Estandar" // Tipo de usuario
                     );
                     javax.swing.JOptionPane.showMessageDialog(null, "SOCIO agregado con éxito.");
                 } catch (SQLException ex) {
@@ -78,21 +73,17 @@ public class GestionSocios extends javax.swing.JFrame {
         });
     }
 
-private Date convertirFecha(String fechaStr) {
-    try {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        java.util.Date utilDate = sdf.parse(fechaStr);
-        return new java.sql.Date(utilDate.getTime());
-    } catch (ParseException e) {
-        e.printStackTrace();
-        return null;
+    private Date convertirFecha(String fechaStr) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            java.util.Date utilDate = sdf.parse(fechaStr);
+            return new java.sql.Date(utilDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-}
 
-
-
-
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -170,16 +161,16 @@ private Date convertirFecha(String fechaStr) {
                         .addGap(72, 72, 72)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(btnGuardar))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabelAlta)
                                     .addComponent(jLabelNacimiento))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(tfNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(tfAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(tfnombre, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(tfapellidos, javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,9 +211,36 @@ private Date convertirFecha(String fechaStr) {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDNI)
                     .addComponent(tfdni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardar))
-                .addContainerGap(80, Short.MAX_VALUE))
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
+
+        CustomRoundedButton customModel = new CustomRoundedButton();
+        customModel.setNormalColor(Color.BLACK);
+        customModel.setHoverColor(Color.DARK_GRAY);
+
+        // Crear un botón estándar de Swing
+
+        btnGuardar.setModel(customModel); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        btnGuardar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnGuardar.setBackground(customModel.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnGuardar.setBackground(customModel.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        btnGuardar.setFocusPainted(false); // Quitar el borde de enfoque
+        btnGuardar.setBackground(customModel.getNormalColor()); // Color inicial
+        btnGuardar.setForeground(Color.WHITE); // Color del texto
+        btnGuardar.setFont(new Font("Arial", Font.BOLD,16));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
