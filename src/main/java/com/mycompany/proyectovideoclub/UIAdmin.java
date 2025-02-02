@@ -317,7 +317,7 @@ public class UIAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_abrirGestionPeliculasModal
 
     private void abrirGestionEmpleadosModal(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirGestionEmpleadosModal
-        GestionEmpleados gestionEmpleados = new GestionEmpleados();
+        GestionEmpleados1 gestionEmpleados = new GestionEmpleados1();
         javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Gestión de Empleados", true);
         dialog.setContentPane(gestionEmpleados.getContentPane());
         dialog.pack();

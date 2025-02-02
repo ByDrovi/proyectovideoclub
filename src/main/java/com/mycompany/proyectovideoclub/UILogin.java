@@ -212,7 +212,7 @@ public class UILogin extends javax.swing.JFrame {
                     .addGroup(jPanelGeneralLayout.createSequentialGroup()
                         .addGap(392, 392, 392)
                         .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(308, Short.MAX_VALUE))
+                .addContainerGap(302, Short.MAX_VALUE))
         );
         jPanelGeneralLayout.setVerticalGroup(
             jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
