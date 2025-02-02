@@ -19,12 +19,12 @@
     </Container>
     <Menu class="javax.swing.JMenuBar" name="menuAdmin">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="jMenuOpciones">
           <Properties>
             <Property name="text" type="java.lang.String" value="Opciones"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.JMenuItem volverMenuItem = new javax.swing.JMenuItem(&quot;Cerrar sesi&#xf3;n&quot;);&#xa;volverMenuItem.addActionListener(new java.awt.event.ActionListener() {&#xa;    public void actionPerformed(java.awt.event.ActionEvent evt) {&#xa;        // Llamar al m&#xe9;todo de Utilidades para volver a la pantalla de Login&#xa;        Utilidades.volverALogin(UIAdmin.this);  // &apos;this&apos; es la ventana actual (UIAdmin)&#xa;    }&#xa;});&#xa;&#xa;// Agregar el JMenuItem al JMenu&#xa;jMenu1.add(volverMenuItem);&#xa;&#xa;// Agregar el JMenu a la barra de men&#xfa;s (suponiendo que ya tienes el JMenuBar creado)&#xa;menuAdmin.add(jMenu1);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="javax.swing.JMenuItem volverMenuItem = new javax.swing.JMenuItem(&quot;Cerrar sesi&#xf3;n&quot;);&#xa;volverMenuItem.addActionListener(new java.awt.event.ActionListener() {&#xa;    public void actionPerformed(java.awt.event.ActionEvent evt) {&#xa;        // Llamar al m&#xe9;todo de Utilidades para volver a la pantalla de Login&#xa;        Utilidades.volverALogin(UIAdmin.this);  // &apos;this&apos; es la ventana actual (UIAdmin)&#xa;    }&#xa;});&#xa;&#xa;// Agregar el JMenuItem al JMenu&#xa;jMenuOpciones.add(volverMenuItem);&#xa;&#xa;// Agregar el JMenu a la barra de men&#xfa;s (suponiendo que ya tienes el JMenuBar creado)&#xa;menuAdmin.add(jMenuOpciones);"/>
           </AuxValues>
         </Menu>
       </SubComponents>

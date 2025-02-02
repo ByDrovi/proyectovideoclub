@@ -1,6 +1,8 @@
 package com.mycompany.proyectovideoclub;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -65,7 +67,7 @@ public class UIAdmin extends JFrame {
         btnCargarEmpleados = new javax.swing.JButton();
         btnCargarSocios = new javax.swing.JButton();
         menuAdmin = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuOpciones = new javax.swing.JMenu();
 
         javax.swing.GroupLayout detallesDialogLayout = new javax.swing.GroupLayout(detallesDialog.getContentPane());
         detallesDialog.getContentPane().setLayout(detallesDialogLayout);
@@ -94,8 +96,8 @@ public class UIAdmin extends JFrame {
             }
         });
 
-        jMenu1.setText("Opciones");
-        menuAdmin.add(jMenu1);
+        jMenuOpciones.setText("Opciones");
+        menuAdmin.add(jMenuOpciones);
         javax.swing.JMenuItem volverMenuItem = new javax.swing.JMenuItem("Cerrar sesión");
         volverMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,10 +107,10 @@ public class UIAdmin extends JFrame {
         });
 
         // Agregar el JMenuItem al JMenu
-        jMenu1.add(volverMenuItem);
+        jMenuOpciones.add(volverMenuItem);
 
         // Agregar el JMenu a la barra de menús (suponiendo que ya tienes el JMenuBar creado)
-        menuAdmin.add(jMenu1);
+        menuAdmin.add(jMenuOpciones);
 
         setJMenuBar(menuAdmin);
 
@@ -160,7 +162,7 @@ public class UIAdmin extends JFrame {
     private javax.swing.JButton btnCargarEmpleados;
     private javax.swing.JButton btnCargarSocios;
     private javax.swing.JDialog detallesDialog;
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenuOpciones;
     private javax.swing.JMenuBar menuAdmin;
     // End of variables declaration//GEN-END:variables
 

@@ -89,11 +89,11 @@ public class UILogin extends javax.swing.JFrame {
 
         jPanelGeneral = new javax.swing.JPanel();
         jPanelUserPassButtom = new javax.swing.JPanel();
-        userField = new javax.swing.JTextField();
         passField = new javax.swing.JPasswordField();
-        loginButton = new javax.swing.JButton();
         labelLogin = new javax.swing.JLabel();
         labelGalaxy = new javax.swing.JLabel();
+        userField = new javax.swing.JTextField();
+        loginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,8 +104,40 @@ public class UILogin extends javax.swing.JFrame {
         jPanelUserPassButtom.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
         jPanelUserPassButtom.setOpaque(false);
 
+        passField.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        passField.setForeground(new java.awt.Color(102, 102, 102));
+        passField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        passField.setText("jPasswordField1");
+        passField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passFieldFocusLost(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelUserPassButtomLayout = new javax.swing.GroupLayout(jPanelUserPassButtom);
+        jPanelUserPassButtom.setLayout(jPanelUserPassButtomLayout);
+        jPanelUserPassButtomLayout.setHorizontalGroup(
+            jPanelUserPassButtomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelUserPassButtomLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelUserPassButtomLayout.setVerticalGroup(
+            jPanelUserPassButtomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelUserPassButtomLayout.createSequentialGroup()
+                .addGap(81, 81, 81)
+                .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(83, Short.MAX_VALUE))
+        );
+
+        labelGalaxy.setText(" ");
+
         userField.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        userField.setForeground(new java.awt.Color(1, 226, 252));
+        userField.setForeground(new java.awt.Color(102, 102, 102));
         userField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         userField.setText("User");
         userField.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -122,19 +154,7 @@ public class UILogin extends javax.swing.JFrame {
             }
         });
 
-        passField.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        passField.setForeground(new java.awt.Color(1, 226, 252));
-        passField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        passField.setText("jPasswordField1");
-        passField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                passFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                passFieldFocusLost(evt);
-            }
-        });
-
+        loginButton.setForeground(new java.awt.Color(102, 204, 255));
         loginButton.setText("Iniciar sesión");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,36 +162,49 @@ public class UILogin extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanelUserPassButtomLayout = new javax.swing.GroupLayout(jPanelUserPassButtom);
-        jPanelUserPassButtom.setLayout(jPanelUserPassButtomLayout);
-        jPanelUserPassButtomLayout.setHorizontalGroup(
-            jPanelUserPassButtomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelUserPassButtomLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(jPanelUserPassButtomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUserPassButtomLayout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanelGeneralLayout = new javax.swing.GroupLayout(jPanelGeneral);
+        jPanelGeneral.setLayout(jPanelGeneralLayout);
+        jPanelGeneralLayout.setHorizontalGroup(
+            jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelGeneralLayout.createSequentialGroup()
+                .addGap(392, 392, 392)
+                .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(353, Short.MAX_VALUE))
+            .addGroup(jPanelGeneralLayout.createSequentialGroup()
+                .addGap(101, 101, 101)
+                .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(112, 112, 112)
+                .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelGalaxy, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                    .addComponent(jPanelUserPassButtom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addGap(15, 15, 15))
         );
-        jPanelUserPassButtomLayout.setVerticalGroup(
-            jPanelUserPassButtomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelUserPassButtomLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(userField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanelGeneralLayout.setVerticalGroup(
+            jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelGeneralLayout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(labelGalaxy, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelGeneralLayout.createSequentialGroup()
+                            .addComponent(jPanelUserPassButtom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGeneralLayout.createSequentialGroup()
+                            .addComponent(userField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(105, 105, 105)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGeneralLayout.createSequentialGroup()
+                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63)))
+                .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         CustomRoundedButton customModel = new CustomRoundedButton();
-        customModel.setNormalColor(Color.BLACK);
-        customModel.setHoverColor(Color.DARK_GRAY);
+        customModel.setNormalColor(new Color(0x01E3FD));
+        customModel.setHoverColor(new Color(0xC3C3C3));
 
         // Crear un botón estándar de Swing
 
@@ -195,36 +228,6 @@ public class UILogin extends javax.swing.JFrame {
         loginButton.setBackground(customModel.getNormalColor()); // Color inicial
         loginButton.setForeground(Color.WHITE); // Color del texto
         loginButton.setFont(new Font("Arial", Font.BOLD,16));
-
-        labelGalaxy.setText(" ");
-
-        javax.swing.GroupLayout jPanelGeneralLayout = new javax.swing.GroupLayout(jPanelGeneral);
-        jPanelGeneral.setLayout(jPanelGeneralLayout);
-        jPanelGeneralLayout.setHorizontalGroup(
-            jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelGeneralLayout.createSequentialGroup()
-                .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelGeneralLayout.createSequentialGroup()
-                        .addGap(306, 306, 306)
-                        .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanelUserPassButtom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelGalaxy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanelGeneralLayout.createSequentialGroup()
-                        .addGap(392, 392, 392)
-                        .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(302, Short.MAX_VALUE))
-        );
-        jPanelGeneralLayout.setVerticalGroup(
-            jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelGeneralLayout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(labelGalaxy, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanelUserPassButtom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -47,7 +47,6 @@ import javax.swing.SwingConstants;
  *
  * @author oscar.lara
  */
-
 public class UISocio extends JFrame {
 
     private static DefaultTableModel tableModel;  // Declarar estático si se usa en un contexto estático
@@ -300,12 +299,27 @@ public class UISocio extends JFrame {
                 tituloPanel.add(campoTitulo, BorderLayout.CENTER);
                 tituloPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45)); // Altura del JTextField
 
-                // Concatenar actores en una sola cadena bajo la etiqueta "Reparto"
+// Concatenar géneros en una sola cadena bajo la etiqueta "Géneros"
+                StringBuilder generos = new StringBuilder("  Géneros: ");
+                String genero = rs.getString("genero");  // Obtiene el primer género
+                String subgenero = rs.getString("subgenero");  // Obtiene el subgénero
+
+// Si existe un género, se concatena
+                if (genero != null && !genero.isEmpty()) {
+                    generos.append(genero);
+                }
+
+// Si existe un subgénero, se concatena después del género
+                if (subgenero != null && !subgenero.isEmpty()) {
+                    generos.append(", ").append(subgenero);
+                }
+
+// Concatenar reparto
                 String reparto = "  Reparto: " + rs.getString("actorProtagonista") + ", "
                         + rs.getString("actorSecundario1") + ", "
                         + rs.getString("actorSecundario2");
 
-                // Área de detalles con fondo transparente
+// Área de detalles con fondo transparente
                 JTextArea detallesTextArea = new JTextArea();
                 detallesTextArea.setEditable(false);
                 detallesTextArea.setLineWrap(true);
@@ -315,12 +329,11 @@ public class UISocio extends JFrame {
                 detallesTextArea.setText(
                         "  Formato: " + rs.getString("formato") + "\n\n"
                         + "  Año: " + rs.getInt("anioLanzamiento") + "\n\n"
-                        + "  Género: " + rs.getString("genero") + "\n\n"
-                        + "  Subgénero: " + rs.getString("subgenero") + "\n\n"
+                        + generos.toString() + "\n\n" // Usamos la cadena de géneros concatenados
                         + "  Unidades disponibles: " + rs.getInt("numDisponibleAlquiler") + "\n\n"
                         + reparto + "\n\n"
                         + "  Sinopsis: " + rs.getString("sinopsis") + "\n\n"
-                        + "  Precio de alquiler: " + rs.getDouble("cuotaAlquilerPeliculas") + "€"
+                        + "  Precio de alquiler: " + rs.getDouble("cuotaAlquilerPeliculas") + " €"
                 );
 
                 // ScrollPane para detallesTextArea
@@ -445,8 +458,6 @@ public class UISocio extends JFrame {
         siguiente = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         labelBackground = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        menuBarSalir = new javax.swing.JMenu();
 
         javax.swing.GroupLayout detallesDialogLayout = new javax.swing.GroupLayout(detallesDialog.getContentPane());
         detallesDialog.getContentPane().setLayout(detallesDialogLayout);
@@ -592,9 +603,9 @@ public class UISocio extends JFrame {
                                 .addGap(29, 29, 29)
                                 .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                         .addComponent(jLabelPeticionFecha)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                         .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -611,11 +622,6 @@ public class UISocio extends JFrame {
         );
 
         CustomTextField customTextField = new CustomTextField(30, 30); // Bordes más redondeados
-
-        menuBarSalir.setText("Salir");
-        jMenuBar1.add(menuBarSalir);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -635,7 +641,7 @@ public class UISocio extends JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(286, 286, 286)
                     .addComponent(toggleAlquiler)
-                    .addContainerGap(250, Short.MAX_VALUE)))
+                    .addContainerGap(273, Short.MAX_VALUE)))
         );
 
         pack();
@@ -672,12 +678,10 @@ public class UISocio extends JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelPeticionFecha;
     private javax.swing.JLabel jLabelProximamente;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanelProximamente;
     private javax.swing.JPanel jPanelSocio;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelBackground;
-    private javax.swing.JMenu menuBarSalir;
     private javax.swing.JLabel nombreLabel;
     private javax.swing.JLabel siguiente;
     private javax.swing.JTable table;
