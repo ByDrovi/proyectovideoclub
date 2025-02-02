@@ -35,17 +35,11 @@ public class GestionPeliculas extends javax.swing.JFrame {
         initComponents();
         tfDisponible.setVisible(false);
         tfAlquilado.setVisible(false);
-//        comboBoxFormato = new JComboBox<>();
-//        panel.add(new JLabel("Formato:"));
-//        panel.add(comboBoxFormato);
 
         // Cargar los nombres de los formatos al inicializar
         cargarNombresDeFormatos();
         cargarDistribuidoras();
 
-        // Crear el JSpinner para "Disponible Alquiler"
-       //JSpinner spinnerDisponibleAlquiler = new JSpinner(); // CUIDADO ESTO PUEDE DAR ERROR
-        //spinnerDisponibleAlquiler.setModel(new SpinnerNumberModel(0, 0, 100, 1)); // Valor inicial: 1, mínimo: 1, máximo: 100, incremento: 1
         panel.add(new JLabel("Disponible Alquiler:"));
         //panel.add(spinnerDisponibleAlquiler); // Agregar el spinner al panel
 
@@ -87,12 +81,6 @@ public class GestionPeliculas extends javax.swing.JFrame {
                 String actorProtagonista = tfProtagonista.getText();
                 String actorSecundario1 = tfSecun1.getText();
                 String actorSecundario2 = tfSecun2.getText();
-                
-//                Formato formatoSeleccionado = (Formato) comboBoxFormato.getSelectedItem();
-//                int formatoId = formatoSeleccionado.getId(); 
-//
-//                DistribuidoraPeliculas distribuidoraSeleccionada = (DistribuidoraPeliculas) comboBoxDistribuidora.getSelectedItem();
-//                int distribuidoraPeliculasId = distribuidoraSeleccionada.getId();
                 
 //############################################################################################
                 String formatoSeleccionado = (String) comboBoxFormato.getSelectedItem();
