@@ -48,78 +48,9 @@ public class UIAdmin extends JFrame {
     }
 
     private void inicializarComponentes() {
-        // Configurar panelAlquileres (ya generado por NetBeans)
-        
-                btnCargarEmpleados.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cargarImagenes();
-            }
-                });
-
-        panelAlquileresCurso.setLayout(new BoxLayout(panelAlquileresCurso, BoxLayout.Y_AXIS)); // Organiza los alquileres verticalmente
-        JScrollPane scrollPane = new JScrollPane(panelAlquileresCurso);
-        getContentPane().add(scrollPane, BorderLayout.CENTER); // Colocar el panel en el centro
-
-        // Cargar datos de la base de datos
-        cargarAlquileresEnCurso();
+             
     }
     
-    private void cargarImagenes() {
-        // Usar un JFileChooser para que el usuario seleccione varias imágenes
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Seleccionar imágenes");
-        fileChooser.setMultiSelectionEnabled(true);  // Permite seleccionar varias imágenes
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Imágenes", "jpg", "png", "gif"));
-
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File[] files = fileChooser.getSelectedFiles();
-            rutasImagenes = new ArrayList<>();
-            for (File file : files) {
-                rutasImagenes.add(file.getAbsolutePath());
-            }
-
-            // Crear y mostrar la interfaz UISocio11 con las imágenes cargadas
-            //UISocio11 uiSocio11 = new UISocio11(rutasImagenes);
-            //uiSocio11.setVisible(true);
-        }
-    }
-                        
-
-    private void cargarAlquileresEnCurso() {
-        try (Connection conn = Database.getConnection()) {
-            String query = "SELECT p.titulo, a.fechaAlquiler, a.fechaEntrega " +
-                           "FROM Alquileres a " +
-                           "JOIN Productos p ON a.idProducto = p.id " +
-                           "JOIN Socios s ON a.idSocio = s.id ";
-
-            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                try (ResultSet rs = stmt.executeQuery()) {
-                    panelAlquileresCurso.removeAll();  // Limpiar el panel antes de agregar nuevos elementos
-
-                    while (rs.next()) {
-                        String titulo = rs.getString("titulo");
-                        java.sql.Date fechaAlquiler = rs.getDate("fechaAlquiler");
-                        java.sql.Date fechaEntrega = rs.getDate("fechaEntrega");
-
-                        // Crear un JLabel para cada alquiler
-                        String alquilerInfo = String.format("<html><b>Película:</b> %s <br><b>Fecha de alquiler:</b> %s <br><b>Fecha de entrega:</b> %s</html>",
-                                titulo,  fechaAlquiler.toString(), fechaEntrega.toString());
-                        
-                        JLabel alquilerLabel = new JLabel(alquilerInfo);
-                        panelAlquileresCurso.add(alquilerLabel);  // Agregar el JLabel al panel
-                    }
-
-                    panelAlquileresCurso.revalidate();  // Asegura que se repinte correctamente
-                    panelAlquileresCurso.repaint();     // Repintar el panel para reflejar cambios
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al cargar los alquileres: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,9 +62,10 @@ public class UIAdmin extends JFrame {
     private void initComponents() {
 
         detallesDialog = new javax.swing.JDialog();
-        panelAlquileresCurso = new javax.swing.JPanel();
         btnCargarEmpleados = new javax.swing.JButton();
         btnCargarSocios = new javax.swing.JButton();
+        menuAdmin = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
 
         javax.swing.GroupLayout detallesDialogLayout = new javax.swing.GroupLayout(detallesDialog.getContentPane());
         detallesDialog.getContentPane().setLayout(detallesDialogLayout);
@@ -147,17 +79,6 @@ public class UIAdmin extends JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout panelAlquileresCursoLayout = new javax.swing.GroupLayout(panelAlquileresCurso);
-        panelAlquileresCurso.setLayout(panelAlquileresCursoLayout);
-        panelAlquileresCursoLayout.setHorizontalGroup(
-            panelAlquileresCursoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 377, Short.MAX_VALUE)
-        );
-        panelAlquileresCursoLayout.setVerticalGroup(
-            panelAlquileresCursoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 322, Short.MAX_VALUE)
-        );
 
         btnCargarEmpleados.setText("Ir a Empleados");
         btnCargarEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -173,32 +94,43 @@ public class UIAdmin extends JFrame {
             }
         });
 
+        jMenu1.setText("Opciones");
+        menuAdmin.add(jMenu1);
+        javax.swing.JMenuItem volverMenuItem = new javax.swing.JMenuItem("Cerrar sesión");
+        volverMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // Llamar al método de Utilidades para volver a la pantalla de Login
+                Utilidades.volverALogin(UIAdmin.this);  // 'this' es la ventana actual (UIAdmin)
+            }
+        });
+
+        // Agregar el JMenuItem al JMenu
+        jMenu1.add(volverMenuItem);
+
+        // Agregar el JMenu a la barra de menús (suponiendo que ya tienes el JMenuBar creado)
+        menuAdmin.add(jMenu1);
+
+        setJMenuBar(menuAdmin);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(160, 160, 160)
+                .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCargarEmpleados)
-                    .addComponent(btnCargarSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(279, 279, 279)
-                .addComponent(panelAlquileresCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCargarSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCargarEmpleados))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(panelAlquileresCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
-                        .addComponent(btnCargarEmpleados)
-                        .addGap(28, 28, 28)
-                        .addComponent(btnCargarSocios)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(btnCargarEmpleados)
+                .addGap(31, 31, 31)
+                .addComponent(btnCargarSocios)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -210,8 +142,8 @@ public class UIAdmin extends JFrame {
     }//GEN-LAST:event_btnCargarEmpleadosActionPerformed
 
     private void btnCargarSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarSociosActionPerformed
-            //UISocio uiSocio = new UISocio();
-            //uiSocio.setVisible(true);
+            UISocio uiSocio = new UISocio();
+            uiSocio.setVisible(true);
     }//GEN-LAST:event_btnCargarSociosActionPerformed
 
 //    /**
@@ -228,7 +160,8 @@ public class UIAdmin extends JFrame {
     private javax.swing.JButton btnCargarEmpleados;
     private javax.swing.JButton btnCargarSocios;
     private javax.swing.JDialog detallesDialog;
-    private javax.swing.JPanel panelAlquileresCurso;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar menuAdmin;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -6,6 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
+/**
+ *
+ * @author oscar.lara
+ */
+
 public class ImagenesDeslizantes {
 
     private int indiceActual = 0;

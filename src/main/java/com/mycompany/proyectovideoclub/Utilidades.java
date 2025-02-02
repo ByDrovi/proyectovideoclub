@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -19,7 +20,6 @@ import javax.swing.JTextField;
  *
  * @author oscar.lara
  */
-
 public class Utilidades {
 
     public static void cargarImagenEnLabel(JLabel label, String rutaRelativa) {
@@ -32,8 +32,8 @@ public class Utilidades {
             System.err.println("No se encontró la imagen en: " + rutaRelativa);
         }
     }
-    
-        private Date convertirFecha(String fechaStr) {
+
+    private Date convertirFecha(String fechaStr) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             java.util.Date utilDate = sdf.parse(fechaStr);
@@ -44,7 +44,6 @@ public class Utilidades {
         }
     }
 
-    // Clase CustomButton dentro de Utilidades
     public static class CustomButton extends JButton {
 
         public CustomButton(String text) {
@@ -55,8 +54,8 @@ public class Utilidades {
             setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         }
     }
-    
-        // Método para establecer texto predefinido en JTextField
+
+    // Método para establecer texto predefinido en JTextField
     public static void setPredefinedText(final JTextField textField, final String defaultText) {
         // Establecer el texto predefinido solo si el campo está vacío
         if (textField.getText().isEmpty()) {
@@ -79,6 +78,17 @@ public class Utilidades {
                 }
             }
         });
+    }
+
+    public static void volverALogin(JFrame currentWindow) {
+        // Crear una nueva instancia de UILogin
+        UILogin uiLogin = new UILogin();
+
+        // Hacer visible la nueva interfaz
+        uiLogin.setVisible(true);
+
+        // Cerrar la ventana actual
+        currentWindow.dispose();
     }
 
 }

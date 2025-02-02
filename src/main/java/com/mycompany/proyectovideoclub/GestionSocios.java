@@ -15,6 +15,7 @@ import com.toedter.calendar.JDateChooser;
  *
  * @author oscar.lara
  */
+
 public class GestionSocios extends javax.swing.JFrame {
 
     public GestionSocios() {

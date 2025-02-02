@@ -31,6 +31,7 @@ import javax.swing.SwingUtilities;
  *
  * @author oscar.lara
  */
+
 public class GestionPeliculas extends javax.swing.JFrame {
 
  public GestionPeliculas() {

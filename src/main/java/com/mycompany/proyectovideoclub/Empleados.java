@@ -9,6 +9,7 @@ import java.util.List;
  *
  * @author oscar.lara
  */
+
 public class Empleados extends Usuarios {
 
     private LocalDate fechaBaja;

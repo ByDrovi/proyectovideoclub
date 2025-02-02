@@ -47,11 +47,14 @@ import javax.swing.SwingConstants;
  *
  * @author oscar.lara
  */
+
 public class UISocio extends JFrame {
 
     private static DefaultTableModel tableModel;  // Declarar estático si se usa en un contexto estático
     private Socios usuarioLogin;
-    
+
+    public UISocio() {
+    }
 
     public UISocio(Socios usuarioLogin) {
         this.usuarioLogin = usuarioLogin;  // Asigna el logUser recibido
@@ -59,8 +62,6 @@ public class UISocio extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
-        
-
 
         // Llama a los componentes generados automáticamente
         initComponents();
