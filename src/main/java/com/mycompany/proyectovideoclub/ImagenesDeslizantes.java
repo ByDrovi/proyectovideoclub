@@ -10,9 +10,11 @@ public class ImagenesDeslizantes {
 
     private int indiceActual = 0;
     private String[] imagenes = {
-        "/images/estreno1.jpg",
-        "/images/estreno2.jpg",
-        "/images/estreno3.jpg"
+        "/images/rockofages.jpg",
+        "/images/thelmalouise.jpg",
+        "/images/heretic.jpg",
+        "/images/misionimposible.jpg",
+        "/images/alien.jpg"
     };
 
     private JLabel labelImagen;
