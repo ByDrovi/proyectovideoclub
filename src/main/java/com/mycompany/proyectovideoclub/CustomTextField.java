@@ -4,11 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
-/**
- *
- * @author oscar.lara
- */
-
 public class CustomTextField extends JTextField {
 
     private int arcWidth;
@@ -25,11 +20,11 @@ public class CustomTextField extends JTextField {
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Fondo blanco
+        // Fondo blanco (transparente si se desea cambiar el color)
         g2d.setColor(Color.WHITE);
         g2d.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), arcWidth, arcHeight));
 
-        // Dibujar texto
+        // Dibujar el texto del campo de texto
         super.paintComponent(g);
 
         g2d.dispose();
@@ -40,9 +35,9 @@ public class CustomTextField extends JTextField {
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Borde negro grueso
+        // Borde redondeado con un color personalizado (negro por defecto)
         g2d.setColor(Color.BLACK);
-        g2d.setStroke(new BasicStroke(2));
+        g2d.setStroke(new BasicStroke(2)); // Grosor del borde
         g2d.draw(new RoundRectangle2D.Float(1, 1, getWidth() - 2, getHeight() - 2, arcWidth, arcHeight));
 
         g2d.dispose();

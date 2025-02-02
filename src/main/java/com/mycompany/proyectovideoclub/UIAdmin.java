@@ -31,7 +31,12 @@ public class UIAdmin extends javax.swing.JFrame {
         initComponents();
         inicializarTablaDistribuidorasPeliculas();
         cargarDistribuidorasPeliculas();  // Cargar distribuidoras al iniciar
-                
+        
+        Utilidades.setPredefinedText(tfNuevaDisPeliculas, "Nueva distribuidora...");
+        Utilidades.setPredefinedText(tfNuevoFormato, "Nuevo formato...");
+        
+        botonEmpleados.setVisible(false);
+        
         inicializarTablaFormatos();
         cargarFormatos();
         
@@ -51,13 +56,14 @@ public class UIAdmin extends javax.swing.JFrame {
         jScrollPaneDistribuidoraPeliculas = new javax.swing.JScrollPane();
         tfNuevaDisPeliculas = new javax.swing.JTextField();
         botonAñadirDisPeliculas = new javax.swing.JButton();
-        botonNuevaPelicula = new javax.swing.JButton();
-        botonNuevaPelicula1 = new javax.swing.JButton();
         botonEmpleados = new javax.swing.JButton();
         jPanelDistribuidorasPeliculas = new javax.swing.JPanel();
         jScrollPaneFormatos = new javax.swing.JScrollPane();
         botonAñadirDisVideojuegos = new javax.swing.JButton();
-        tfNuevaDisVideojuegos = new javax.swing.JTextField();
+        tfNuevoFormato = new javax.swing.JTextField();
+        jButtonRefresh = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        botonNuevaPelicula = new javax.swing.JButton();
         botonNuevoSocio = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -68,7 +74,6 @@ public class UIAdmin extends javax.swing.JFrame {
 
         jScrollPaneDistribuidoraPeliculas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        tfNuevaDisPeliculas.setText("Nueva distribuidora");
         tfNuevaDisPeliculas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfNuevaDisPeliculasActionPerformed(evt);
@@ -89,10 +94,10 @@ public class UIAdmin extends javax.swing.JFrame {
             .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDistribuidorasLayout.createSequentialGroup()
+                    .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
                         .addComponent(botonAñadirDisPeliculas)
                         .addGap(18, 18, 18)
-                        .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPaneDistribuidoraPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
@@ -101,26 +106,12 @@ public class UIAdmin extends javax.swing.JFrame {
             .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(jScrollPaneDistribuidoraPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonAñadirDisPeliculas))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        botonNuevaPelicula.setText("Agregar película");
-        botonNuevaPelicula.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                abrirGestionPeliculasModal(evt);
-            }
-        });
-
-        botonNuevaPelicula1.setText("Consultar");
-        botonNuevaPelicula1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonNuevaPelicula1abrirGestionPeliculasModal(evt);
-            }
-        });
 
         botonEmpleados.setText("Empleados");
         botonEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -136,10 +127,16 @@ public class UIAdmin extends javax.swing.JFrame {
             }
         });
 
-        tfNuevaDisVideojuegos.setText("Nuevo formato");
-        tfNuevaDisVideojuegos.addActionListener(new java.awt.event.ActionListener() {
+        tfNuevoFormato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfNuevaDisVideojuegosActionPerformed(evt);
+                tfNuevoFormatoActionPerformed(evt);
+            }
+        });
+
+        jButtonRefresh.setText("Refresh");
+        jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRefreshActionPerformed(evt);
             }
         });
 
@@ -147,28 +144,37 @@ public class UIAdmin extends javax.swing.JFrame {
         jPanelDistribuidorasPeliculas.setLayout(jPanelDistribuidorasPeliculasLayout);
         jPanelDistribuidorasPeliculasLayout.setHorizontalGroup(
             jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(botonAñadirDisVideojuegos)
-                .addGap(30, 30, 30)
-                .addComponent(tfNuevaDisVideojuegos, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
-                .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addGroup(jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonRefresh)
+                    .addGroup(jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
+                        .addComponent(botonAñadirDisVideojuegos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tfNuevoFormato, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
         );
         jPanelDistribuidorasPeliculasLayout.setVerticalGroup(
             jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
+                .addComponent(jButtonRefresh)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfNuevaDisVideojuegos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfNuevoFormato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonAñadirDisVideojuegos))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
+
+        botonNuevaPelicula.setText("Agregar película");
+        botonNuevaPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirGestionPeliculasModal(evt);
+            }
+        });
 
         botonNuevoSocio.setText("Añadir socio");
         botonNuevoSocio.addActionListener(new java.awt.event.ActionListener() {
@@ -176,6 +182,27 @@ public class UIAdmin extends javax.swing.JFrame {
                 abrirGestionSociosModal(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(110, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonNuevoSocio, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(botonNuevaPelicula, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(botonNuevaPelicula)
+                .addGap(18, 18, 18)
+                .addComponent(botonNuevoSocio)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
 
         jMenu1.setText("Salir");
         jMenuBar1.add(jMenu1);
@@ -186,25 +213,19 @@ public class UIAdmin extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanelDistribuidoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(jPanelDistribuidorasPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(botonEmpleados)
-                    .addComponent(botonNuevaPelicula))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(botonNuevaPelicula1))
+                        .addComponent(jPanelDistribuidoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanelDistribuidorasPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(botonEmpleados)
+                        .addGap(134, 134, 134))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(botonNuevoSocio)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(274, 274, 274))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,15 +234,13 @@ public class UIAdmin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanelDistribuidorasPeliculas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelDistribuidoras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonNuevaPelicula)
-                    .addComponent(botonNuevaPelicula1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonEmpleados)
-                    .addComponent(botonNuevoSocio))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(botonEmpleados)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -266,6 +285,23 @@ public class UIAdmin extends javax.swing.JFrame {
         }
     }
     
+private void agregarFormatos() {
+    String nombreFormato = tfNuevoFormato.getText().trim();  // Obtener el texto del campo de texto
+    if (!nombreFormato.isEmpty()) {
+        try (Connection conn = Database.getConnection()) {  // Establecer la conexión
+            // Llamar al método agregarFormato
+            Formato.agregarFormato(conn, nombreFormato);  
+            cargarFormatos();  // Recargar lista de formatos
+            tfNuevoFormato.setText("");  // Limpiar el campo de texto
+            JOptionPane.showMessageDialog(this, "Formato agregado con éxito.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al agregar formato: " + ex.getMessage());
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Ingrese el nombre del formato.");
+    }
+}
+
     
 
 
@@ -335,12 +371,12 @@ public class UIAdmin extends javax.swing.JFrame {
 //    }       
     // Agregar una nueva distribuidora al presionar el botón Añadir
     private void agregarDistribuidoraVideojuegos() {
-        String nombreDistribuidora = tfNuevaDisVideojuegos.getText().trim();
+        String nombreDistribuidora = tfNuevoFormato.getText().trim();
         if (!nombreDistribuidora.isEmpty()) {
             try ( Connection conn = Database.getConnection()) {
                 DistribuidoraVideojuegos.agregarDistribuidoraVideojuegos(conn, nombreDistribuidora);
                 cargarDistribuidorasPeliculas();  // Recargar lista
-                tfNuevaDisVideojuegos.setText("");  // Limpiar campo
+                tfNuevoFormato.setText("");  // Limpiar campo
                 JOptionPane.showMessageDialog(this, "Distribuidora agregada con éxito.");
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Error al agregar distribuidora: " + ex.getMessage());
@@ -350,17 +386,13 @@ public class UIAdmin extends javax.swing.JFrame {
         }
     }
 
-    private void tfNuevaDisVideojuegosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNuevaDisVideojuegosActionPerformed
+    private void tfNuevoFormatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNuevoFormatoActionPerformed
         agregarDistribuidoraVideojuegos();
-    }//GEN-LAST:event_tfNuevaDisVideojuegosActionPerformed
+    }//GEN-LAST:event_tfNuevoFormatoActionPerformed
 
     private void botonAñadirDisVideojuegosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAñadirDisVideojuegosActionPerformed
-        agregarDistribuidoraVideojuegos();
+        agregarFormatos();
     }//GEN-LAST:event_botonAñadirDisVideojuegosActionPerformed
-
-    private void botonNuevaPelicula1abrirGestionPeliculasModal(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevaPelicula1abrirGestionPeliculasModal
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonNuevaPelicula1abrirGestionPeliculasModal
 
     private void abrirGestionSociosModal(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirGestionSociosModal
         GestionSocios gestionSocios = new GestionSocios();
@@ -371,6 +403,10 @@ public class UIAdmin extends javax.swing.JFrame {
         dialog.setVisible(true);  // Mostrar modal
     }//GEN-LAST:event_abrirGestionSociosModal
 
+    private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
+         cargarFormatos();
+    }//GEN-LAST:event_jButtonRefreshActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -378,16 +414,17 @@ public class UIAdmin extends javax.swing.JFrame {
     private javax.swing.JButton botonAñadirDisVideojuegos;
     private javax.swing.JButton botonEmpleados;
     private javax.swing.JButton botonNuevaPelicula;
-    private javax.swing.JButton botonNuevaPelicula1;
     private javax.swing.JButton botonNuevoSocio;
+    private javax.swing.JButton jButtonRefresh;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelDistribuidoras;
     private javax.swing.JPanel jPanelDistribuidorasPeliculas;
     private javax.swing.JScrollPane jScrollPaneDistribuidoraPeliculas;
     private javax.swing.JScrollPane jScrollPaneFormatos;
     private javax.swing.JTextField tfNuevaDisPeliculas;
-    private javax.swing.JTextField tfNuevaDisVideojuegos;
+    private javax.swing.JTextField tfNuevoFormato;
     // End of variables declaration//GEN-END:variables
 }

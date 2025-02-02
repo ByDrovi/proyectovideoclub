@@ -294,6 +294,8 @@ public class GestionEmpleados1 extends javax.swing.JFrame {
                 .addContainerGap(79, Short.MAX_VALUE))
         );
 
+        CustomTextField customTextField = new CustomTextField(20, 20); // Borde redondeado con un radio de 20px
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

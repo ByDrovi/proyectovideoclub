@@ -19,6 +19,9 @@ public class GestionSocios extends javax.swing.JFrame {
 
     public GestionSocios() {
         initComponents();
+        Utilidades.setPredefinedText(tflogUser, "S****");
+        Utilidades.setPredefinedText(tflogPass, "###");
+        Utilidades.setPredefinedText(tfdni, "00000000X");
 
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

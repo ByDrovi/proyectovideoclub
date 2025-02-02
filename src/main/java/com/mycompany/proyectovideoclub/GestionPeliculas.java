@@ -37,6 +37,16 @@ public class GestionPeliculas extends javax.swing.JFrame {
         initComponents();
         tfDisponible.setVisible(false);
         tfAlquilado.setVisible(false);
+        Utilidades.setPredefinedText(tfFechaAlta, "yyyy-mm-dd");
+        Utilidades.setPredefinedText(tfFechaLanzamiento, "yyyy-mm-dd");
+        Utilidades.setPredefinedText(tfCosteUnitario, "0.00");
+        Utilidades.setPredefinedText(tfCuotaAlquilerPelicula, "0.00");
+        Utilidades.setPredefinedText(tfRecargo, "0.00");
+        Utilidades.setPredefinedText(tfPVP, "0.00");
+        Utilidades.setPredefinedText(tfDuracion, "Ej: 120 (minutos)");
+        Utilidades.setPredefinedText(tfGenero, "Ej: Aventura");
+        Utilidades.setPredefinedText(tfDirector, "Ej: Steven Spielberg");
+        
 
         // Crear el panel personalizado con gradiente
         CustomGradientPanel panel = new CustomGradientPanel();
@@ -199,7 +209,7 @@ public class GestionPeliculas extends javax.swing.JFrame {
 
         // # Configurar el JFrame y hacerlo visible
         setTitle("Gestión de Películas");
-        setSize(800, 600);  // Ajustar el tamaño de la ventana
+        setSize(1000, 800);  // Ajustar el tamaño de la ventana
         setLocationRelativeTo(null);  // Centrar la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Cerrar la aplicación cuando se cierre la ventana
         setVisible(true);  // Hacer la ventana visible
@@ -441,12 +451,6 @@ public class GestionPeliculas extends javax.swing.JFrame {
         jPanelInfoBasicaLayout.setHorizontalGroup(
             jPanelInfoBasicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInfoBasicaLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabelAnioLanzamiento)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tfAnioLanzamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanelInfoBasicaLayout.createSequentialGroup()
                 .addGroup(jPanelInfoBasicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelInfoBasicaLayout.createSequentialGroup()
                         .addGap(74, 74, 74)
@@ -457,12 +461,21 @@ public class GestionPeliculas extends javax.swing.JFrame {
                         .addGap(45, 45, 45)
                         .addGroup(jPanelInfoBasicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabelDistribuidoras)
-                            .addComponent(jLabelFormato))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelInfoBasicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboBoxFormato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboBoxDistribuidora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabelFormato))))
                 .addContainerGap(26, Short.MAX_VALUE))
+            .addGroup(jPanelInfoBasicaLayout.createSequentialGroup()
+                .addGroup(jPanelInfoBasicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(comboBoxFormato, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelInfoBasicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanelInfoBasicaLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(comboBoxDistribuidora, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelInfoBasicaLayout.createSequentialGroup()
+                            .addGap(20, 20, 20)
+                            .addComponent(jLabelAnioLanzamiento)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(tfAnioLanzamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanelInfoBasicaLayout.setVerticalGroup(
             jPanelInfoBasicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -545,25 +558,26 @@ public class GestionPeliculas extends javax.swing.JFrame {
         jPanelDisponiblesLayout.setHorizontalGroup(
             jPanelDisponiblesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDisponiblesLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jPanelDisponiblesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelDisponiblesLayout.createSequentialGroup()
-                        .addComponent(jLabelDisponibleAlquiler)
-                        .addGap(18, 18, 18)
-                        .addComponent(spinnerDisponibleAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(jLabelDisponibleAlquiler)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spinnerDisponibleAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
+            .addGroup(jPanelDisponiblesLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelDisponiblesLayout.setVerticalGroup(
             jPanelDisponiblesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDisponiblesLayout.createSequentialGroup()
-                .addGap(11, 11, 11)
+                .addContainerGap()
                 .addGroup(jPanelDisponiblesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDisponibleAlquiler)
                     .addComponent(spinnerDisponibleAlquiler, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jLabelFechaAlta.setText("Fecha de alta: ");
@@ -758,13 +772,13 @@ public class GestionPeliculas extends javax.swing.JFrame {
                 .addGroup(jPanelInfoAdicionalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelSecun2)
                     .addComponent(tfSecun2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelInfoAdicionalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tfSinopsis, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelSinopsis))
-                .addGap(37, 37, 37)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74))
+                .addGap(23, 23, 23))
         );
 
         CustomRoundedButton customModel = new CustomRoundedButton();
@@ -871,9 +885,9 @@ public class GestionPeliculas extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(24, 24, 24)
                 .addComponent(jLabelAlquilado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(btnSeleccionarAlquilado)
                 .addContainerGap())
         );
@@ -906,13 +920,13 @@ public class GestionPeliculas extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPreviewPortadasLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelPreviewPortadasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelPreviewPortadasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelPreviewDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPreviewAlquilado, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25))
+                .addGap(7, 7, 7))
         );
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);

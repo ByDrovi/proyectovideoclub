@@ -30,7 +30,9 @@ com\mycompany\proyectovideoclub\Database.class
 com\mycompany\proyectovideoclub\UILogin$3.class
 com\mycompany\proyectovideoclub\CustomTextField.class
 com\mycompany\proyectovideoclub\UIAdmin$3.class
+com\mycompany\proyectovideoclub\UIAdmin$9.class
 com\mycompany\proyectovideoclub\Empleados.class
+com\mycompany\proyectovideoclub\Utilidades$1.class
 com\mycompany\proyectovideoclub\Formato.class
 com\mycompany\proyectovideoclub\GestionPeliculas$9.class
 com\mycompany\proyectovideoclub\UILogin$4.class

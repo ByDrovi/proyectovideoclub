@@ -76,4 +76,17 @@ public static List<Formato> obtenerFormatos() {
     return formatos;
 }
 
+// Agregar un nuevo formato
+public static void agregarFormato(Connection conn, String nuevoFormato) throws SQLException {
+    System.out.println("Agregando un nuevo formato...");
+    String query = "INSERT INTO Formatos (nombre) VALUES (?)";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setString(1, nuevoFormato);  // Establecer el valor para el nombre del formato
+        pstmt.executeUpdate();  // Ejecutar la consulta
+        System.out.println("El nuevo formato '" + nuevoFormato + "' ha sido agregado con éxito.");
+    }
+}
+
+
 }

@@ -3,6 +3,8 @@ package com.mycompany.proyectovideoclub;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.net.URL;
 import java.sql.Date;
 import java.text.ParseException;
@@ -11,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -51,6 +54,31 @@ public class Utilidades {
             setFont(new Font("Arial", Font.BOLD, 14));
             setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         }
+    }
+    
+        // Método para establecer texto predefinido en JTextField
+    public static void setPredefinedText(final JTextField textField, final String defaultText) {
+        // Establecer el texto predefinido solo si el campo está vacío
+        if (textField.getText().isEmpty()) {
+            textField.setText(defaultText);
+        }
+
+        // Agregar un FocusListener para manejar el evento de ganar el foco
+        textField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (textField.getText().equals(defaultText)) {
+                    textField.setText("");  // Limpiar el texto predefinido al obtener el foco
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textField.getText().isEmpty()) {
+                    textField.setText(defaultText);  // Reestablecer el texto predefinido si el campo está vacío
+                }
+            }
+        });
     }
 
 }

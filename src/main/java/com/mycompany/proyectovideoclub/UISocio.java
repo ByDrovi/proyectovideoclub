@@ -67,6 +67,7 @@ public class UISocio extends JFrame {
         Utilidades.cargarImagenEnLabel(labelBackground, "/images/blueshades.png");
         //Utilidades.cargarImagenEnLabel(labelTextoProximamente, "/images/proximamente.png");
         //mostrarNombreSocio();
+        Utilidades.setPredefinedText(tfFechaHoy, "yyyy-mm-dd");
 
         // Sobrescribe configuraciones de la tabla y carga los datos
         inicializarComponentes();
@@ -479,6 +480,7 @@ public class UISocio extends JFrame {
         ));
         jScrollPane1.setViewportView(table);
 
+        tfFechaHoy.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfFechaHoy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfFechaHoyActionPerformed(evt);
@@ -606,6 +608,8 @@ public class UISocio extends JFrame {
                             .addComponent(btnDevolucion))))
                 .addGap(13, 13, 13))
         );
+
+        CustomTextField customTextField = new CustomTextField(30, 30); // Bordes más redondeados
 
         menuBarSalir.setText("Salir");
         jMenuBar1.add(menuBarSalir);
