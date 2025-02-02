@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import com.toedter.calendar.JDateChooser;
 
 /**
  *
@@ -16,11 +17,9 @@ import java.text.SimpleDateFormat;
  */
 public class GestionSocios extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GestionEmpleados
-     */
     public GestionSocios() {
         initComponents();
+
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 String logUser = tflogUser.getText();
@@ -28,29 +27,24 @@ public class GestionSocios extends javax.swing.JFrame {
                 String nombre = tfnombre.getText();
                 String apellidos = tfapellidos.getText();
                 String dniUser = tfdni.getText();
-                String fechaNacimientoStr = tfNacimiento.getText();
-                String fechaAltaStr = tfAlta.getText();
 
-                //   Hay campos para rellenar, otros no. Solo solo 
-                //   int alquileresTotales = Integer.parseInt(tfAlquileresTotales.getText());
-                //   int comprasTotales = Integer.parseInt(tfComprasTotales.getText());
-                //   boolean recargoActivo = recargoActivoCheckBox.isSelected();
-                //   Validar que los campos obligatorios no estén vacíos
+                // Obtener fechas del JCalendar
+                if (jdcNacimiento.getCalendar() == null || jdcAlta.getCalendar() == null) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Selecciona una fecha válida.");
+                    return;
+                }
+
+                java.util.Date fechaNacimientoUtil = jdcNacimiento.getCalendar().getTime();
+                java.util.Date fechaAltaUtil = jdcAlta.getCalendar().getTime();
+
+                Date fechaNacimiento = new java.sql.Date(fechaNacimientoUtil.getTime());
+                Date fechaAlta = new java.sql.Date(fechaAltaUtil.getTime());
+
                 if (logUser.isEmpty() || logPass.isEmpty() || nombre.isEmpty() || apellidos.isEmpty() || dniUser.isEmpty()) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Rellena todos los campos.");
                     return;
                 }
 
-                // Convertir las fechas de String a java.sql.Date
-                Date fechaNacimiento = convertirFecha(fechaNacimientoStr);
-                Date fechaAlta = convertirFecha(fechaAltaStr);
-
-                if (fechaNacimiento == null || fechaAlta == null) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Formato de fecha incorrecto.");
-                    return;
-                }
-
-                // Agregar empleado a la base de datos
                 try ( Connection conn = Database.getConnection()) {
                     Socios.agregarSocio(
                             conn,
@@ -62,7 +56,7 @@ public class GestionSocios extends javax.swing.JFrame {
                             fechaNacimiento,
                             fechaAlta,
                             "Socio",
-                            "Estandar" // Tipo de usuario
+                            "Estandar"
                     );
                     javax.swing.JOptionPane.showMessageDialog(null, "SOCIO agregado con éxito.");
                 } catch (SQLException ex) {
@@ -71,17 +65,6 @@ public class GestionSocios extends javax.swing.JFrame {
                 }
             }
         });
-    }
-
-    private Date convertirFecha(String fechaStr) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            java.util.Date utilDate = sdf.parse(fechaStr);
-            return new java.sql.Date(utilDate.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**
@@ -108,6 +91,9 @@ public class GestionSocios extends javax.swing.JFrame {
         tfNacimiento = new javax.swing.JTextField();
         tfAlta = new javax.swing.JTextField();
         jLabelPass = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jdcNacimiento = new com.toedter.calendar.JCalendar();
+        jdcAlta = new com.toedter.calendar.JCalendar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -140,42 +126,64 @@ public class GestionSocios extends javax.swing.JFrame {
 
         jLabelPass.setText("Contraseña:");
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jdcNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jdcAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jdcAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jdcNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(72, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelUser)
-                    .addComponent(jLabelNombre)
-                    .addComponent(jLabelApellido)
-                    .addComponent(jLabelDNI)
-                    .addComponent(jLabelPass))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tflogUser, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                            .addComponent(tflogPass))
-                        .addGap(72, 72, 72)
+                        .addGap(46, 46, 46)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelUser)
+                            .addComponent(jLabelNombre)
+                            .addComponent(jLabelApellido)
+                            .addComponent(jLabelDNI)
+                            .addComponent(jLabelPass))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabelAlta)
-                                    .addComponent(jLabelNacimiento))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(tfnombre, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(tfapellidos, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(tfdni, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
-                .addContainerGap(75, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tflogUser, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                                .addComponent(tflogPass))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(tfnombre, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(tfapellidos, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(tfdni, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelAlta)
+                            .addComponent(jLabelNacimiento))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(165, 165, 165)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,16 +211,22 @@ public class GestionSocios extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelNombre))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelApellido)
-                    .addComponent(tfapellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelDNI)
-                    .addComponent(tfdni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelApellido)
+                            .addComponent(tfapellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelDNI)
+                            .addComponent(tfdni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(86, 86, 86)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(77, 77, 77))))
         );
 
         CustomRoundedButton customModel = new CustomRoundedButton();
@@ -298,6 +312,9 @@ public class GestionSocios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelNombre;
     private javax.swing.JLabel jLabelPass;
     private javax.swing.JLabel jLabelUser;
+    private javax.swing.JPanel jPanel1;
+    private com.toedter.calendar.JCalendar jdcAlta;
+    private com.toedter.calendar.JCalendar jdcNacimiento;
     private javax.swing.JTextField tfAlta;
     private javax.swing.JTextField tfNacimiento;
     private javax.swing.JTextField tfapellidos;
