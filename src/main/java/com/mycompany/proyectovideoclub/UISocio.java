@@ -1,5 +1,7 @@
 package com.mycompany.proyectovideoclub;
 
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.MediaTracker;
@@ -49,6 +51,7 @@ public class UISocio extends JFrame {
 
     private static DefaultTableModel tableModel;  // Declarar estático si se usa en un contexto estático
     private Socios usuarioLogin;
+    
 
     public UISocio(Socios usuarioLogin) {
         this.usuarioLogin = usuarioLogin;  // Asigna el logUser recibido
@@ -56,9 +59,12 @@ public class UISocio extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
+        
+
 
         // Llama a los componentes generados automáticamente
         initComponents();
+        Utilidades.cargarImagenEnLabel(labelBackground, "/images/blueshades.png");
         //mostrarNombreSocio();
 
         // Sobrescribe configuraciones de la tabla y carga los datos
@@ -435,6 +441,7 @@ public class UISocio extends JFrame {
         jLabelProximamente = new javax.swing.JLabel();
         siguiente = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        labelBackground = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuBarSalir = new javax.swing.JMenu();
 
@@ -558,7 +565,9 @@ public class UISocio extends JFrame {
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
                         .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jPanelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(29, Short.MAX_VALUE))
@@ -572,10 +581,13 @@ public class UISocio extends JFrame {
                         .addComponent(jPanelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
+                                .addComponent(labelBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26))
                             .addGroup(jPanelSocioLayout.createSequentialGroup()
                                 .addGap(29, 29, 29)
-                                .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addComponent(jLabelPeticionFecha)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
@@ -658,6 +670,7 @@ public class UISocio extends JFrame {
     private javax.swing.JPanel jPanelProximamente;
     private javax.swing.JPanel jPanelSocio;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelBackground;
     private javax.swing.JMenu menuBarSalir;
     private javax.swing.JLabel nombreLabel;
     private javax.swing.JLabel siguiente;
