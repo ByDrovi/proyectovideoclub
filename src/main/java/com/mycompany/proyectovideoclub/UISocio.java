@@ -65,6 +65,7 @@ public class UISocio extends JFrame {
         // Llama a los componentes generados automáticamente
         initComponents();
         Utilidades.cargarImagenEnLabel(labelBackground, "/images/blueshades.png");
+        //Utilidades.cargarImagenEnLabel(labelTextoProximamente, "/images/proximamente.png");
         //mostrarNombreSocio();
 
         // Sobrescribe configuraciones de la tabla y carga los datos
@@ -570,7 +571,7 @@ public class UISocio extends JFrame {
                         .addComponent(labelBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jPanelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanelSocioLayout.setVerticalGroup(
             jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -620,7 +621,7 @@ public class UISocio extends JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(608, 608, 608)
                     .addComponent(toggleAlquiler)
-                    .addContainerGap(379, Short.MAX_VALUE)))
+                    .addContainerGap(373, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
