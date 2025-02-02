@@ -435,6 +435,8 @@ public class UISocio extends JFrame {
         jLabelProximamente = new javax.swing.JLabel();
         siguiente = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuBarSalir = new javax.swing.JMenu();
 
         javax.swing.GroupLayout detallesDialogLayout = new javax.swing.GroupLayout(detallesDialog.getContentPane());
         detallesDialog.getContentPane().setLayout(detallesDialogLayout);
@@ -565,12 +567,11 @@ public class UISocio extends JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
                 .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
-                        .addContainerGap(63, Short.MAX_VALUE)
+                        .addContainerGap(40, Short.MAX_VALUE)
                         .addComponent(jPanelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelSocioLayout.createSequentialGroup()
-                                .addContainerGap(94, Short.MAX_VALUE)
                                 .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanelSocioLayout.createSequentialGroup()
@@ -583,9 +584,9 @@ public class UISocio extends JFrame {
                         .addGap(1, 1, 1)
                         .addComponent(btnDevolucion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSeguimiento)
-                            .addComponent(btnActualizarTabla))
+                        .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSeguimiento, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnActualizarTabla, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -594,6 +595,11 @@ public class UISocio extends JFrame {
                             .addComponent(jLabel3))))
                 .addGap(14, 14, 14))
         );
+
+        menuBarSalir.setText("Salir");
+        jMenuBar1.add(menuBarSalir);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -613,7 +619,7 @@ public class UISocio extends JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(286, 286, 286)
                     .addComponent(toggleAlquiler)
-                    .addContainerGap(279, Short.MAX_VALUE)))
+                    .addContainerGap(256, Short.MAX_VALUE)))
         );
 
         pack();
@@ -650,9 +656,11 @@ public class UISocio extends JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelPeticionFecha;
     private javax.swing.JLabel jLabelProximamente;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanelProximamente;
     private javax.swing.JPanel jPanelSocio;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenu menuBarSalir;
     private javax.swing.JLabel nombreLabel;
     private javax.swing.JLabel siguiente;
     private javax.swing.JTable table;

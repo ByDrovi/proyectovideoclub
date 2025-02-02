@@ -31,10 +31,7 @@ public class UIAdmin extends javax.swing.JFrame {
         initComponents();
         inicializarTablaDistribuidorasPeliculas();
         cargarDistribuidorasPeliculas();  // Cargar distribuidoras al iniciar
-        
-        inicializarTablaDistribuidorasVideojuegos();
-        cargarDistribuidorasVideojuegos();
-        
+                
         inicializarTablaFormatos();
         cargarFormatos();
         
@@ -50,18 +47,18 @@ public class UIAdmin extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
-        botonEmpleados = new javax.swing.JButton();
-        jScrollPaneDistribuidoraVideojuegos = new javax.swing.JScrollPane();
-        jScrollPaneFormatos = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelDistribuidoras = new javax.swing.JPanel();
         jScrollPaneDistribuidoraPeliculas = new javax.swing.JScrollPane();
-        jPanel2 = new javax.swing.JPanel();
-        botonAñadirDisPeliculas = new javax.swing.JButton();
         tfNuevaDisPeliculas = new javax.swing.JTextField();
-        tfNuevaDisVideojuegos = new javax.swing.JTextField();
-        botonAñadirDisVideojuegos = new javax.swing.JButton();
+        botonAñadirDisPeliculas = new javax.swing.JButton();
         botonNuevaPelicula = new javax.swing.JButton();
         botonNuevaPelicula1 = new javax.swing.JButton();
+        botonEmpleados = new javax.swing.JButton();
+        jPanelDistribuidorasPeliculas = new javax.swing.JPanel();
+        jScrollPaneFormatos = new javax.swing.JScrollPane();
+        botonAñadirDisVideojuegos = new javax.swing.JButton();
+        tfNuevaDisVideojuegos = new javax.swing.JTextField();
+        botonNuevoSocio = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
@@ -69,38 +66,7 @@ public class UIAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        botonEmpleados.setText("Empleados");
-        botonEmpleados.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                abrirGestionEmpleadosModal(evt);
-            }
-        });
-
         jScrollPaneDistribuidoraPeliculas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPaneDistribuidoraPeliculas)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPaneDistribuidoraPeliculas, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        botonAñadirDisPeliculas.setText("Añadir");
-        botonAñadirDisPeliculas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAñadirDisPeliculasActionPerformed(evt);
-            }
-        });
 
         tfNuevaDisPeliculas.setText("Nueva distribuidora");
         tfNuevaDisPeliculas.addActionListener(new java.awt.event.ActionListener() {
@@ -109,19 +75,38 @@ public class UIAdmin extends javax.swing.JFrame {
             }
         });
 
-        tfNuevaDisVideojuegos.setText("Nuevo formato");
-        tfNuevaDisVideojuegos.addActionListener(new java.awt.event.ActionListener() {
+        botonAñadirDisPeliculas.setText("Añadir");
+        botonAñadirDisPeliculas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfNuevaDisVideojuegosActionPerformed(evt);
+                botonAñadirDisPeliculasActionPerformed(evt);
             }
         });
 
-        botonAñadirDisVideojuegos.setText("Añadir");
-        botonAñadirDisVideojuegos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAñadirDisVideojuegosActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanelDistribuidorasLayout = new javax.swing.GroupLayout(jPanelDistribuidoras);
+        jPanelDistribuidoras.setLayout(jPanelDistribuidorasLayout);
+        jPanelDistribuidorasLayout.setHorizontalGroup(
+            jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDistribuidorasLayout.createSequentialGroup()
+                        .addComponent(botonAñadirDisPeliculas)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPaneDistribuidoraPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+        jPanelDistribuidorasLayout.setVerticalGroup(
+            jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jScrollPaneDistribuidoraPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAñadirDisPeliculas))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         botonNuevaPelicula.setText("Agregar película");
         botonNuevaPelicula.addActionListener(new java.awt.event.ActionListener() {
@@ -137,42 +122,60 @@ public class UIAdmin extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(167, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(botonNuevaPelicula1)
-                    .addComponent(botonNuevaPelicula)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .addComponent(tfNuevaDisVideojuegos))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonAñadirDisVideojuegos)
-                            .addComponent(botonAñadirDisPeliculas))))
-                .addGap(15, 15, 15))
+        botonEmpleados.setText("Empleados");
+        botonEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirGestionEmpleadosModal(evt);
+            }
+        });
+
+        botonAñadirDisVideojuegos.setText("Añadir");
+        botonAñadirDisVideojuegos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAñadirDisVideojuegosActionPerformed(evt);
+            }
+        });
+
+        tfNuevaDisVideojuegos.setText("Nuevo formato");
+        tfNuevaDisVideojuegos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfNuevaDisVideojuegosActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelDistribuidorasPeliculasLayout = new javax.swing.GroupLayout(jPanelDistribuidorasPeliculas);
+        jPanelDistribuidorasPeliculas.setLayout(jPanelDistribuidorasPeliculasLayout);
+        jPanelDistribuidorasPeliculasLayout.setHorizontalGroup(
+            jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(botonAñadirDisVideojuegos)
+                .addGap(30, 30, 30)
+                .addComponent(tfNuevaDisVideojuegos, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonAñadirDisPeliculas)
-                    .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonAñadirDisVideojuegos)
-                    .addComponent(tfNuevaDisVideojuegos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botonNuevaPelicula)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botonNuevaPelicula1)
-                .addContainerGap(9, Short.MAX_VALUE))
+        jPanelDistribuidorasPeliculasLayout.setVerticalGroup(
+            jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfNuevaDisVideojuegos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAñadirDisVideojuegos))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
+
+        botonNuevoSocio.setText("Añadir socio");
+        botonNuevoSocio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirGestionSociosModal(evt);
+            }
+        });
 
         jMenu1.setText("Salir");
         jMenuBar1.add(jMenu1);
@@ -184,39 +187,41 @@ public class UIAdmin extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanelDistribuidoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(jPanelDistribuidorasPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(botonEmpleados)
+                    .addComponent(botonNuevaPelicula))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneDistribuidoraVideojuegos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(botonEmpleados)
-                                .addGap(20, 20, 20)))))
-                .addGap(257, 257, 257))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(botonNuevaPelicula1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(botonNuevoSocio)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonEmpleados)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(jScrollPaneFormatos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jScrollPaneDistribuidoraVideojuegos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanelDistribuidorasPeliculas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelDistribuidoras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonNuevaPelicula)
+                    .addComponent(botonNuevaPelicula1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonEmpleados)
+                    .addComponent(botonNuevoSocio))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -262,25 +267,20 @@ public class UIAdmin extends javax.swing.JFrame {
     }
     
     
-        // Inicializar tabla para mostrar distribuidoras
-    private void inicializarTablaDistribuidorasVideojuegos() {
-        modeloTablaDistribuidorasVideojuegos = new DefaultTableModel(new String[]{"ID", "Nombre"}, 0);
-        tablaDistribuidorasVideojuegos = new JTable(modeloTablaDistribuidorasVideojuegos);
-        jScrollPaneDistribuidoraVideojuegos.setViewportView(tablaDistribuidorasVideojuegos);
-    }
+
 
     // Cargar distribuidoras desde la base de datos y mostrarlas en la tabla
-    private void cargarDistribuidorasVideojuegos() {
-        try (Connection conn = Database.getConnection()) {
-            List<DistribuidoraVideojuegos> distribuidoras = DistribuidoraVideojuegos.consultarDistribuidorasVideojuegos(conn);
-            modeloTablaDistribuidorasVideojuegos.setRowCount(0);  // Limpiar tabla antes de agregar
-            for (DistribuidoraVideojuegos d : distribuidoras) {
-                modeloTablaDistribuidorasVideojuegos.addRow(new Object[]{d.getId(), d.getNombre()});
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar distribuidoras: " + ex.getMessage());
-        }
-    }
+//    private void cargarDistribuidorasVideojuegos() {
+//        try (Connection conn = Database.getConnection()) {
+//            List<DistribuidoraVideojuegos> distribuidoras = DistribuidoraVideojuegos.consultarDistribuidorasVideojuegos(conn);
+//            modeloTablaDistribuidorasVideojuegos.setRowCount(0);  // Limpiar tabla antes de agregar
+//            for (DistribuidoraVideojuegos d : distribuidoras) {
+//                modeloTablaDistribuidorasVideojuegos.addRow(new Object[]{d.getId(), d.getNombre()});
+//            }
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(this, "Error al cargar distribuidoras: " + ex.getMessage());
+//        }
+//    }
 
     // Agregar una nueva distribuidora al presionar el botón Añadir
     private void agregarDistribuidoraPeliculas() {
@@ -325,6 +325,14 @@ public class UIAdmin extends javax.swing.JFrame {
         dialog.setVisible(true);  // Mostrar modal
     }//GEN-LAST:event_abrirGestionEmpleadosModal
 
+//        private void abrirGestionSociosModal(java.awt.event.ActionEvent evt) {                                            
+//        GestionSocios gestionSocios = new GestionSocios();
+//        javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Nuevo Socio", true);
+//        dialog.setContentPane(gestionSocios.getContentPane());
+//        dialog.pack();
+//        dialog.setLocationRelativeTo(this);  // Centrar sobre la ventana principal
+//        dialog.setVisible(true);  // Mostrar modal
+//    }       
     // Agregar una nueva distribuidora al presionar el botón Añadir
     private void agregarDistribuidoraVideojuegos() {
         String nombreDistribuidora = tfNuevaDisVideojuegos.getText().trim();
@@ -354,6 +362,15 @@ public class UIAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_botonNuevaPelicula1abrirGestionPeliculasModal
 
+    private void abrirGestionSociosModal(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirGestionSociosModal
+        GestionSocios gestionSocios = new GestionSocios();
+        javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Nuevo Socio", true);
+        dialog.setContentPane(gestionSocios.getContentPane());
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);  // Centrar sobre la ventana principal
+        dialog.setVisible(true);  // Mostrar modal
+    }//GEN-LAST:event_abrirGestionSociosModal
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -362,13 +379,13 @@ public class UIAdmin extends javax.swing.JFrame {
     private javax.swing.JButton botonEmpleados;
     private javax.swing.JButton botonNuevaPelicula;
     private javax.swing.JButton botonNuevaPelicula1;
+    private javax.swing.JButton botonNuevoSocio;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelDistribuidoras;
+    private javax.swing.JPanel jPanelDistribuidorasPeliculas;
     private javax.swing.JScrollPane jScrollPaneDistribuidoraPeliculas;
-    private javax.swing.JScrollPane jScrollPaneDistribuidoraVideojuegos;
     private javax.swing.JScrollPane jScrollPaneFormatos;
     private javax.swing.JTextField tfNuevaDisPeliculas;
     private javax.swing.JTextField tfNuevaDisVideojuegos;
