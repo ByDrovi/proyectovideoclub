@@ -722,10 +722,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="tfDistribuidora" alignment="0" max="32767" attributes="0"/>
-                          <Component id="tfFormato" alignment="0" max="32767" attributes="0"/>
                           <Component id="tfAlquilado" alignment="0" max="32767" attributes="0"/>
-                          <Component id="tfDisponible" alignment="1" max="32767" attributes="0"/>
+                          <Component id="tfDisponible" alignment="1" pref="91" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="102" max="32767" attributes="0"/>
                   </Group>
@@ -738,11 +736,7 @@
                       <Component id="tfDisponible" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="tfAlquilado" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="tfFormato" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="tfDistribuidora" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <EmptySpace pref="112" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -759,16 +753,6 @@
             <Component class="javax.swing.JTextField" name="tfAlquilado">
               <Properties>
                 <Property name="text" type="java.lang.String" value="tfAlquilado"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="tfFormato">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="tfFormato"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="tfDistribuidora">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="tfDistribuidora"/>
               </Properties>
             </Component>
           </SubComponents>

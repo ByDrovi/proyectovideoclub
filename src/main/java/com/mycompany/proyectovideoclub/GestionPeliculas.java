@@ -33,7 +33,8 @@ public class GestionPeliculas extends javax.swing.JFrame {
 
     public GestionPeliculas() {
         initComponents();
-
+        tfDisponible.setVisible(false);
+        tfAlquilado.setVisible(false);
 //        comboBoxFormato = new JComboBox<>();
 //        panel.add(new JLabel("Formato:"));
 //        panel.add(comboBoxFormato);
@@ -43,10 +44,10 @@ public class GestionPeliculas extends javax.swing.JFrame {
         cargarDistribuidoras();
 
         // Crear el JSpinner para "Disponible Alquiler"
-        JSpinner spinnerDisponibleAlquiler = new JSpinner(); // CUIDADO ESTO PUEDE DAR ERROR
-        spinnerDisponibleAlquiler.setModel(new SpinnerNumberModel(0, 0, 100, 1)); // Valor inicial: 1, mínimo: 1, máximo: 100, incremento: 1
+       //JSpinner spinnerDisponibleAlquiler = new JSpinner(); // CUIDADO ESTO PUEDE DAR ERROR
+        //spinnerDisponibleAlquiler.setModel(new SpinnerNumberModel(0, 0, 100, 1)); // Valor inicial: 1, mínimo: 1, máximo: 100, incremento: 1
         panel.add(new JLabel("Disponible Alquiler:"));
-        panel.add(spinnerDisponibleAlquiler); // Agregar el spinner al panel
+        //panel.add(spinnerDisponibleAlquiler); // Agregar el spinner al panel
 
         // Acción para seleccionar imagen disponible
         btnSeleccionarDisponible.addActionListener(e -> {
@@ -94,8 +95,10 @@ public class GestionPeliculas extends javax.swing.JFrame {
 //                int distribuidoraPeliculasId = distribuidoraSeleccionada.getId();
                 
 //############################################################################################
-                int formatoId = Integer.parseInt(tfFormato.getText());
-                int distribuidoraId = Integer.parseInt(tfDistribuidora.getText());             
+                String formatoSeleccionado = (String) comboBoxFormato.getSelectedItem();
+                int formatoId = Integer.parseInt(formatoSeleccionado.split(" - ")[0]);
+                String distSeleccionada = (String) comboBoxDistribuidora.getSelectedItem();
+                int distribuidoraId = Integer.parseInt(distSeleccionada.split(" - ")[0]);         
 //############################################################################################          
 
                 double cuotaAlquilerPeliculas = Double.parseDouble(tfCuotaAlquilerPelicula.getText());
@@ -394,8 +397,6 @@ public class GestionPeliculas extends javax.swing.JFrame {
         jPanelEliminar = new javax.swing.JPanel();
         tfDisponible = new javax.swing.JTextField();
         tfAlquilado = new javax.swing.JTextField();
-        tfFormato = new javax.swing.JTextField();
-        tfDistribuidora = new javax.swing.JTextField();
         jPanelPreviewPortadas = new javax.swing.JPanel();
         jLabelPreviewAlquilado = new javax.swing.JLabel();
         jLabelPreviewDisponible = new javax.swing.JLabel();
@@ -831,10 +832,6 @@ public class GestionPeliculas extends javax.swing.JFrame {
 
         tfAlquilado.setText("tfAlquilado");
 
-        tfFormato.setText("tfFormato");
-
-        tfDistribuidora.setText("tfDistribuidora");
-
         javax.swing.GroupLayout jPanelEliminarLayout = new javax.swing.GroupLayout(jPanelEliminar);
         jPanelEliminar.setLayout(jPanelEliminarLayout);
         jPanelEliminarLayout.setHorizontalGroup(
@@ -842,10 +839,8 @@ public class GestionPeliculas extends javax.swing.JFrame {
             .addGroup(jPanelEliminarLayout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addGroup(jPanelEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(tfDistribuidora, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfFormato, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tfAlquilado, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfDisponible))
+                    .addComponent(tfDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE))
                 .addContainerGap(102, Short.MAX_VALUE))
         );
         jPanelEliminarLayout.setVerticalGroup(
@@ -855,11 +850,7 @@ public class GestionPeliculas extends javax.swing.JFrame {
                 .addComponent(tfDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(tfAlquilado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(tfFormato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(tfDistribuidora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         jLabelPreviewDisponible.setBackground(new java.awt.Color(255, 204, 204));
@@ -1332,11 +1323,9 @@ public class GestionPeliculas extends javax.swing.JFrame {
     private javax.swing.JTextField tfCuotaAlquilerPelicula;
     private javax.swing.JTextField tfDirector;
     private javax.swing.JTextField tfDisponible;
-    private javax.swing.JTextField tfDistribuidora;
     private javax.swing.JTextField tfDuracion;
     private javax.swing.JTextField tfFechaAlta;
     private javax.swing.JTextField tfFechaLanzamiento;
-    private javax.swing.JTextField tfFormato;
     private javax.swing.JTextField tfGenero;
     private javax.swing.JTextField tfPVP;
     private javax.swing.JTextField tfProtagonista;
