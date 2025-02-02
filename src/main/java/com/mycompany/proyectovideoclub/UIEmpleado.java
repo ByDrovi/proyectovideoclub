@@ -1,27 +1,11 @@
 package com.mycompany.proyectovideoclub;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import javax.swing.BoxLayout;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,96 +13,33 @@ import javax.swing.table.DefaultTableModel;
  * @author oscar.lara
  */
 
-public class UIEmpleado extends JFrame {
+public class UIEmpleado extends javax.swing.JFrame {
 
-    private DefaultTableModel tableModel;
-    private List<String> rutasImagenes;
-
- public UIEmpleado() {
-        setTitle("Listado de Alquileres en Curso");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
-        setLocationRelativeTo(null);
-
-        // Llama a los componentes generados automáticamente
-        initComponents();
-
-        // Sobrescribe configuraciones personalizadas
-        inicializarComponentes();
-    }
-
-    private void inicializarComponentes() {
-        // Configurar panelAlquileres (ya generado por NetBeans)
-        
-                btnCargarProximamente.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cargarImagenes();
-            }
-                });
-
-        panelAlquileresCurso.setLayout(new BoxLayout(panelAlquileresCurso, BoxLayout.Y_AXIS)); // Organiza los alquileres verticalmente
-        JScrollPane scrollPane = new JScrollPane(panelAlquileresCurso);
-        getContentPane().add(scrollPane, BorderLayout.CENTER); // Colocar el panel en el centro
-
-        // Cargar datos de la base de datos
-        cargarAlquileresEnCurso();
-    }
+    private DefaultTableModel modeloTablaDistribuidorasPeliculas;
+    private JTable tablaDistribuidorasPeliculas;
     
-    private void cargarImagenes() {
-        // Usar un JFileChooser para que el usuario seleccione varias imágenes
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Seleccionar imágenes");
-        fileChooser.setMultiSelectionEnabled(true);  // Permite seleccionar varias imágenes
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Imágenes", "jpg", "png", "gif"));
+    private DefaultTableModel modeloTablaDistribuidorasVideojuegos;
+    private JTable tablaDistribuidorasVideojuegos;
+    
+    private DefaultTableModel modeloTablaFormatos;
+    private JTable tablaFormatos;
 
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File[] files = fileChooser.getSelectedFiles();
-            rutasImagenes = new ArrayList<>();
-            for (File file : files) {
-                rutasImagenes.add(file.getAbsolutePath());
-            }
-
-            // Crear y mostrar la interfaz UISocio11 con las imágenes cargadas
-            //UISocio11 uiSocio11 = new UISocio11(rutasImagenes);
-            //uiSocio11.setVisible(true);
-        }
-    }
-                        
-
-    private void cargarAlquileresEnCurso() {
-        try (Connection conn = Database.getConnection()) {
-            String query = "SELECT p.titulo, a.fechaAlquiler, a.fechaEntrega " +
-                           "FROM Alquileres a " +
-                           "JOIN Productos p ON a.idProducto = p.id " +
-                           "JOIN Socios s ON a.idSocio = s.id ";
-
-            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                try (ResultSet rs = stmt.executeQuery()) {
-                    panelAlquileresCurso.removeAll();  // Limpiar el panel antes de agregar nuevos elementos
-
-                    while (rs.next()) {
-                        String titulo = rs.getString("titulo");
-                        java.sql.Date fechaAlquiler = rs.getDate("fechaAlquiler");
-                        java.sql.Date fechaEntrega = rs.getDate("fechaEntrega");
-
-                        // Crear un JLabel para cada alquiler
-                        String alquilerInfo = String.format("<html><b>Película:</b> %s <br><b>Fecha de alquiler:</b> %s <br><b>Fecha de entrega:</b> %s</html>",
-                                titulo,  fechaAlquiler.toString(), fechaEntrega.toString());
-                        
-                        JLabel alquilerLabel = new JLabel(alquilerInfo);
-                        panelAlquileresCurso.add(alquilerLabel);  // Agregar el JLabel al panel
-                    }
-
-                    panelAlquileresCurso.revalidate();  // Asegura que se repinte correctamente
-                    panelAlquileresCurso.repaint();     // Repintar el panel para reflejar cambios
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al cargar los alquileres: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    /**
+     * Creates new form UIAdmin
+     */
+    public UIEmpleado() {
+        initComponents();
+        inicializarTablaDistribuidorasPeliculas();
+        cargarDistribuidorasPeliculas();  // Cargar distribuidoras al iniciar
+        
+        Utilidades.setPredefinedText(tfNuevaDisPeliculas, "Nueva distribuidora...");
+        Utilidades.setPredefinedText(tfNuevoFormato, "Nuevo formato...");
+        
+        botonEmpleados.setVisible(false);
+        
+        inicializarTablaFormatos();
+        cargarFormatos();
+        
     }
 
     /**
@@ -130,86 +51,380 @@ public class UIEmpleado extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        detallesDialog = new javax.swing.JDialog();
-        jLabel1 = new javax.swing.JLabel();
-        panelAlquileresCurso = new javax.swing.JPanel();
-        btnCargarProximamente = new javax.swing.JButton();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jPanelDistribuidoras = new javax.swing.JPanel();
+        jScrollPaneDistribuidoraPeliculas = new javax.swing.JScrollPane();
+        tfNuevaDisPeliculas = new javax.swing.JTextField();
+        botonAñadirDisPeliculas = new javax.swing.JButton();
+        botonEmpleados = new javax.swing.JButton();
+        jPanelDistribuidorasPeliculas = new javax.swing.JPanel();
+        jScrollPaneFormatos = new javax.swing.JScrollPane();
+        botonAñadirDisVideojuegos = new javax.swing.JButton();
+        tfNuevoFormato = new javax.swing.JTextField();
+        jButtonRefresh = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        botonNuevaPelicula = new javax.swing.JButton();
+        botonNuevoSocio = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
 
-        javax.swing.GroupLayout detallesDialogLayout = new javax.swing.GroupLayout(detallesDialog.getContentPane());
-        detallesDialog.getContentPane().setLayout(detallesDialogLayout);
-        detallesDialogLayout.setHorizontalGroup(
-            detallesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        detallesDialogLayout.setVerticalGroup(
-            detallesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Estás en socio");
+        jScrollPaneDistribuidoraPeliculas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        javax.swing.GroupLayout panelAlquileresCursoLayout = new javax.swing.GroupLayout(panelAlquileresCurso);
-        panelAlquileresCurso.setLayout(panelAlquileresCursoLayout);
-        panelAlquileresCursoLayout.setHorizontalGroup(
-            panelAlquileresCursoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 377, Short.MAX_VALUE)
+        tfNuevaDisPeliculas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfNuevaDisPeliculasActionPerformed(evt);
+            }
+        });
+
+        botonAñadirDisPeliculas.setText("Añadir");
+        botonAñadirDisPeliculas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAñadirDisPeliculasActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelDistribuidorasLayout = new javax.swing.GroupLayout(jPanelDistribuidoras);
+        jPanelDistribuidoras.setLayout(jPanelDistribuidorasLayout);
+        jPanelDistribuidorasLayout.setHorizontalGroup(
+            jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
+                        .addComponent(botonAñadirDisPeliculas)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPaneDistribuidoraPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
-        panelAlquileresCursoLayout.setVerticalGroup(
-            panelAlquileresCursoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 322, Short.MAX_VALUE)
+        jPanelDistribuidorasLayout.setVerticalGroup(
+            jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jScrollPaneDistribuidoraPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAñadirDisPeliculas))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnCargarProximamente.setText("jButton1");
+        botonEmpleados.setText("Empleados");
+        botonEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirGestionEmpleadosModal(evt);
+            }
+        });
+
+        botonAñadirDisVideojuegos.setText("Añadir");
+        botonAñadirDisVideojuegos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAñadirDisVideojuegosActionPerformed(evt);
+            }
+        });
+
+        tfNuevoFormato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfNuevoFormatoActionPerformed(evt);
+            }
+        });
+
+        jButtonRefresh.setText("Refresh");
+        jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRefreshActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelDistribuidorasPeliculasLayout = new javax.swing.GroupLayout(jPanelDistribuidorasPeliculas);
+        jPanelDistribuidorasPeliculas.setLayout(jPanelDistribuidorasPeliculasLayout);
+        jPanelDistribuidorasPeliculasLayout.setHorizontalGroup(
+            jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addGroup(jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonRefresh)
+                    .addGroup(jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
+                        .addComponent(botonAñadirDisVideojuegos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tfNuevoFormato, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28))
+        );
+        jPanelDistribuidorasPeliculasLayout.setVerticalGroup(
+            jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jButtonRefresh)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfNuevoFormato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAñadirDisVideojuegos))
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        botonNuevaPelicula.setText("Agregar película");
+        botonNuevaPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirGestionPeliculasModal(evt);
+            }
+        });
+
+        botonNuevoSocio.setText("Añadir socio");
+        botonNuevoSocio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirGestionSociosModal(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(110, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonNuevoSocio, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(botonNuevaPelicula, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(botonNuevaPelicula)
+                .addGap(18, 18, 18)
+                .addComponent(botonNuevoSocio)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        jMenu1.setText("Salir");
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(146, 146, 146)
-                        .addComponent(jLabel1))
+                        .addComponent(jPanelDistribuidoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanelDistribuidorasPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(botonEmpleados)
+                        .addGap(134, 134, 134))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(514, 514, 514)
-                        .addComponent(panelAlquileresCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(171, 171, 171)
-                        .addComponent(btnCargarProximamente)))
-                .addContainerGap(364, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(274, 274, 274))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(panelAlquileresCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnCargarProximamente)
-                .addContainerGap(228, Short.MAX_VALUE))
+                .addGap(57, 57, 57)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanelDistribuidorasPeliculas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelDistribuidoras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(botonEmpleados)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            UIEmpleado ui = new UIEmpleado();
-//            ui.setVisible(true);
-//        });
+    // Inicializar tabla para mostrar distribuidoras
+    private void inicializarTablaDistribuidorasPeliculas() {
+        modeloTablaDistribuidorasPeliculas = new DefaultTableModel(new String[]{"ID", "Nombre"}, 0);
+        tablaDistribuidorasPeliculas = new JTable(modeloTablaDistribuidorasPeliculas);
+        jScrollPaneDistribuidoraPeliculas.setViewportView(tablaDistribuidorasPeliculas);
+    }
+
+    // Cargar distribuidoras desde la base de datos y mostrarlas en la tabla
+    private void cargarDistribuidorasPeliculas() {
+        try (Connection conn = Database.getConnection()) {
+            List<DistribuidoraPeliculas> distribuidoras = DistribuidoraPeliculas.consultarDistribuidorasPeliculas(conn);
+            modeloTablaDistribuidorasPeliculas.setRowCount(0);  // Limpiar tabla antes de agregar
+            for (DistribuidoraPeliculas d : distribuidoras) {
+                modeloTablaDistribuidorasPeliculas.addRow(new Object[]{d.getId(), d.getNombre()});
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al cargar distribuidoras: " + ex.getMessage());
+        }
+    }
+    
+    private void inicializarTablaFormatos() {
+        modeloTablaFormatos = new DefaultTableModel(new String[]{"ID", "Nombre", "Cantidad de Productos"}, 0);
+        tablaFormatos = new JTable(modeloTablaFormatos);
+        jScrollPaneFormatos.setViewportView(tablaFormatos);
+    }
+
+    private void cargarFormatos() {
+        List<Formato> formatos = Formato.obtenerFormatos();
+        modeloTablaFormatos.setRowCount(0); // Limpiar la tabla antes de agregar datos
+
+        for (Formato formato : formatos) {
+            modeloTablaFormatos.addRow(new Object[]{
+                formato.getId(), 
+                formato.getNombre(), 
+                formato.getCantidadProductos()
+            });
+        }
+    }
+    
+private void agregarFormatos() {
+    String nombreFormato = tfNuevoFormato.getText().trim();  // Obtener el texto del campo de texto
+    if (!nombreFormato.isEmpty()) {
+        try (Connection conn = Database.getConnection()) {  // Establecer la conexión
+            // Llamar al método agregarFormato
+            Formato.agregarFormato(conn, nombreFormato);  
+            cargarFormatos();  // Recargar lista de formatos
+            tfNuevoFormato.setText("");  // Limpiar el campo de texto
+            JOptionPane.showMessageDialog(this, "Formato agregado con éxito.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al agregar formato: " + ex.getMessage());
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Ingrese el nombre del formato.");
+    }
+}
+
+    
+
+
+    // Cargar distribuidoras desde la base de datos y mostrarlas en la tabla
+//    private void cargarDistribuidorasVideojuegos() {
+//        try (Connection conn = Database.getConnection()) {
+//            List<DistribuidoraVideojuegos> distribuidoras = DistribuidoraVideojuegos.consultarDistribuidorasVideojuegos(conn);
+//            modeloTablaDistribuidorasVideojuegos.setRowCount(0);  // Limpiar tabla antes de agregar
+//            for (DistribuidoraVideojuegos d : distribuidoras) {
+//                modeloTablaDistribuidorasVideojuegos.addRow(new Object[]{d.getId(), d.getNombre()});
+//            }
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(this, "Error al cargar distribuidoras: " + ex.getMessage());
+//        }
 //    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCargarProximamente;
-    private javax.swing.JDialog detallesDialog;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel panelAlquileresCurso;
-    // End of variables declaration//GEN-END:variables
+    // Agregar una nueva distribuidora al presionar el botón Añadir
+    private void agregarDistribuidoraPeliculas() {
+        String nombreDistribuidora = tfNuevaDisPeliculas.getText().trim();
+        if (!nombreDistribuidora.isEmpty()) {
+            try (Connection conn = Database.getConnection()) {
+                DistribuidoraPeliculas.agregarDistribuidoraPeliculas(conn, nombreDistribuidora);
+                cargarDistribuidorasPeliculas();  // Recargar lista
+                tfNuevaDisPeliculas.setText("");  // Limpiar campo
+                JOptionPane.showMessageDialog(this, "Distribuidora agregada con éxito.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error al agregar distribuidora: " + ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingrese el nombre de la distribuidora.");
+        }
+    }
 
+    private void tfNuevaDisPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNuevaDisPeliculasActionPerformed
+        agregarDistribuidoraPeliculas();
+    }//GEN-LAST:event_tfNuevaDisPeliculasActionPerformed
+
+    private void botonAñadirDisPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAñadirDisPeliculasActionPerformed
+        agregarDistribuidoraPeliculas();
+    }//GEN-LAST:event_botonAñadirDisPeliculasActionPerformed
+
+    private void abrirGestionPeliculasModal(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirGestionPeliculasModal
+        GestionPeliculas gestionPeliculas = new GestionPeliculas();
+        javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Gestión de Películas", true);
+        dialog.setContentPane(gestionPeliculas.getContentPane());
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);  // Centrar sobre la ventana principal
+        dialog.setVisible(true);  // Mostrar modal
+    }//GEN-LAST:event_abrirGestionPeliculasModal
+
+    private void abrirGestionEmpleadosModal(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirGestionEmpleadosModal
+        GestionEmpleados1 gestionEmpleados = new GestionEmpleados1();
+        javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Gestión de Empleados", true);
+        dialog.setContentPane(gestionEmpleados.getContentPane());
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);  // Centrar sobre la ventana principal
+        dialog.setVisible(true);  // Mostrar modal
+    }//GEN-LAST:event_abrirGestionEmpleadosModal
+
+//        private void abrirGestionSociosModal(java.awt.event.ActionEvent evt) {                                            
+//        GestionSocios gestionSocios = new GestionSocios();
+//        javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Nuevo Socio", true);
+//        dialog.setContentPane(gestionSocios.getContentPane());
+//        dialog.pack();
+//        dialog.setLocationRelativeTo(this);  // Centrar sobre la ventana principal
+//        dialog.setVisible(true);  // Mostrar modal
+//    }       
+    // Agregar una nueva distribuidora al presionar el botón Añadir
+    private void agregarDistribuidoraVideojuegos() {
+        String nombreDistribuidora = tfNuevoFormato.getText().trim();
+        if (!nombreDistribuidora.isEmpty()) {
+            try ( Connection conn = Database.getConnection()) {
+                DistribuidoraVideojuegos.agregarDistribuidoraVideojuegos(conn, nombreDistribuidora);
+                cargarDistribuidorasPeliculas();  // Recargar lista
+                tfNuevoFormato.setText("");  // Limpiar campo
+                JOptionPane.showMessageDialog(this, "Distribuidora agregada con éxito.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error al agregar distribuidora: " + ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingrese el nombre de la distribuidora.");
+        }
+    }
+
+    private void tfNuevoFormatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNuevoFormatoActionPerformed
+        agregarDistribuidoraVideojuegos();
+    }//GEN-LAST:event_tfNuevoFormatoActionPerformed
+
+    private void botonAñadirDisVideojuegosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAñadirDisVideojuegosActionPerformed
+        agregarFormatos();
+    }//GEN-LAST:event_botonAñadirDisVideojuegosActionPerformed
+
+    private void abrirGestionSociosModal(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirGestionSociosModal
+        GestionSocios gestionSocios = new GestionSocios();
+        javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Nuevo Socio", true);
+        dialog.setContentPane(gestionSocios.getContentPane());
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);  // Centrar sobre la ventana principal
+        dialog.setVisible(true);  // Mostrar modal
+    }//GEN-LAST:event_abrirGestionSociosModal
+
+    private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
+         cargarFormatos();
+    }//GEN-LAST:event_jButtonRefreshActionPerformed
+
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonAñadirDisPeliculas;
+    private javax.swing.JButton botonAñadirDisVideojuegos;
+    private javax.swing.JButton botonEmpleados;
+    private javax.swing.JButton botonNuevaPelicula;
+    private javax.swing.JButton botonNuevoSocio;
+    private javax.swing.JButton jButtonRefresh;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelDistribuidoras;
+    private javax.swing.JPanel jPanelDistribuidorasPeliculas;
+    private javax.swing.JScrollPane jScrollPaneDistribuidoraPeliculas;
+    private javax.swing.JScrollPane jScrollPaneFormatos;
+    private javax.swing.JTextField tfNuevaDisPeliculas;
+    private javax.swing.JTextField tfNuevoFormato;
+    // End of variables declaration//GEN-END:variables
 }
