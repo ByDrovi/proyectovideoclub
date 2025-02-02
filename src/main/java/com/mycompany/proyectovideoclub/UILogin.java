@@ -88,51 +88,17 @@ public class UILogin extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanelGeneral = new javax.swing.JPanel();
-        jPanelUserPassButtom = new javax.swing.JPanel();
-        passField = new javax.swing.JPasswordField();
         labelLogin = new javax.swing.JLabel();
         labelGalaxy = new javax.swing.JLabel();
         userField = new javax.swing.JTextField();
         loginButton = new javax.swing.JButton();
+        passField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanelGeneral.setBackground(new java.awt.Color(46, 1, 67));
         jPanelGeneral.setForeground(new java.awt.Color(119, 172, 254));
         jPanelGeneral.setToolTipText("");
-
-        jPanelUserPassButtom.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
-        jPanelUserPassButtom.setOpaque(false);
-
-        passField.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        passField.setForeground(new java.awt.Color(102, 102, 102));
-        passField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        passField.setText("jPasswordField1");
-        passField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                passFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                passFieldFocusLost(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelUserPassButtomLayout = new javax.swing.GroupLayout(jPanelUserPassButtom);
-        jPanelUserPassButtom.setLayout(jPanelUserPassButtomLayout);
-        jPanelUserPassButtomLayout.setHorizontalGroup(
-            jPanelUserPassButtomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelUserPassButtomLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanelUserPassButtomLayout.setVerticalGroup(
-            jPanelUserPassButtomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelUserPassButtomLayout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
-        );
 
         labelGalaxy.setText(" ");
 
@@ -162,42 +128,53 @@ public class UILogin extends javax.swing.JFrame {
             }
         });
 
+        passField.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        passField.setForeground(new java.awt.Color(102, 102, 102));
+        passField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        passField.setText("jPasswordField1");
+        passField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passFieldFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelGeneralLayout = new javax.swing.GroupLayout(jPanelGeneral);
         jPanelGeneral.setLayout(jPanelGeneralLayout);
         jPanelGeneralLayout.setHorizontalGroup(
             jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelGeneralLayout.createSequentialGroup()
-                .addGap(392, 392, 392)
-                .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(353, Short.MAX_VALUE))
-            .addGroup(jPanelGeneralLayout.createSequentialGroup()
-                .addGap(101, 101, 101)
-                .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(112, 112, 112)
-                .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelGalaxy, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                    .addComponent(jPanelUserPassButtom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelGeneralLayout.createSequentialGroup()
+                                .addGap(392, 392, 392)
+                                .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelGeneralLayout.createSequentialGroup()
+                                .addGap(347, 347, 347)
+                                .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanelGeneralLayout.createSequentialGroup()
+                        .addGap(293, 293, 293)
+                        .addComponent(labelGalaxy, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(199, 315, Short.MAX_VALUE))
         );
         jPanelGeneralLayout.setVerticalGroup(
             jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelGeneralLayout.createSequentialGroup()
-                .addGap(69, 69, 69)
+                .addGap(137, 137, 137)
                 .addComponent(labelGalaxy, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanelGeneralLayout.createSequentialGroup()
-                            .addComponent(jPanelUserPassButtom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGeneralLayout.createSequentialGroup()
-                            .addComponent(userField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(105, 105, 105)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGeneralLayout.createSequentialGroup()
-                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(63, 63, 63)))
+                .addComponent(userField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(85, Short.MAX_VALUE))
         );
@@ -322,7 +299,6 @@ public class UILogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanelGeneral;
-    private javax.swing.JPanel jPanelUserPassButtom;
     private javax.swing.JLabel labelGalaxy;
     private javax.swing.JLabel labelLogin;
     private javax.swing.JButton loginButton;

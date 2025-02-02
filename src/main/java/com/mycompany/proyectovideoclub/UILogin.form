@@ -54,46 +54,44 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="392" max="-2" attributes="0"/>
-                  <Component id="labelLogin" min="-2" pref="69" max="-2" attributes="0"/>
-                  <EmptySpace pref="353" max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
-                  <Component id="userField" min="-2" pref="93" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="labelGalaxy" pref="206" max="32767" attributes="0"/>
-                      <Component id="jPanelUserPassButtom" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="loginButton" min="-2" pref="137" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="392" max="-2" attributes="0"/>
+                                  <Component id="labelLogin" min="-2" pref="69" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="347" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="passField" min="-2" pref="93" max="-2" attributes="0"/>
+                                      <Component id="userField" min="-2" pref="93" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="293" max="-2" attributes="0"/>
+                          <Component id="labelGalaxy" min="-2" pref="206" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="loginButton" min="-2" pref="137" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                  <EmptySpace min="199" pref="315" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
                   <Component id="labelGalaxy" min="-2" pref="198" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jPanelUserPassButtom" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="userField" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="loginButton" min="-2" pref="32" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <Component id="userField" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="passField" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                  <Component id="loginButton" min="-2" pref="32" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="labelLogin" min="-2" pref="65" max="-2" attributes="0"/>
                   <EmptySpace pref="85" max="32767" attributes="0"/>
               </Group>
@@ -101,60 +99,6 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="jPanelUserPassButtom">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                <BevelBorder bevelType="1">
-                  <Color PropertyName="highlightOuter" blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
-                  <Color PropertyName="highlightInner" blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
-                  <Color PropertyName="shadowOuter" blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
-                  <Color PropertyName="shadowInner" blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
-                </BevelBorder>
-              </Border>
-            </Property>
-            <Property name="opaque" type="boolean" value="false"/>
-          </Properties>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                      <Component id="passField" min="-2" pref="93" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
-                      <Component id="passField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="83" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JPasswordField" name="passField">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="16" style="0"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="66" green="66" red="66" type="rgb"/>
-                </Property>
-                <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-              </Properties>
-              <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="passFieldFocusGained"/>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="passFieldFocusLost"/>
-              </Events>
-            </Component>
-          </SubComponents>
-        </Container>
         <Component class="javax.swing.JLabel" name="labelLogin">
         </Component>
         <Component class="javax.swing.JLabel" name="labelGalaxy">
@@ -193,6 +137,22 @@
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModel = new CustomRoundedButton();&#xa;            customModel.setNormalColor(new Color(0x01E3FD));&#xa;            customModel.setHoverColor(new Color(0xC3C3C3));&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;            loginButton.setModel(customModel); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           loginButton.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   loginButton.setBackground(customModel.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    loginButton.setBackground(customModel.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           loginButton.setFocusPainted(false); // Quitar el borde de enfoque&#xa;           loginButton.setBackground(customModel.getNormalColor()); // Color inicial&#xa;           loginButton.setForeground(Color.WHITE); // Color del texto&#xa;           loginButton.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton()"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JPasswordField" name="passField">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="16" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="66" green="66" red="66" type="rgb"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="jPasswordField1"/>
+          </Properties>
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="passFieldFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="passFieldFocusLost"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
