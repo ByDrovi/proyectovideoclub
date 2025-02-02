@@ -24,9 +24,8 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="panel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panel" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -38,6 +37,9 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="panel">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Crear una instancia de CustomGradientPanel&#xa;CustomGradientPanel panel = new CustomGradientPanel();&#xa;&#xa;// Configurar propiedades del panel si es necesario&#xa;panel.setLayout(new BorderLayout());  // Si deseas usar un layout espec&#xed;fico, ajusta aqu&#xed;&#xa;&#xa;// Si quieres cambiar los colores del degradado, puedes hacerlo de esta manera:&#xa;panel.setGradientColors(new Color(0, 102, 204), new Color(102, 204, 255));&#xa;&#xa;// Ahora agregar el panel a tu contenedor&#xa;add(panel, BorderLayout.CENTER); // O el layout que est&#xe9;s usando"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -61,9 +63,9 @@
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="jPanelInfoAdicional" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="32767" attributes="0"/>
+                  <EmptySpace type="separate" pref="21" max="32767" attributes="0"/>
                   <Component id="jPanelEliminar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="12" max="32767" attributes="0"/>
+                  <EmptySpace pref="15" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -722,7 +724,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabelPreviewAlquilado" pref="230" max="32767" attributes="0"/>
+                          <Component id="jLabelPreviewAlquilado" max="32767" attributes="0"/>
                           <Component id="jPanel4" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
@@ -811,7 +813,7 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="jLabelAlquilado" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="50" max="32767" attributes="0"/>
                           <Component id="btnSeleccionarAlquilado" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>

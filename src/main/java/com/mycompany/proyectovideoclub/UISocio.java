@@ -289,7 +289,7 @@ public class UISocio extends JFrame {
                 // Crear un panel para envolverlo y darle altura
                 JPanel tituloPanel = new JPanel(new BorderLayout());
                 tituloPanel.add(campoTitulo, BorderLayout.CENTER);
-                tituloPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45)); // Fija la altura del JTextField
+                tituloPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45)); // Altura del JTextField
 
                 // Concatenar actores en una sola cadena bajo la etiqueta "Reparto"
                 String reparto = "  Reparto: " + rs.getString("actorProtagonista") + ", "

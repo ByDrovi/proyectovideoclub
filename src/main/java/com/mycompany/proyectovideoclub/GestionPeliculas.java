@@ -1,5 +1,6 @@
 package com.mycompany.proyectovideoclub;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
@@ -31,46 +33,49 @@ import javax.swing.SwingUtilities;
  */
 public class GestionPeliculas extends javax.swing.JFrame {
 
-    public GestionPeliculas() {
+ public GestionPeliculas() {
         initComponents();
         tfDisponible.setVisible(false);
         tfAlquilado.setVisible(false);
+
+        // Crear el panel personalizado con gradiente
+        CustomGradientPanel panel = new CustomGradientPanel();
+        panel.setLayout(new BorderLayout());  // # Usar BorderLayout para gestionar el contenido dentro del panel
+        panel.setGradientColors(new Color(0, 102, 204), new Color(102, 204, 255));
+
+        // Añadir contenido al panel
+        panel.add(new JLabel("Disponible Alquiler:"), BorderLayout.NORTH);  // # Etiqueta con texto al panel
 
         // Cargar los nombres de los formatos al inicializar
         cargarNombresDeFormatos();
         cargarDistribuidoras();
 
-        panel.add(new JLabel("Disponible Alquiler:"));
-        //panel.add(spinnerDisponibleAlquiler); // Agregar el spinner al panel
-
-        // Acción para seleccionar imagen disponible
+        // Acciones de botones
         btnSeleccionarDisponible.addActionListener(e -> {
             String rutaImagen = seleccionarImagen();
             if (rutaImagen != null) {
-                tfDisponible.setText(rutaImagen); // Asigna la ruta al campo de texto
-                cargarPreviewEnLabel(rutaImagen, jLabelPreviewDisponible); // Muestra la imagen en el JLabel
+                tfDisponible.setText(rutaImagen);
+                cargarPreviewEnLabel(rutaImagen, jLabelPreviewDisponible);
             }
         });
 
-        // Acción para seleccionar imagen alquilado
         btnSeleccionarAlquilado.addActionListener(e -> {
             String rutaImagen = seleccionarImagen();
             if (rutaImagen != null) {
-                tfAlquilado.setText(rutaImagen); // Asigna la ruta al campo de texto
-                cargarPreviewEnLabel(rutaImagen, jLabelPreviewAlquilado); // Muestra la imagen en el JLabel
+                tfAlquilado.setText(rutaImagen);
+                cargarPreviewEnLabel(rutaImagen, jLabelPreviewAlquilado);
             }
         });
 
-        // Acción para guardar la película
         btnGuardar.addActionListener(evt -> {
             try {
                 // Capturar valores desde la interfaz
                 String titulo = tfTitulo.getText();
                 int anioLanzamiento = Integer.parseInt(tfAnioLanzamiento.getText());
                 double costeUnitario = Double.parseDouble(tfCosteUnitario.getText());
-//############################################################################################
+
                 int numDisponibleAlquiler = (int) spinnerDisponibleAlquiler.getValue(); // Obtener valor del spinner
-//############################################################################################
+
                 double recargoDevolucion = Double.parseDouble(tfRecargo.getText());
                 boolean esEstreno = jRadioButtonEstreno.isSelected();
                 String genero = tfGenero.getText();
@@ -81,13 +86,11 @@ public class GestionPeliculas extends javax.swing.JFrame {
                 String actorProtagonista = tfProtagonista.getText();
                 String actorSecundario1 = tfSecun1.getText();
                 String actorSecundario2 = tfSecun2.getText();
-                
-//############################################################################################
+
                 String formatoSeleccionado = (String) comboBoxFormato.getSelectedItem();
                 int formatoId = Integer.parseInt(formatoSeleccionado.split(" - ")[0]);
                 String distSeleccionada = (String) comboBoxDistribuidora.getSelectedItem();
                 int distribuidoraId = Integer.parseInt(distSeleccionada.split(" - ")[0]);         
-//############################################################################################          
 
                 double cuotaAlquilerPeliculas = Double.parseDouble(tfCuotaAlquilerPelicula.getText());
 
@@ -114,8 +117,8 @@ public class GestionPeliculas extends javax.swing.JFrame {
                     String queryProductos = "INSERT INTO Productos ("
                             + "titulo, "
                             + "anioLanzamiento, "
-                            + "costeUnitario, f"
-                            + "echaLanzamiento, "
+                            + "costeUnitario, "
+                            + "fechaLanzamiento, "
                             + "fechaAltaDatabase, "
                             + "numDisponibleAlquiler, "
                             + "recargoDevolucion, "
@@ -132,7 +135,7 @@ public class GestionPeliculas extends javax.swing.JFrame {
                         stmtProductos.setDouble(3, costeUnitario);
                         stmtProductos.setDate(4, fechaLanzamiento);
                         stmtProductos.setDate(5, fechaAltaDatabase);
-                        stmtProductos.setInt(6, numDisponibleAlquiler); // Usar valor del spinner
+                        stmtProductos.setInt(6, numDisponibleAlquiler);
                         stmtProductos.setDouble(7, recargoDevolucion);
                         stmtProductos.setBoolean(8, esEstreno);
                         stmtProductos.setString(9, genero);
@@ -186,6 +189,20 @@ public class GestionPeliculas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Error inesperado: " + ex.getMessage());
             }
         });
+
+        // # Añadir el panel con gradiente al JFrame
+        getContentPane().add(panel, BorderLayout.CENTER); // Añadir el panel con el gradiente al centro del contenedor principal
+
+        // # Actualizar la interfaz
+        getContentPane().revalidate();
+        getContentPane().repaint();
+
+        // # Configurar el JFrame y hacerlo visible
+        setTitle("Gestión de Películas");
+        setSize(800, 600);  // Ajustar el tamaño de la ventana
+        setLocationRelativeTo(null);  // Centrar la ventana
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Cerrar la aplicación cuando se cierre la ventana
+        setVisible(true);  // Hacer la ventana visible
     }
 
         // Método para cargar los nombres de los formatos desde la base de datos
@@ -856,7 +873,7 @@ public class GestionPeliculas extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabelAlquilado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(btnSeleccionarAlquilado)
                 .addContainerGap())
         );
@@ -880,7 +897,7 @@ public class GestionPeliculas extends javax.swing.JFrame {
                     .addComponent(jLabelPreviewDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(40, 40, 40)
                 .addGroup(jPanelPreviewPortadasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelPreviewAlquilado, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                    .addComponent(jLabelPreviewAlquilado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(34, 34, 34))
         );
@@ -917,9 +934,9 @@ public class GestionPeliculas extends javax.swing.JFrame {
                         .addComponent(jPanelPreviewPortadas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelInfoAdicional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 21, Short.MAX_VALUE)
                 .addComponent(jPanelEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -951,13 +968,24 @@ public class GestionPeliculas extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        // Crear una instancia de CustomGradientPanel
+        CustomGradientPanel panel = new CustomGradientPanel();
+
+        // Configurar propiedades del panel si es necesario
+        panel.setLayout(new BorderLayout());  // Si deseas usar un layout específico, ajusta aquí
+
+        // Si quieres cambiar los colores del degradado, puedes hacerlo de esta manera:
+        panel.setGradientColors(new Color(0, 102, 204), new Color(102, 204, 255));
+
+        // Ahora agregar el panel a tu contenedor
+        add(panel, BorderLayout.CENTER); // O el layout que estés usando
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
