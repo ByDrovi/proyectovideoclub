@@ -300,27 +300,27 @@ public class UISocio extends JFrame {
                 tituloPanel.add(campoTitulo, BorderLayout.CENTER);
                 tituloPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45)); // Altura del JTextField
 
-// Concatenar géneros en una sola cadena bajo la etiqueta "Géneros"
+                // Concatenar géneros en una sola cadena bajo la etiqueta "Géneros"
                 StringBuilder generos = new StringBuilder("  Géneros: ");
                 String genero = rs.getString("genero");  // Obtiene el primer género
                 String subgenero = rs.getString("subgenero");  // Obtiene el subgénero
 
-// Si existe un género, se concatena
+                // Si existe un género, se concatena
                 if (genero != null && !genero.isEmpty()) {
                     generos.append(genero);
                 }
 
-// Si existe un subgénero, se concatena después del género
+                // Si existe un subgénero, se concatena después del género
                 if (subgenero != null && !subgenero.isEmpty()) {
                     generos.append(", ").append(subgenero);
                 }
 
-// Concatenar reparto
+                // Concatenar reparto
                 String reparto = "  Reparto: " + rs.getString("actorProtagonista") + ", "
                         + rs.getString("actorSecundario1") + ", "
                         + rs.getString("actorSecundario2");
 
-// Área de detalles con fondo transparente
+                // Área de detalles con fondo transparente
                 JTextArea detallesTextArea = new JTextArea();
                 detallesTextArea.setEditable(false);
                 detallesTextArea.setLineWrap(true);
