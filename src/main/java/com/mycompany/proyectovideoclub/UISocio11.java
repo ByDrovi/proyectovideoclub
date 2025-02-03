@@ -242,7 +242,7 @@ public class UISocio11 extends JFrame {
                 + "p.titulo, "
                 + "f.nombre "
                 + "AS formato, p.anioLanzamiento, p.numDisponibleAlquiler, "
-                + "p.genero, p.subgenero, p.sinopsis, pl.cuotaAlquilerPeliculas, pl.actorProtagonista, pl.actorSecundario1, "
+                + "p.genero, p.subgenero, p.sinopsis, pl.director, pl.cuotaAlquilerPeliculas, pl.actorProtagonista, pl.actorSecundario1, "
                 + "pl.actorSecundario2 "
                 + "FROM Productos p "
                 + "JOIN Peliculas pl ON p.id = pl.id "
@@ -315,12 +315,12 @@ public class UISocio11 extends JFrame {
                     generos.append(", ").append(subgenero);
                 }
 
-                // Concatenar reparto
+                String director = "  Director: " + rs.getString("director");
                 String reparto = "  Reparto: " + rs.getString("actorProtagonista") + ", "
                         + rs.getString("actorSecundario1") + ", "
                         + rs.getString("actorSecundario2");
 
-                // Área de detalles con fondo transparente
+// Área de detalles con fondo transparente
                 JTextArea detallesTextArea = new JTextArea();
                 detallesTextArea.setEditable(false);
                 detallesTextArea.setLineWrap(true);
@@ -328,12 +328,13 @@ public class UISocio11 extends JFrame {
                 detallesTextArea.setBorder(null);
                 detallesTextArea.setBackground(new Color(214, 217, 223));
                 detallesTextArea.setText(
-                        "  Formato: " + rs.getString("formato") + "\n\n"
-                        + "  Año: " + rs.getInt("anioLanzamiento") + "\n\n"
-                        + generos.toString() + "\n\n" // Usamos la cadena de géneros concatenados
-                        + "  Unidades disponibles: " + rs.getInt("numDisponibleAlquiler") + "\n\n"
+                        "  Año: " + rs.getInt("anioLanzamiento") + "\n\n"
+                        + director + "\n\n"
                         + reparto + "\n\n"
+                        + generos.toString() + "\n\n" // Usamos la cadena de géneros concatenados
                         + "  Sinopsis: " + rs.getString("sinopsis") + "\n\n"
+                        + "  Formato: " + rs.getString("formato") + "\n\n"
+                        + "  Unidades disponibles: " + rs.getInt("numDisponibleAlquiler") + "\n\n"
                         + "  Precio de alquiler: " + rs.getDouble("cuotaAlquilerPeliculas") + " €"
                 );
 
