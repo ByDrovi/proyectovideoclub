@@ -24,7 +24,7 @@ public class GestionSocios extends javax.swing.JFrame {
         Utilidades.setPredefinedText(tflogUser, "S****");
         Utilidades.setPredefinedText(tflogPass, "###");
         Utilidades.setPredefinedText(tfdni, "00000000X");
-        Utilidades.cargarImagenEnLabel(jLabelLogoSocio, "images/logosocio.png");
+        Utilidades.cargarImagenEnLabel(jLabelLogoSocio, "/images/logosocio.png");
         
         jPanelCredenciales.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Credenciales"));
 

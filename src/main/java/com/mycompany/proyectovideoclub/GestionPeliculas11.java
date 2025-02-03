@@ -47,7 +47,7 @@ public class GestionPeliculas11 extends javax.swing.JFrame {
         Utilidades.setPredefinedText(tfDuracion, "Ej: 120 (minutos)");
         Utilidades.setPredefinedText(tfGenero, "Ej: Aventura");
         Utilidades.setPredefinedText(tfDirector, "Ej: Steven Spielberg");
-        Utilidades.cargarImagenEnLabel(jLabelLogoPelicula, "images/logopelicula.png");
+        Utilidades.cargarImagenEnLabel(jLabelLogoPelicula, "/images/logopelicula.png");
         
 
         // Crear el panel personalizado con gradiente
