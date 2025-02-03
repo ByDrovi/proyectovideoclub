@@ -7,20 +7,15 @@ package com.mycompany.proyectovideoclub;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class CustomGradientPanel extends JPanel {
-    private Color color1;
-    private Color color2;
+    private Color startColor = Color.BLUE;
+    private Color endColor = Color.CYAN;
 
-    public CustomGradientPanel() {
-        this.color1 = new Color(0, 102, 204);  // Azul oscuro
-        this.color2 = new Color(102, 204, 255); // Azul claro
-        setOpaque(false); // Asegura que el fondo se pinte correctamente
-    }
-
-    public void setGradientColors(Color c1, Color c2) {
-        this.color1 = c1;
-        this.color2 = c2;
-        repaint(); // Redibuja el panel con los nuevos colores
+    public void setGradientColors(Color start, Color end) {
+        this.startColor = start;
+        this.endColor = end;
+        repaint(); // Redibujar el panel con los nuevos colores
     }
 
     @Override
@@ -29,10 +24,8 @@ public class CustomGradientPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         int width = getWidth();
         int height = getHeight();
-
-        GradientPaint gp = new GradientPaint(0, 0, color1, width, height, color2);
-        g2d.setPaint(gp);
+        GradientPaint gradient = new GradientPaint(0, 0, startColor, width, height, endColor);
+        g2d.setPaint(gradient);
         g2d.fillRect(0, 0, width, height);
     }
 }
-
