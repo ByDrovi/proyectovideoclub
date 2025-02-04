@@ -471,6 +471,8 @@ public class UISocio extends JFrame {
         ));
         jScrollPane1.setViewportView(table);
 
+        tfFechaHoy.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        tfFechaHoy.setForeground(new java.awt.Color(0, 102, 204));
         tfFechaHoy.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfFechaHoy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -518,6 +520,8 @@ public class UISocio extends JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Buscar:");
 
         btnActualizarTabla.setText("Actualizar");
