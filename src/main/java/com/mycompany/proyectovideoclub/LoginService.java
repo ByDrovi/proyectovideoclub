@@ -34,7 +34,7 @@ public static Usuarios autenticarUsuario(String logUser, String logPass, Connect
                         rs.getDate("fechaAlta").toLocalDate(),
                         rs.getString("tipo_usuario")
                 );
-                JOptionPane.showMessageDialog(null, "Login exitoso. Bienvenido " + usuario.getNombre());
+                JOptionPane.showMessageDialog(null, "Iniciando sesión. Un segundo, " + usuario.getNombre());
                 return usuario;
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.", "Error de Login", JOptionPane.ERROR_MESSAGE);

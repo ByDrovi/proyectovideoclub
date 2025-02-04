@@ -23,9 +23,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panel" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -39,7 +40,7 @@
     <Container class="javax.swing.JPanel" name="panel">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="d7" green="fd" red="cc" type="rgb"/>
+          <Color blue="ce" green="e7" red="c7" type="rgb"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -49,38 +50,40 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                  <Component id="jLabelLogoPelicula" min="-2" pref="100" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                  <Component id="jLabelAgregarPelicula" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                          <Component id="jPanelDisponibles" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="jPanelPreviewPortadas" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                          <Component id="jPanelInfoBasica" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                                  <Component id="jPanelDisponibles" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jPanelPreviewPortadas" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                  <Component id="jPanelInfoBasica" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jPanelInfoFechaCostes" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanelInfoFechaCostes" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPanelInfoAdicional" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jPanelEliminar" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jSeparator1" min="-2" pref="1003" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanelInfoAdicional" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jPanelEliminar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                          <Component id="jLabelLogoPelicula" min="-2" pref="100" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                          <Component id="jLabelAgregarPelicula" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="jSeparator1" min="-2" pref="973" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -88,10 +91,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                           <Component id="jLabelLogoPelicula" min="-2" pref="103" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
@@ -114,7 +116,7 @@
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanelPreviewPortadas" pref="0" max="32767" attributes="0"/>
+                          <Component id="jPanelPreviewPortadas" pref="350" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -926,7 +928,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSeleccionarDisponibleActionPerformed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModelDisponible = new CustomRoundedButton();&#xa;            customModelDisponible.setNormalColor(Color.BLACK);&#xa;            customModelDisponible.setHoverColor(Color.DARK_GRAY);&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnSeleccionarDisponible.setModel(customModelDisponible); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnSeleccionarDisponible.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnSeleccionarDisponible.setBackground(customModelDisponible.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnSeleccionarDisponible.setBackground(customModelDisponible.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnSeleccionarDisponible.setFocusPainted(false); // Quitar el borde de enfoque&#xa;           btnSeleccionarDisponible.setBackground(customModelDisponible.getNormalColor()); // Color inicial&#xa;           btnSeleccionarDisponible.setForeground(Color.WHITE); // Color del texto&#xa;           btnSeleccionarDisponible.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModelDisponible = new CustomRoundedButton();&#xa;            customModelDisponible.setNormalColor(new Color(82, 2, 120));&#xa;            customModelDisponible.setHoverColor(new Color(25, 231, 255));&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnSeleccionarDisponible.setModel(customModelDisponible); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnSeleccionarDisponible.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnSeleccionarDisponible.setBackground(customModelDisponible.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnSeleccionarDisponible.setBackground(customModelDisponible.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnSeleccionarDisponible.setFocusPainted(false); // Quitar el borde de enfoque&#xa;           btnSeleccionarDisponible.setBackground(customModelDisponible.getNormalColor()); // Color inicial&#xa;           btnSeleccionarDisponible.setForeground(Color.WHITE); // Color del texto&#xa;           btnSeleccionarDisponible.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
                   </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelAlquilado">
@@ -945,7 +947,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSeleccionarAlquiladoActionPerformed"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModelAlquilado = new CustomRoundedButton();&#xa;            customModelAlquilado.setNormalColor(Color.BLACK);&#xa;            customModelAlquilado.setHoverColor(Color.DARK_GRAY);&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnSeleccionarAlquilado.setModel(customModelAlquilado); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnSeleccionarAlquilado.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnSeleccionarAlquilado.setBackground(customModelAlquilado.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnSeleccionarAlquilado.setBackground(customModelAlquilado.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnSeleccionarAlquilado.setFocusPainted(false); // Quitar el borde de enfoque&#xa;           btnSeleccionarAlquilado.setBackground(customModelAlquilado.getNormalColor()); // Color inicial&#xa;           btnSeleccionarAlquilado.setForeground(Color.WHITE); // Color del texto&#xa;           btnSeleccionarAlquilado.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModelAlquilado = new CustomRoundedButton();&#xa;            customModelAlquilado.setNormalColor(new Color(82, 2, 120));&#xa;            customModelAlquilado.setHoverColor(new Color(25, 231, 255));&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnSeleccionarAlquilado.setModel(customModelAlquilado); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnSeleccionarAlquilado.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnSeleccionarAlquilado.setBackground(customModelAlquilado.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnSeleccionarAlquilado.setBackground(customModelAlquilado.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnSeleccionarAlquilado.setFocusPainted(false); // Quitar el borde de enfoque&#xa;           btnSeleccionarAlquilado.setBackground(customModelAlquilado.getNormalColor()); // Color inicial&#xa;           btnSeleccionarAlquilado.setForeground(Color.WHITE); // Color del texto&#xa;           btnSeleccionarAlquilado.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
@@ -960,6 +962,9 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Georgia" size="36" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Agregar una nueva pel&#xed;cula"/>
           </Properties>

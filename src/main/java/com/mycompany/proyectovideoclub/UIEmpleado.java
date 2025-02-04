@@ -1,5 +1,9 @@
 package com.mycompany.proyectovideoclub;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -30,7 +34,7 @@ public class UIEmpleado extends javax.swing.JFrame {
     public UIEmpleado() {
         initComponents();
         inicializarTablaDistribuidorasPeliculas();
-        Utilidades.cargarImagenEnLabel(jLabelEmpleado, "images/empleado.png");
+        Utilidades.cargarImagenEnLabel(jLabelEmpleado, "/images/empleado.png");
         cargarDistribuidorasPeliculas();  // Cargar distribuidoras al iniciar
         
         Utilidades.setPredefinedText(tfNuevaDisPeliculas, "Nueva distribuidora...");
@@ -55,20 +59,20 @@ public class UIEmpleado extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jPanelEmpleado = new javax.swing.JPanel();
         jLabelEmpleado = new javax.swing.JLabel();
-        jPanelDistribuidoras = new javax.swing.JPanel();
-        jScrollPaneDistribuidoraPeliculas = new javax.swing.JScrollPane();
-        tfNuevaDisPeliculas = new javax.swing.JTextField();
-        botonAñadirDisPeliculas = new javax.swing.JButton();
         jLabelTextoEmpleado = new javax.swing.JLabel();
         jPanelDistribuidorasPeliculas = new javax.swing.JPanel();
         jScrollPaneFormatos = new javax.swing.JScrollPane();
         botonAñadirDisVideojuegos = new javax.swing.JButton();
         tfNuevoFormato = new javax.swing.JTextField();
-        jButtonRefresh = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         botonNuevaPelicula = new javax.swing.JButton();
         botonNuevoSocio = new javax.swing.JButton();
         botonEmpleados = new javax.swing.JButton();
+        jButtonRefresh = new javax.swing.JButton();
+        jPanelDistribuidoras = new javax.swing.JPanel();
+        jScrollPaneDistribuidoraPeliculas = new javax.swing.JScrollPane();
+        tfNuevaDisPeliculas = new javax.swing.JTextField();
+        botonAñadirDisPeliculas = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
@@ -79,51 +83,12 @@ public class UIEmpleado extends javax.swing.JFrame {
         jPanelEmpleado.setBackground(new java.awt.Color(204, 204, 255));
         jPanelEmpleado.setForeground(new java.awt.Color(204, 204, 255));
 
-        jScrollPaneDistribuidoraPeliculas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
-        tfNuevaDisPeliculas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfNuevaDisPeliculasActionPerformed(evt);
-            }
-        });
-
-        botonAñadirDisPeliculas.setText("Añadir");
-        botonAñadirDisPeliculas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAñadirDisPeliculasActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelDistribuidorasLayout = new javax.swing.GroupLayout(jPanelDistribuidoras);
-        jPanelDistribuidoras.setLayout(jPanelDistribuidorasLayout);
-        jPanelDistribuidorasLayout.setHorizontalGroup(
-            jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
-                        .addComponent(botonAñadirDisPeliculas)
-                        .addGap(18, 18, 18)
-                        .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPaneDistribuidoraPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
-        );
-        jPanelDistribuidorasLayout.setVerticalGroup(
-            jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jScrollPaneDistribuidoraPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonAñadirDisPeliculas))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         jLabelTextoEmpleado.setFont(new java.awt.Font("Georgia", 1, 36)); // NOI18N
+        jLabelTextoEmpleado.setForeground(new java.awt.Color(51, 153, 255));
         jLabelTextoEmpleado.setText("Area del empleado");
 
         jScrollPaneFormatos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPaneFormatos.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
 
         botonAñadirDisVideojuegos.setText("Añadir");
         botonAñadirDisVideojuegos.addActionListener(new java.awt.event.ActionListener() {
@@ -132,16 +97,10 @@ public class UIEmpleado extends javax.swing.JFrame {
             }
         });
 
+        tfNuevoFormato.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         tfNuevoFormato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfNuevoFormatoActionPerformed(evt);
-            }
-        });
-
-        jButtonRefresh.setText("Refresh");
-        jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRefreshActionPerformed(evt);
             }
         });
 
@@ -150,33 +109,55 @@ public class UIEmpleado extends javax.swing.JFrame {
         jPanelDistribuidorasPeliculasLayout.setHorizontalGroup(
             jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
-                        .addComponent(jButtonRefresh)
-                        .addGap(28, 28, 28))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
-                        .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
                         .addComponent(botonAñadirDisVideojuegos)
                         .addGap(18, 18, 18)
                         .addComponent(tfNuevoFormato, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(177, 177, 177))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
+                        .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51))))
         );
         jPanelDistribuidorasPeliculasLayout.setVerticalGroup(
             jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDistribuidorasPeliculasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonRefresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneFormatos, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelDistribuidorasPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfNuevoFormato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonAñadirDisVideojuegos))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        CustomRoundedButton customModelFormatos= new CustomRoundedButton();
+        customModelFormatos.setNormalColor(new Color(82, 2, 120));
+        customModelFormatos.setHoverColor(new Color(25, 231, 255));
+
+        // Crear un botón estándar de Swing
+
+        botonAñadirDisVideojuegos.setModel(customModelFormatos); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        botonAñadirDisVideojuegos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                botonAñadirDisVideojuegos.setBackground(customModelFormatos.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                botonAñadirDisVideojuegos.setBackground(customModelFormatos.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        botonAñadirDisVideojuegos.setFocusPainted(false); // Quitar el borde de enfoque
+        botonAñadirDisVideojuegos.setBackground(customModelFormatos.getNormalColor()); // Color inicial
+        botonAñadirDisVideojuegos.setForeground(Color.WHITE); // Color del texto
+        botonAñadirDisVideojuegos.setFont(new Font("Arial", Font.BOLD,16));
 
         botonNuevaPelicula.setText("Agregar película");
         botonNuevaPelicula.addActionListener(new java.awt.event.ActionListener() {
@@ -216,60 +197,219 @@ public class UIEmpleado extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonNuevaPelicula)
                     .addComponent(botonEmpleados))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botonNuevoSocio)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
+
+        CustomRoundedButton customModelNuevaPelicula = new CustomRoundedButton();
+        customModelNuevaPelicula.setNormalColor(new Color(25, 231, 255));
+        customModelNuevaPelicula.setHoverColor(Color.BLACK);
+
+        // Crear un botón estándar de Swing
+
+        botonNuevaPelicula.setModel(customModelNuevaPelicula); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        botonNuevaPelicula.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                botonNuevaPelicula.setBackground(customModelNuevaPelicula.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                botonNuevaPelicula.setBackground(customModelNuevaPelicula.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        botonNuevaPelicula.setFocusPainted(false); // Quitar el borde de enfoque
+        botonNuevaPelicula.setBackground(customModelNuevaPelicula.getNormalColor()); // Color inicial
+        botonNuevaPelicula.setForeground(Color.WHITE); // Color del texto
+        botonNuevaPelicula.setFont(new Font("Arial", Font.BOLD,16));
+        CustomRoundedButton customModelNuevoSocio = new CustomRoundedButton();
+        customModelNuevoSocio.setNormalColor(Color.BLACK);
+        customModelNuevoSocio.setHoverColor(Color.GRAY);
+
+        // Crear un botón estándar de Swing
+
+        botonNuevoSocio.setModel(customModelNuevoSocio); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        botonNuevoSocio.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                botonNuevoSocio.setBackground(customModelNuevoSocio.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                botonNuevoSocio.setBackground(customModelNuevoSocio.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        botonNuevoSocio.setFocusPainted(false); // Quitar el borde de enfoque
+        botonNuevoSocio.setBackground(customModelNuevoSocio.getNormalColor()); // Color inicial
+        botonNuevoSocio.setForeground(Color.WHITE); // Color del texto
+        botonNuevoSocio.setFont(new Font("Arial", Font.BOLD,16));
+
+        jButtonRefresh.setText("Refresh");
+        jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRefreshActionPerformed(evt);
+            }
+        });
+
+        jScrollPaneDistribuidoraPeliculas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPaneDistribuidoraPeliculas.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+
+        tfNuevaDisPeliculas.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        tfNuevaDisPeliculas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfNuevaDisPeliculasActionPerformed(evt);
+            }
+        });
+
+        botonAñadirDisPeliculas.setText("Añadir");
+        botonAñadirDisPeliculas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAñadirDisPeliculasActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelDistribuidorasLayout = new javax.swing.GroupLayout(jPanelDistribuidoras);
+        jPanelDistribuidoras.setLayout(jPanelDistribuidorasLayout);
+        jPanelDistribuidorasLayout.setHorizontalGroup(
+            jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPaneDistribuidoraPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
+                        .addComponent(botonAñadirDisPeliculas)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelDistribuidorasLayout.setVerticalGroup(
+            jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDistribuidorasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPaneDistribuidoraPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelDistribuidorasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfNuevaDisPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAñadirDisPeliculas))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        CustomRoundedButton customModelDisPeliculas = new CustomRoundedButton();
+        customModelDisPeliculas.setNormalColor(new Color(82, 2, 120));
+        customModelDisPeliculas.setHoverColor(new Color(25, 231, 255));
+
+        // Crear un botón estándar de Swing
+
+        botonAñadirDisPeliculas.setModel(customModelDisPeliculas); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        botonAñadirDisPeliculas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                botonAñadirDisPeliculas.setBackground(customModelDisPeliculas.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                botonAñadirDisPeliculas.setBackground(customModelDisPeliculas.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        botonAñadirDisPeliculas.setFocusPainted(false); // Quitar el borde de enfoque
+        botonAñadirDisPeliculas.setBackground(customModelDisPeliculas.getNormalColor()); // Color inicial
+        botonAñadirDisPeliculas.setForeground(Color.WHITE); // Color del texto
+        botonAñadirDisPeliculas.setFont(new Font("Arial", Font.BOLD,16));
 
         javax.swing.GroupLayout jPanelEmpleadoLayout = new javax.swing.GroupLayout(jPanelEmpleado);
         jPanelEmpleado.setLayout(jPanelEmpleadoLayout);
         jPanelEmpleadoLayout.setHorizontalGroup(
             jPanelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelEmpleadoLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEmpleadoLayout.createSequentialGroup()
                 .addGroup(jPanelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanelEmpleadoLayout.createSequentialGroup()
-                            .addGap(26, 26, 26)
-                            .addComponent(jLabelEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(56, 56, 56)
-                            .addComponent(jLabelTextoEmpleado))
-                        .addGroup(jPanelEmpleadoLayout.createSequentialGroup()
-                            .addComponent(jPanelDistribuidoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanelDistribuidorasPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelEmpleadoLayout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabelEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabelTextoEmpleado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonRefresh)
+                        .addGap(9, 9, 9))
+                    .addGroup(jPanelEmpleadoLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanelEmpleadoLayout.createSequentialGroup()
+                                .addComponent(jPanelDistribuidorasPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanelDistribuidoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
         );
         jPanelEmpleadoLayout.setVerticalGroup(
             jPanelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelEmpleadoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelEmpleadoLayout.createSequentialGroup()
+                    .addGroup(jPanelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabelEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEmpleadoLayout.createSequentialGroup()
+                            .addComponent(jLabelTextoEmpleado)
+                            .addGap(28, 28, 28)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEmpleadoLayout.createSequentialGroup()
-                        .addComponent(jLabelTextoEmpleado)
-                        .addGap(32, 32, 32)))
-                .addGroup(jPanelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelEmpleadoLayout.createSequentialGroup()
-                        .addComponent(jPanelDistribuidorasPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(12, Short.MAX_VALUE))
-                    .addGroup(jPanelEmpleadoLayout.createSequentialGroup()
-                        .addComponent(jPanelDistribuidoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jButtonRefresh)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(jPanelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelDistribuidorasPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelDistribuidoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanelDistribuidoras.setOpaque(false);
         jPanelDistribuidorasPeliculas.setOpaque(false);
         jPanel1.setOpaque(false);
+        CustomRoundedButton customModelActualizar = new CustomRoundedButton();
+        customModelActualizar.setNormalColor(Color.GRAY);
+        customModelActualizar.setHoverColor(Color.BLACK);
+
+        // Crear un botón estándar de Swing
+
+        jButtonRefresh.setModel(customModelActualizar); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        jButtonRefresh.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                jButtonRefresh.setBackground(customModelActualizar.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                jButtonRefresh.setBackground(customModelActualizar.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        jButtonRefresh.setFocusPainted(false); // Quitar el borde de enfoque
+        jButtonRefresh.setBackground(customModelActualizar.getNormalColor()); // Color inicial
+        jButtonRefresh.setForeground(Color.WHITE); // Color del texto
+        jButtonRefresh.setFont(new Font("Arial", Font.BOLD,16));
+        jPanelDistribuidoras.setOpaque(false);
 
         jMenu1.setText("Salir");
         jMenuBar1.add(jMenu1);
@@ -311,7 +451,7 @@ public class UIEmpleado extends javax.swing.JFrame {
     }
     
     private void inicializarTablaFormatos() {
-        modeloTablaFormatos = new DefaultTableModel(new String[]{"ID", "Nombre", "Cantidad de Productos"}, 0);
+        modeloTablaFormatos = new DefaultTableModel(new String[]{"ID", "Nombre", "Cantidad"}, 0);
         tablaFormatos = new JTable(modeloTablaFormatos);
         jScrollPaneFormatos.setViewportView(tablaFormatos);
     }
@@ -397,7 +537,7 @@ private void agregarFormatos() {
     }//GEN-LAST:event_abrirGestionPeliculasModal
 
     private void abrirGestionEmpleadosModal(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirGestionEmpleadosModal
-        GestionEmpleados1 gestionEmpleados = new GestionEmpleados1();
+        GestionEmpleados gestionEmpleados = new GestionEmpleados();
         javax.swing.JDialog dialog = new javax.swing.JDialog(this, "Gestión de Empleados", true);
         dialog.setContentPane(gestionEmpleados.getContentPane());
         dialog.pack();
