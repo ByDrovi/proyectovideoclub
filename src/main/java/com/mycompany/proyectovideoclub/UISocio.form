@@ -73,44 +73,57 @@
       </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanelSocio">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="cc" red="99" type="rgb"/>
+        </Property>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="46" pref="46" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="btnDevolucion" min="-2" pref="97" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="filtroTabla" min="-2" pref="128" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="46" pref="46" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="btnDevolucion" min="-2" pref="135" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="filtroTabla" min="-2" pref="128" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="btnSeguimiento" min="-2" pref="135" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="btnActualizarTabla" min="-2" pref="129" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jScrollPane1" min="-2" pref="674" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="welcomeUser" min="-2" pref="505" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="nombreLabel" min="-2" pref="82" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="btnSeguimiento" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="btnActualizarTabla" min="-2" pref="97" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jScrollPane1" min="-2" pref="674" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="263" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabelPeticionFecha" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="247" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
                                   <Component id="tfFechaHoy" min="-2" pref="132" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="291" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="welcomeUser" min="-2" pref="505" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="nombreLabel" min="-2" pref="82" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="labelBackground" min="-2" pref="66" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jPanelProximamente" min="-2" pref="303" max="-2" attributes="0"/>
                   <EmptySpace pref="23" max="32767" attributes="0"/>
               </Group>
@@ -121,26 +134,22 @@
               <Group type="102" alignment="1" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="58" max="32767" attributes="0"/>
                           <Component id="jPanelProximamente" min="-2" pref="511" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="labelBackground" min="-2" pref="42" max="-2" attributes="0"/>
-                                  <EmptySpace min="26" pref="26" max="-2" attributes="0"/>
-                              </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                   <Component id="welcomeUser" min="-2" pref="68" max="-2" attributes="0"/>
                               </Group>
                               <Component id="nombreLabel" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="26" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="jLabelPeticionFecha" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="27" max="32767" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="tfFechaHoy" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="btnSeguimiento" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="btnActualizarTabla" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -197,6 +206,12 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelPeticionFecha">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Franklin Gothic Medium" size="18" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="cc" green="33" red="0" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Disculpa, &#xbf;qu&#xe9; d&#xed;a es hoy?"/>
           </Properties>
         </Component>
@@ -207,6 +222,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSeguimientoActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModelSeguimiento = new CustomRoundedButton();&#xa;            customModelSeguimiento.setNormalColor(Color.BLACK);&#xa;            customModelSeguimiento.setHoverColor(Color.GRAY);&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnSeguimiento.setModel(customModelSeguimiento); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnSeguimiento.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnSeguimiento.setBackground(customModelSeguimiento.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnSeguimiento.setBackground(customModelSeguimiento.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnSeguimiento.setFocusPainted(false); // Quitar el borde de enfoque&#xa;          btnSeguimiento.setBackground(customModelSeguimiento.getNormalColor()); // Color inicial&#xa;           btnSeguimiento.setForeground(Color.WHITE); // Color del texto&#xa;           btnSeguimiento.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="btnDevolucion">
           <Properties>
@@ -215,14 +233,26 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDevolucionActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModel = new CustomRoundedButton();&#xa;            customModel.setNormalColor(Color.BLACK);&#xa;            customModel.setHoverColor(Color.GRAY);&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnDevolucion.setModel(customModel); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnDevolucion.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnDevolucion.setBackground(customModel.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnDevolucion.setBackground(customModel.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnDevolucion.setFocusPainted(false); // Quitar el borde de enfoque&#xa;           btnDevolucion.setBackground(customModel.getNormalColor()); // Color inicial&#xa;           btnDevolucion.setForeground(Color.WHITE); // Color del texto&#xa;           btnDevolucion.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="welcomeUser">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="0" red="66" type="rgb"/>
+            </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="48" style="0"/>
+              <Font name="Georgia" size="48" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="95" green="4" red="4c" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Bienvenido"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="welcomeUser.setOpaque(false);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="filtroTabla">
           <AuxValues>
@@ -241,6 +271,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActualizarTablaActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModelActualizar = new CustomRoundedButton();&#xa;            customModelActualizar.setNormalColor(Color.GRAY);&#xa;            customModelActualizar.setHoverColor(Color.BLACK);&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnActualizarTabla.setModel(customModelActualizar); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnActualizarTabla.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnActualizarTabla.setBackground(customModelActualizar.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnActualizarTabla.setBackground(customModelActualizar.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnActualizarTabla.setFocusPainted(false); // Quitar el borde de enfoque&#xa;          btnActualizarTabla.setBackground(customModelActualizar.getNormalColor()); // Color inicial&#xa;           btnActualizarTabla.setForeground(Color.WHITE); // Color del texto&#xa;           btnActualizarTabla.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
+          </AuxValues>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanelProximamente">
           <Properties>
@@ -250,6 +283,9 @@
               </Border>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelProximamente.setOpaque(false);"/>
+          </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
             <Property name="useNullLayout" type="boolean" value="false"/>
@@ -272,20 +308,21 @@
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="18" style="1"/>
+                  <Font name="Franklin Gothic Medium" size="28" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="PR&#xd3;XIMAMENTE"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="70" y="0" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="50" y="0" width="230" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="labelBackground">
-        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

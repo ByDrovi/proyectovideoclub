@@ -37,6 +37,11 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="panel">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="d7" green="fd" red="cc" type="rgb"/>
+        </Property>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Crear una instancia de CustomGradientPanel&#xa;CustomGradientPanel panel = new CustomGradientPanel();&#xa;&#xa;// Configurar propiedades del panel si es necesario&#xa;panel.setLayout(new BorderLayout());  // Si deseas usar un layout espec&#xed;fico, ajusta aqu&#xed;&#xa;&#xa;// Si quieres cambiar los colores del degradado, puedes hacerlo de esta manera:&#xa;panel.setGradientColors(new Color(0, 102, 204), new Color(102, 204, 255));&#xa;&#xa;// Ahora agregar el panel a tu contenedor&#xa;add(panel, BorderLayout.CENTER); // O el layout que est&#xe9;s usando"/>
       </AuxValues>
@@ -44,42 +49,62 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                          <Component id="jPanelDisponibles" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jPanelPreviewPortadas" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Component id="jPanelInfoBasica" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanelInfoFechaCostes" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                          <Component id="jPanelDisponibles" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                          <Component id="jPanelPreviewPortadas" min="-2" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanelInfoAdicional" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" pref="21" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="jPanelEliminar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="15" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                          <Component id="jLabelLogoPelicula" min="-2" pref="100" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="jLabelAgregarPelicula" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jSeparator1" min="-2" pref="973" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="jPanelEliminar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                          <Component id="jLabelLogoPelicula" min="-2" pref="103" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabelAgregarPelicula" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="jSeparator1" min="-2" pref="6" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jPanelEliminar" min="-2" max="-2" attributes="0"/>
+                      <Component id="jPanelInfoAdicional" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jPanelInfoFechaCostes" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
@@ -89,52 +114,48 @@
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanelPreviewPortadas" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jPanelInfoAdicional" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="jPanelPreviewPortadas" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="jPanelInfoBasica">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInfoBasica.setOpaque(false);"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jLabelAnioLanzamiento" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="tfAnioLanzamiento" max="32767" attributes="0"/>
-                          </Group>
                           <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jLabelDistribuidoras" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelFormato" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelDistribuidoras" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="149" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="131" pref="131" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="comboBoxFormato" max="32767" attributes="0"/>
                                   <Component id="comboBoxDistribuidora" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                              <Component id="jLabelTitulo" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="tfTitulo" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jLabelAnioLanzamiento" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelTitulo" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="tfTitulo" pref="134" max="32767" attributes="0"/>
+                                  <Component id="tfAnioLanzamiento" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -172,6 +193,9 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabelTitulo">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="T&#xed;tulo:  "/>
               </Properties>
             </Component>
@@ -182,6 +206,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelAnioLanzamiento">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="A&#xf1;o lanzamiento:  "/>
               </Properties>
             </Component>
@@ -189,6 +216,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelFormato">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Formato"/>
               </Properties>
             </Component>
@@ -220,27 +250,36 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDistribuidoras">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Distribuidora"/>
               </Properties>
             </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanelDisponibles">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelDisponibles.setOpaque(false);"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace pref="18" max="32767" attributes="0"/>
-                      <Component id="jLabelDisponibleAlquiler" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="spinnerDisponibleAlquiler" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jLabelDisponibleAlquiler" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="spinnerDisponibleAlquiler" min="-2" pref="120" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -262,12 +301,18 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabelDisponibleAlquiler">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Disponible alquiler: "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="spinnerDisponibleAlquiler">
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel1">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanel1.setOpaque(false);"/>
+              </AuxValues>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -308,6 +353,9 @@
               <SubComponents>
                 <Component class="javax.swing.JRadioButton" name="jRadioButtonEstreno">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="DialogInput" size="14" style="1"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Estreno"/>
                   </Properties>
                   <Events>
@@ -316,11 +364,17 @@
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="jCheckBoxAlquilado">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="DialogInput" size="14" style="1"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Alquilado"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="jCheckBoxStock">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="DialogInput" size="14" style="1"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Stock"/>
                   </Properties>
                   <Events>
@@ -329,6 +383,9 @@
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="jCheckBoxBaja">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="DialogInput" size="14" style="1"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Baja"/>
                   </Properties>
                   <Events>
@@ -340,6 +397,9 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanelInfoFechaCostes">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInfoFechaCostes.setOpaque(false);"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -349,30 +409,30 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                                      <Component id="jLabelFechaLanzamiento" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                                      <Component id="jLabelFechaAlta" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jLabelFechaAlta" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelFechaLanzamiento" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="tfFechaLanzamiento" pref="107" max="32767" attributes="0"/>
-                                  <Component id="tfFechaAlta" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="tfFechaAlta" min="-2" pref="107" max="-2" attributes="0"/>
+                                  <Component id="tfFechaLanzamiento" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="jPanel2" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="53" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace pref="28" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabelFechaAlta" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfFechaAlta" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -382,7 +442,7 @@
                           <Component id="jLabelFechaLanzamiento" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfFechaLanzamiento" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jPanel2" min="-2" pref="180" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -392,6 +452,9 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabelFechaAlta">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Fecha de alta: "/>
               </Properties>
             </Component>
@@ -399,44 +462,48 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelFechaLanzamiento">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Fecha lanzamiento: "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tfFechaLanzamiento">
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel2">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanel2.setOpaque(false);"/>
+              </AuxValues>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="43" pref="43" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jLabelRecargo" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabelPrecioVenta" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="tfRecargo" alignment="1" min="-2" pref="109" max="-2" attributes="0"/>
-                                      <Component id="tfPVP" alignment="1" min="-2" pref="109" max="-2" attributes="0"/>
-                                  </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace pref="43" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jLabelCuotaAlquiler" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="tfCuotaAlquilerPelicula" min="-2" pref="105" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jLabelCosteUnitario" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabelCuotaAlquiler" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelPrecioVenta" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelRecargo" alignment="1" min="-2" pref="72" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="tfCuotaAlquilerPelicula" min="-2" pref="110" max="-2" attributes="0"/>
-                                      <Component id="tfCosteUnitario" min="-2" pref="110" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="tfPVP" pref="105" max="32767" attributes="0"/>
+                                      <Component id="tfRecargo" alignment="1" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jLabelCosteUnitario" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="tfCosteUnitario" min="-2" pref="105" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace pref="31" max="32767" attributes="0"/>
+                          <EmptySpace pref="23" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -471,6 +538,9 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabelPrecioVenta">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="DialogInput" size="14" style="1"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="P.V.P"/>
                   </Properties>
                 </Component>
@@ -478,18 +548,27 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelRecargo">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Recargo: "/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="DialogInput" size="14" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Recargo:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="tfRecargo">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelCosteUnitario">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="DialogInput" size="14" style="1"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Coste unitario: "/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelCuotaAlquiler">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="DialogInput" size="14" style="1"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Cuota alquiler: "/>
                   </Properties>
                 </Component>
@@ -502,27 +581,35 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanelInfoAdicional">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelInfoAdicional.setOpaque(false);"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jLabelDuracion" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                              <Component id="jLabelGenero" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelDirector" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                              <Component id="jLabelSecun1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jLabelProtagonista" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelSubgenero" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelDuracion" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelDirector" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Component id="jLabelSecun1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelProtagonista" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelSecun2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jLabelSinopsis" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jLabelSecun2" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jLabelSinopsis" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabelGenero" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelSubgenero" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -547,7 +634,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="tfDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabelDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -563,9 +650,9 @@
                           <Component id="tfGenero" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabelSubgenero" min="-2" max="-2" attributes="0"/>
-                          <Component id="tfSubgenero" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="tfSubgenero" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelSubgenero" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -597,6 +684,9 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabelDirector">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Director: "/>
               </Properties>
             </Component>
@@ -606,11 +696,17 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelDuracion">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Duraci&#xf3;n (min): "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelGenero">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="G&#xe9;nero: "/>
               </Properties>
             </Component>
@@ -618,6 +714,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelSubgenero">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Subg&#xe9;nero: "/>
               </Properties>
             </Component>
@@ -625,6 +724,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelSinopsis">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Sinopsis: "/>
               </Properties>
             </Component>
@@ -635,6 +737,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelProtagonista">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Protagonista:"/>
               </Properties>
             </Component>
@@ -642,6 +747,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelSecun1">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Secundario 1: "/>
               </Properties>
             </Component>
@@ -649,6 +757,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelSecun2">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DialogInput" size="14" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Secundario 2: "/>
               </Properties>
             </Component>
@@ -668,6 +779,9 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanelEliminar">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelEliminar.setOpaque(false);"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -711,22 +825,24 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanelPreviewPortadas">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanelPreviewPortadas.setOpaque(false);"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="37" max="32767" attributes="0"/>
+                      <EmptySpace pref="44" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jPanel3" max="32767" attributes="0"/>
-                          <Component id="jLabelPreviewDisponible" max="32767" attributes="0"/>
+                          <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabelPreviewDisponible" min="-2" pref="262" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jLabelPreviewAlquilado" min="-2" pref="256" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabelPreviewAlquilado" max="32767" attributes="0"/>
-                          <Component id="jPanel4" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -734,10 +850,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabelPreviewDisponible" min="-2" pref="347" max="-2" attributes="0"/>
@@ -762,28 +875,36 @@
               </Properties>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel3">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jPanel3.setOpaque(false);"/>
+              </AuxValues>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                          <Component id="jLabelDisponible" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="btnSeleccionarDisponible" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                          <Component id="jLabelDisponible" min="-2" pref="94" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                          <Component id="btnSeleccionarDisponible" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="99" max="32767" attributes="0"/>
+                          <Component id="jLabelAlquilado" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="btnSeleccionarAlquilado" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabelDisponible" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnSeleccionarDisponible" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelAlquilado" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnSeleccionarAlquilado" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="7" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -791,6 +912,9 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabelDisponible">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="DialogInput" size="14" style="1"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Disponible:"/>
                   </Properties>
                 </Component>
@@ -801,36 +925,18 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSeleccionarDisponibleActionPerformed"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModelDisponible = new CustomRoundedButton();&#xa;            customModelDisponible.setNormalColor(Color.BLACK);&#xa;            customModelDisponible.setHoverColor(Color.DARK_GRAY);&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnSeleccionarDisponible.setModel(customModelDisponible); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnSeleccionarDisponible.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnSeleccionarDisponible.setBackground(customModelDisponible.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnSeleccionarDisponible.setBackground(customModelDisponible.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnSeleccionarDisponible.setFocusPainted(false); // Quitar el borde de enfoque&#xa;           btnSeleccionarDisponible.setBackground(customModelDisponible.getNormalColor()); // Color inicial&#xa;           btnSeleccionarDisponible.setForeground(Color.WHITE); // Color del texto&#xa;           btnSeleccionarDisponible.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
+                  </AuxValues>
                 </Component>
-              </SubComponents>
-            </Container>
-            <Container class="javax.swing.JPanel" name="jPanel4">
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                          <Component id="jLabelAlquilado" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="56" max="32767" attributes="0"/>
-                          <Component id="btnSeleccionarAlquilado" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnSeleccionarAlquilado" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelAlquilado" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-              <SubComponents>
+                <Component class="javax.swing.JLabel" name="jLabelAlquilado">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="DialogInput" size="14" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Alquilado:"/>
+                  </Properties>
+                </Component>
                 <Component class="javax.swing.JButton" name="btnSeleccionarAlquilado">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Seleccionar"/>
@@ -838,16 +944,26 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSeleccionarAlquiladoActionPerformed"/>
                   </Events>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabelAlquilado">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Alquilado:"/>
-                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModelAlquilado = new CustomRoundedButton();&#xa;            customModelAlquilado.setNormalColor(Color.BLACK);&#xa;            customModelAlquilado.setHoverColor(Color.DARK_GRAY);&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnSeleccionarAlquilado.setModel(customModelAlquilado); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnSeleccionarAlquilado.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnSeleccionarAlquilado.setBackground(customModelAlquilado.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnSeleccionarAlquilado.setBackground(customModelAlquilado.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnSeleccionarAlquilado.setFocusPainted(false); // Quitar el borde de enfoque&#xa;           btnSeleccionarAlquilado.setBackground(customModelAlquilado.getNormalColor()); // Color inicial&#xa;           btnSeleccionarAlquilado.setForeground(Color.WHITE); // Color del texto&#xa;           btnSeleccionarAlquilado.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JLabel" name="jLabelLogoPelicula">
+        </Component>
+        <Component class="javax.swing.JSeparator" name="jSeparator1">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabelAgregarPelicula">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Georgia" size="36" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Agregar una nueva pel&#xed;cula"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

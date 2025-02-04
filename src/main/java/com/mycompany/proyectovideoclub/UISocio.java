@@ -65,7 +65,7 @@ public class UISocio extends JFrame {
 
         // Llama a los componentes generados automáticamente
         initComponents();
-        Utilidades.cargarImagenEnLabel(labelBackground, "/images/blueshades.png");
+        //Utilidades.cargarImagenEnLabel(labelBackground, "/images/blueshades.png");
         //Utilidades.cargarImagenEnLabel(labelTextoProximamente, "/images/proximamente.png");
         //mostrarNombreSocio();
         Utilidades.setPredefinedText(tfFechaHoy, "yyyy-mm-dd");
@@ -242,7 +242,7 @@ public class UISocio extends JFrame {
                 + "p.titulo, "
                 + "f.nombre "
                 + "AS formato, p.anioLanzamiento, p.numDisponibleAlquiler, "
-                + "p.genero, p.subgenero, p.sinopsis, pl.cuotaAlquilerPeliculas, pl.actorProtagonista, pl.actorSecundario1, "
+                + "p.genero, p.subgenero, p.sinopsis, pl.director, pl.cuotaAlquilerPeliculas, pl.actorProtagonista, pl.actorSecundario1, "
                 + "pl.actorSecundario2 "
                 + "FROM Productos p "
                 + "JOIN Peliculas pl ON p.id = pl.id "
@@ -315,12 +315,12 @@ public class UISocio extends JFrame {
                     generos.append(", ").append(subgenero);
                 }
 
-                // Concatenar reparto
+                String director = "  Director: " + rs.getString("director");
                 String reparto = "  Reparto: " + rs.getString("actorProtagonista") + ", "
                         + rs.getString("actorSecundario1") + ", "
                         + rs.getString("actorSecundario2");
 
-                // Área de detalles con fondo transparente
+// Área de detalles con fondo transparente
                 JTextArea detallesTextArea = new JTextArea();
                 detallesTextArea.setEditable(false);
                 detallesTextArea.setLineWrap(true);
@@ -328,12 +328,13 @@ public class UISocio extends JFrame {
                 detallesTextArea.setBorder(null);
                 detallesTextArea.setBackground(new Color(214, 217, 223));
                 detallesTextArea.setText(
-                        "  Formato: " + rs.getString("formato") + "\n\n"
-                        + "  Año: " + rs.getInt("anioLanzamiento") + "\n\n"
-                        + generos.toString() + "\n\n" // Usamos la cadena de géneros concatenados
-                        + "  Unidades disponibles: " + rs.getInt("numDisponibleAlquiler") + "\n\n"
+                        "  Año: " + rs.getInt("anioLanzamiento") + "\n\n"
+                        + director + "\n\n"
                         + reparto + "\n\n"
+                        + generos.toString() + "\n\n" // Usamos la cadena de géneros concatenados
                         + "  Sinopsis: " + rs.getString("sinopsis") + "\n\n"
+                        + "  Formato: " + rs.getString("formato") + "\n\n"
+                        + "  Unidades disponibles: " + rs.getInt("numDisponibleAlquiler") + "\n\n"
                         + "  Precio de alquiler: " + rs.getDouble("cuotaAlquilerPeliculas") + " €"
                 );
 
@@ -434,7 +435,6 @@ public class UISocio extends JFrame {
         jLabelProximamente = new javax.swing.JLabel();
         siguiente = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        labelBackground = new javax.swing.JLabel();
 
         javax.swing.GroupLayout detallesDialogLayout = new javax.swing.GroupLayout(detallesDialog.getContentPane());
         detallesDialog.getContentPane().setLayout(detallesDialogLayout);
@@ -456,6 +456,8 @@ public class UISocio extends JFrame {
             }
         });
 
+        jPanelSocio.setBackground(new java.awt.Color(153, 204, 255));
+
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -476,6 +478,8 @@ public class UISocio extends JFrame {
             }
         });
 
+        jLabelPeticionFecha.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 18)); // NOI18N
+        jLabelPeticionFecha.setForeground(new java.awt.Color(0, 51, 204));
         jLabelPeticionFecha.setText("Disculpa, ¿qué día es hoy?");
 
         btnSeguimiento.setText("Seguimiento");
@@ -492,7 +496,9 @@ public class UISocio extends JFrame {
             }
         });
 
-        welcomeUser.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
+        welcomeUser.setBackground(new java.awt.Color(102, 0, 255));
+        welcomeUser.setFont(new java.awt.Font("Georgia", 1, 48)); // NOI18N
+        welcomeUser.setForeground(new java.awt.Color(76, 4, 149));
         welcomeUser.setText("Bienvenido");
 
         filtroTabla.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
@@ -526,41 +532,46 @@ public class UISocio extends JFrame {
         jPanelProximamente.add(jLabelProximamente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 280, 440));
         jPanelProximamente.add(siguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 280, 440));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 28)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("PRÓXIMAMENTE");
-        jPanelProximamente.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, -1, -1));
+        jPanelProximamente.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 230, 40));
 
         javax.swing.GroupLayout jPanelSocioLayout = new javax.swing.GroupLayout(jPanelSocio);
         jPanelSocio.setLayout(jPanelSocioLayout);
         jPanelSocioLayout.setHorizontalGroup(
             jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSocioLayout.createSequentialGroup()
-                .addGap(46, 46, 46)
                 .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
-                            .addComponent(btnDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3)
-                            .addGap(18, 18, 18)
-                            .addComponent(filtroTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanelSocioLayout.createSequentialGroup()
-                            .addComponent(btnSeguimiento)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 674, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanelSocioLayout.createSequentialGroup()
-                            .addGap(263, 263, 263)
-                            .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabelPeticionFecha)
-                                .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
-                        .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addGap(46, 46, 46)
+                        .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
+                                    .addComponent(btnDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(filtroTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanelSocioLayout.createSequentialGroup()
+                                    .addComponent(btnSeguimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 674, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelSocioLayout.createSequentialGroup()
+                                .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
+                                .addComponent(jLabelPeticionFecha)
+                                .addGap(247, 247, 247))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
+                                .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(291, 291, 291)))))
                 .addComponent(jPanelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(23, Short.MAX_VALUE))
         );
@@ -569,22 +580,19 @@ public class UISocio extends JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
                 .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(58, Short.MAX_VALUE)
                         .addComponent(jPanelProximamente, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelSocioLayout.createSequentialGroup()
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
-                                .addComponent(labelBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26))
                             .addGroup(jPanelSocioLayout.createSequentialGroup()
                                 .addGap(29, 29, 29)
                                 .addComponent(welcomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelPeticionFecha)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
+                        .addGap(27, 27, 27)
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnSeguimiento, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnActualizarTabla, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -599,6 +607,86 @@ public class UISocio extends JFrame {
         );
 
         CustomTextField customTextField = new CustomTextField(30, 30); // Bordes más redondeados
+        CustomRoundedButton customModelSeguimiento = new CustomRoundedButton();
+        customModelSeguimiento.setNormalColor(Color.BLACK);
+        customModelSeguimiento.setHoverColor(Color.GRAY);
+
+        // Crear un botón estándar de Swing
+
+        btnSeguimiento.setModel(customModelSeguimiento); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        btnSeguimiento.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnSeguimiento.setBackground(customModelSeguimiento.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnSeguimiento.setBackground(customModelSeguimiento.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        btnSeguimiento.setFocusPainted(false); // Quitar el borde de enfoque
+        btnSeguimiento.setBackground(customModelSeguimiento.getNormalColor()); // Color inicial
+        btnSeguimiento.setForeground(Color.WHITE); // Color del texto
+        btnSeguimiento.setFont(new Font("Arial", Font.BOLD,16));
+        CustomRoundedButton customModel = new CustomRoundedButton();
+        customModel.setNormalColor(Color.BLACK);
+        customModel.setHoverColor(Color.GRAY);
+
+        // Crear un botón estándar de Swing
+
+        btnDevolucion.setModel(customModel); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        btnDevolucion.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnDevolucion.setBackground(customModel.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnDevolucion.setBackground(customModel.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        btnDevolucion.setFocusPainted(false); // Quitar el borde de enfoque
+        btnDevolucion.setBackground(customModel.getNormalColor()); // Color inicial
+        btnDevolucion.setForeground(Color.WHITE); // Color del texto
+        btnDevolucion.setFont(new Font("Arial", Font.BOLD,16));
+        welcomeUser.setOpaque(false);
+        CustomRoundedButton customModelActualizar = new CustomRoundedButton();
+        customModelActualizar.setNormalColor(Color.GRAY);
+        customModelActualizar.setHoverColor(Color.BLACK);
+
+        // Crear un botón estándar de Swing
+
+        btnActualizarTabla.setModel(customModelActualizar); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        btnActualizarTabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnActualizarTabla.setBackground(customModelActualizar.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnActualizarTabla.setBackground(customModelActualizar.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        btnActualizarTabla.setFocusPainted(false); // Quitar el borde de enfoque
+        btnActualizarTabla.setBackground(customModelActualizar.getNormalColor()); // Color inicial
+        btnActualizarTabla.setForeground(Color.WHITE); // Color del texto
+        btnActualizarTabla.setFont(new Font("Arial", Font.BOLD,16));
+        jPanelProximamente.setOpaque(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -658,7 +746,6 @@ public class UISocio extends JFrame {
     private javax.swing.JPanel jPanelProximamente;
     private javax.swing.JPanel jPanelSocio;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel labelBackground;
     private javax.swing.JLabel nombreLabel;
     private javax.swing.JLabel siguiente;
     private javax.swing.JTable table;
