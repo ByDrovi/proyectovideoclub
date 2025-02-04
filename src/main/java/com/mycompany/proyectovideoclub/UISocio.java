@@ -187,6 +187,18 @@ public class UISocio extends JFrame {
             }
         });
 
+        //Boton salir
+        btnSalir.addActionListener(e -> {
+            // Mostrar mensaje emergente
+            JOptionPane.showMessageDialog(UISocio.this, "Nos alegramos de verte, ¡hasta pronto!", "Despedida", JOptionPane.INFORMATION_MESSAGE);
+
+            // Cerrar la ventana actual
+            dispose();
+
+            // Abrir la interfaz de inicio de sesión
+            new UILogin().setVisible(true);
+        });
+
         // Acción para el botón de devolución
         btnDevolucion.addActionListener(e -> {
             try {
@@ -435,6 +447,7 @@ public class UISocio extends JFrame {
         jLabelProximamente = new javax.swing.JLabel();
         siguiente = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        btnSalir = new javax.swing.JButton();
 
         javax.swing.GroupLayout detallesDialogLayout = new javax.swing.GroupLayout(detallesDialog.getContentPane());
         detallesDialog.getContentPane().setLayout(detallesDialogLayout);
@@ -472,7 +485,7 @@ public class UISocio extends JFrame {
         jScrollPane1.setViewportView(table);
 
         tfFechaHoy.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
-        tfFechaHoy.setForeground(new java.awt.Color(0, 102, 204));
+        tfFechaHoy.setForeground(new java.awt.Color(102, 0, 255));
         tfFechaHoy.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfFechaHoy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -541,6 +554,13 @@ public class UISocio extends JFrame {
         jLabel1.setText("PRÓXIMAMENTE");
         jPanelProximamente.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 230, 40));
 
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelSocioLayout = new javax.swing.GroupLayout(jPanelSocio);
         jPanelSocio.setLayout(jPanelSocioLayout);
         jPanelSocioLayout.setHorizontalGroup(
@@ -551,12 +571,14 @@ public class UISocio extends JFrame {
                         .addGap(46, 46, 46)
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSocioLayout.createSequentialGroup()
+                                .addGroup(jPanelSocioLayout.createSequentialGroup()
                                     .addComponent(btnDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGap(113, 113, 113)
                                     .addComponent(jLabel3)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(filtroTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(filtroTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanelSocioLayout.createSequentialGroup()
                                     .addComponent(btnSeguimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -596,7 +618,7 @@ public class UISocio extends JFrame {
                         .addComponent(jLabelPeticionFecha)
                         .addGap(18, 18, 18)
                         .addComponent(tfFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
+                        .addGap(24, 24, 24)
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnSeguimiento, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnActualizarTabla, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -606,7 +628,8 @@ public class UISocio extends JFrame {
                         .addGroup(jPanelSocioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(filtroTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
-                            .addComponent(btnDevolucion))))
+                            .addComponent(btnDevolucion)
+                            .addComponent(btnSalir))))
                 .addGap(13, 13, 13))
         );
 
@@ -666,7 +689,7 @@ public class UISocio extends JFrame {
         welcomeUser.setOpaque(false);
         CustomRoundedButton customModelActualizar = new CustomRoundedButton();
         customModelActualizar.setNormalColor(Color.GRAY);
-        customModelActualizar.setHoverColor(Color.BLACK);
+        customModelActualizar.setHoverColor(new Color(153, 255, 204));
 
         // Crear un botón estándar de Swing
 
@@ -691,6 +714,32 @@ public class UISocio extends JFrame {
         btnActualizarTabla.setForeground(Color.WHITE); // Color del texto
         btnActualizarTabla.setFont(new Font("Arial", Font.BOLD,16));
         jPanelProximamente.setOpaque(false);
+        CustomRoundedButton customModelSalir= new CustomRoundedButton();
+        customModelSalir.setNormalColor(Color.GRAY);
+        customModelSalir.setHoverColor(new Color(255, 102, 102));
+
+        // Crear un botón estándar de Swing
+
+        btnSalir.setModel(customModelSalir); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        btnSalir.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnSalir.setBackground(customModelSalir.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnSalir.setBackground(customModelSalir.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        btnSalir.setFocusPainted(false); // Quitar el borde de enfoque
+        btnSalir.setBackground(customModelSalir.getNormalColor()); // Color inicial
+        btnSalir.setForeground(Color.WHITE); // Color del texto
+        btnSalir.setFont(new Font("Arial", Font.BOLD,16));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -736,10 +785,15 @@ public class UISocio extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfFechaHoyActionPerformed
 
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarTabla;
     private javax.swing.JButton btnDevolucion;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSeguimiento;
     private javax.swing.JDialog detallesDialog;
     private javax.swing.JTextField filtroTabla;

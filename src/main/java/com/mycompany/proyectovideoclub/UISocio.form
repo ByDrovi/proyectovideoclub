@@ -88,12 +88,14 @@
                           <EmptySpace min="46" pref="46" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
                                       <Component id="btnDevolucion" min="-2" pref="135" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
                                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="filtroTabla" min="-2" pref="128" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="btnSalir" min="-2" pref="129" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="btnSeguimiento" min="-2" pref="135" max="-2" attributes="0"/>
@@ -149,7 +151,7 @@
                           <Component id="jLabelPeticionFecha" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="tfFechaHoy" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="btnSeguimiento" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="btnActualizarTabla" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -161,6 +163,7 @@
                               <Component id="filtroTabla" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnDevolucion" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnSalir" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -199,7 +202,7 @@
               <Font name="Comic Sans MS" size="14" style="1"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="66" red="0" type="rgb"/>
+              <Color blue="ff" green="0" red="66" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
@@ -284,7 +287,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActualizarTablaActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModelActualizar = new CustomRoundedButton();&#xa;            customModelActualizar.setNormalColor(Color.GRAY);&#xa;            customModelActualizar.setHoverColor(Color.BLACK);&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnActualizarTabla.setModel(customModelActualizar); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnActualizarTabla.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnActualizarTabla.setBackground(customModelActualizar.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnActualizarTabla.setBackground(customModelActualizar.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnActualizarTabla.setFocusPainted(false); // Quitar el borde de enfoque&#xa;          btnActualizarTabla.setBackground(customModelActualizar.getNormalColor()); // Color inicial&#xa;           btnActualizarTabla.setForeground(Color.WHITE); // Color del texto&#xa;           btnActualizarTabla.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModelActualizar = new CustomRoundedButton();&#xa;            customModelActualizar.setNormalColor(Color.GRAY);&#xa;            customModelActualizar.setHoverColor(new Color(153, 255, 204));&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnActualizarTabla.setModel(customModelActualizar); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnActualizarTabla.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnActualizarTabla.setBackground(customModelActualizar.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnActualizarTabla.setBackground(customModelActualizar.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnActualizarTabla.setFocusPainted(false); // Quitar el borde de enfoque&#xa;          btnActualizarTabla.setBackground(customModelActualizar.getNormalColor()); // Color inicial&#xa;           btnActualizarTabla.setForeground(Color.WHITE); // Color del texto&#xa;           btnActualizarTabla.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
           </AuxValues>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanelProximamente">
@@ -335,6 +338,17 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JButton" name="btnSalir">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Salir"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalirActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="CustomRoundedButton customModelSalir= new CustomRoundedButton();&#xa;            customModelSalir.setNormalColor(Color.GRAY);&#xa;            customModelSalir.setHoverColor(new Color(255, 102, 102));&#xa;&#xa;            // Crear un bot&#xf3;n est&#xe1;ndar de Swing&#xa;            &#xa;           btnSalir.setModel(customModelSalir); // Asignar el modelo personalizado&#xa;&#xa;            // Configurar colores din&#xe1;micamente con un MouseListener&#xa;           btnSalir.addMouseListener(new MouseAdapter() {&#xa;                @Override&#xa;                public void mouseEntered(MouseEvent e) {&#xa;                   btnSalir.setBackground(customModelSalir.getHoverColor());&#xa;                }&#xa;&#xa;                @Override&#xa;                public void mouseExited(MouseEvent e) {&#xa;                    btnSalir.setBackground(customModelSalir.getNormalColor());&#xa;                }&#xa;            });&#xa;&#xa;            // Configurar el bot&#xf3;n&#xa;           btnSalir.setFocusPainted(false); // Quitar el borde de enfoque&#xa;           btnSalir.setBackground(customModelSalir.getNormalColor()); // Color inicial&#xa;           btnSalir.setForeground(Color.WHITE); // Color del texto&#xa;           btnSalir.setFont(new Font(&quot;Arial&quot;, Font.BOLD,16));"/>
+          </AuxValues>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
