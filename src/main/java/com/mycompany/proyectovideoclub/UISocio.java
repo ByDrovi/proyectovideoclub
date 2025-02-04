@@ -190,7 +190,7 @@ public class UISocio extends JFrame {
         //Boton salir
         btnSalir.addActionListener(e -> {
             // Mostrar mensaje emergente
-            JOptionPane.showMessageDialog(UISocio.this, "Nos alegramos de verte, ¡hasta pronto!", "Despedida", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(UISocio.this, "Nos alegramos de verte, ¡hasta pronto!", "Bye, bye...", JOptionPane.INFORMATION_MESSAGE);
 
             // Cerrar la ventana actual
             dispose();
