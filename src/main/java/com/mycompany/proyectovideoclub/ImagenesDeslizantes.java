@@ -19,7 +19,13 @@ public class ImagenesDeslizantes {
         "/images/estreno2thelmalouise.jpg",
         "/images/estreno3heretic.jpg",
         "/images/estreno4misionimposible.jpg",
-        "/images/estreno5alien.jpg"
+        "/images/estreno5alien.jpg",
+        "/images/estrenoDaredevil.jpg",
+        "/images/estrenoPiratas.jpg",
+        "/images/estrenoSaw.jpg",
+        "/images/estrenoGladiator.jpg",
+        "/images/estrenoMatilda.jpg"
+        
     };
 
     private JLabel labelImagen;
