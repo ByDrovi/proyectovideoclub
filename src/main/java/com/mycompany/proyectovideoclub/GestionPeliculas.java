@@ -200,20 +200,6 @@ public class GestionPeliculas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Error inesperado: " + ex.getMessage());
             }
         });
-
-        // # Añadir el panel con gradiente al JFrame
-        getContentPane().add(panel, BorderLayout.CENTER); // Añadir el panel con el gradiente al centro del contenedor principal
-
-        // # Actualizar la interfaz
-        getContentPane().revalidate();
-        getContentPane().repaint();
-
-        // # Configurar el JFrame y hacerlo visible
-        setTitle("Gestión de Películas");
-        setSize(1100, 900);  // Ajustar el tamaño de la ventana
-        setLocationRelativeTo(null);  // Centrar la ventana
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Cerrar la aplicación cuando se cierre la ventana
-        setVisible(true);  // Hacer la ventana visible
     }
 
     // Método para cargar los nombres de los formatos desde la base de datos
