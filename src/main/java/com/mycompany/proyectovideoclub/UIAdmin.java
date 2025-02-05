@@ -135,6 +135,59 @@ public class UIAdmin extends JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        CustomRoundedButton customModel = new CustomRoundedButton();
+        customModel.setNormalColor(Color.BLACK);
+        customModel.setHoverColor(Color.DARK_GRAY);
+
+        // Crear un botón estándar de Swing
+
+        btnCargarEmpleados.setModel(customModel); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        btnCargarEmpleados.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnCargarEmpleados.setBackground(customModel.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnCargarEmpleados.setBackground(customModel.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        btnCargarEmpleados.setFocusPainted(false); // Quitar el borde de enfoque
+        btnCargarEmpleados.setBackground(customModel.getNormalColor()); // Color inicial
+        btnCargarEmpleados.setForeground(Color.WHITE); // Color del texto
+        btnCargarEmpleados.setFont(new Font("Arial", Font.BOLD,16));
+        CustomRoundedButton customModelSocios = new CustomRoundedButton();
+        customModel.setNormalColor(Color.BLACK);
+        customModel.setHoverColor(Color.DARK_GRAY);
+
+        // Crear un botón estándar de Swing
+
+        btnCargarSocios.setModel(customModelSocios); // Asignar el modelo personalizado
+
+        // Configurar colores dinámicamente con un MouseListener
+        btnCargarSocios.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnCargarSocios.setBackground(customModelSocios.getHoverColor());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnCargarSocios.setBackground(customModelSocios.getNormalColor());
+            }
+        });
+
+        // Configurar el botón
+        btnCargarSocios.setFocusPainted(false); // Quitar el borde de enfoque
+        btnCargarSocios.setBackground(customModelSocios.getNormalColor()); // Color inicial
+        btnCargarSocios.setForeground(Color.WHITE); // Color del texto
+        btnCargarSocios.setFont(new Font("Arial", Font.BOLD,16));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

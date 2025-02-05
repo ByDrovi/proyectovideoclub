@@ -100,7 +100,7 @@ public class UIEmpleado extends javax.swing.JFrame {
         jPanelEmpleado.setForeground(new java.awt.Color(204, 204, 255));
 
         jLabelTextoEmpleado.setFont(new java.awt.Font("Georgia", 1, 36)); // NOI18N
-        jLabelTextoEmpleado.setForeground(new java.awt.Color(51, 153, 255));
+        jLabelTextoEmpleado.setForeground(new java.awt.Color(0, 51, 204));
         jLabelTextoEmpleado.setText("Area del empleado");
 
         jScrollPaneFormatos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
