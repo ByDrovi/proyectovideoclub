@@ -109,8 +109,11 @@ public class GestionSocios extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanelCredenciales.setBackground(new java.awt.Color(153, 153, 255));
+        jPanelCredenciales.setBackground(new java.awt.Color(51, 51, 51));
+        jPanelCredenciales.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        tflogUser.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        tflogUser.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tflogUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tflogUserActionPerformed(evt);
@@ -118,10 +121,15 @@ public class GestionSocios extends javax.swing.JFrame {
         });
 
         jLabelUser.setFont(new java.awt.Font("DialogInput", 1, 16)); // NOI18N
-        jLabelUser.setText("User");
+        jLabelUser.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelUser.setText("Usuario");
 
         jLabelPass.setFont(new java.awt.Font("DialogInput", 1, 16)); // NOI18N
+        jLabelPass.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPass.setText("Contraseña");
+
+        tflogPass.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        tflogPass.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout jPanelCredencialesLayout = new javax.swing.GroupLayout(jPanelCredenciales);
         jPanelCredenciales.setLayout(jPanelCredencialesLayout);
@@ -136,7 +144,7 @@ public class GestionSocios extends javax.swing.JFrame {
                             .addComponent(tflogPass, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tflogUser, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanelCredencialesLayout.createSequentialGroup()
-                        .addGap(43, 43, 43)
+                        .addGap(31, 31, 31)
                         .addComponent(jLabelUser)))
                 .addGap(0, 17, Short.MAX_VALUE))
         );
@@ -213,6 +221,8 @@ public class GestionSocios extends javax.swing.JFrame {
             }
         });
 
+        jdcNacimiento.setWeekOfYearVisible(false);
+
         jLabelNacimiento.setFont(new java.awt.Font("DialogInput", 1, 14)); // NOI18N
         jLabelNacimiento.setText("Fecha nacimiento:");
 
@@ -264,7 +274,7 @@ public class GestionSocios extends javax.swing.JFrame {
                 .addComponent(jdcAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jLabelLogoSocio.setText("jLabel1");
+        jLabelLogoSocio.setText("logoSocio");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -291,7 +301,7 @@ public class GestionSocios extends javax.swing.JFrame {
                                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(23, 23, 23)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,7 +324,6 @@ public class GestionSocios extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(93, 93, 93))
         );
@@ -350,11 +359,14 @@ public class GestionSocios extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
