@@ -61,10 +61,11 @@ public class UISocio extends JFrame {
         setTitle("Listado de Películas");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
-        setLocationRelativeTo(null);
 
         // Llama a los componentes generados automáticamente
         initComponents();
+        setLocationRelativeTo(null); // Abrir centrado en la pantalla, debe ir después de initComponents
+
         //Utilidades.cargarImagenEnLabel(labelBackground, "/images/blueshades.png");
         //Utilidades.cargarImagenEnLabel(labelTextoProximamente, "/images/proximamente.png");
         //mostrarNombreSocio();

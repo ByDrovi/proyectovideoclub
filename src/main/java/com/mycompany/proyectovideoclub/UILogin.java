@@ -32,8 +32,8 @@ public class UILogin extends javax.swing.JFrame {
         setTitle("Videoclub - Login");
         setSize(1000, 1000);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         initComponents();
+        setLocationRelativeTo(null); // Abrir centrado en la pantalla, debe ir después de initComponents
         Utilidades.cargarImagenEnLabel(labelLogin, "/images/locklogin.png");
         Utilidades.cargarImagenEnLabel(labelGalaxy, "/images/galaxy.gif");
         Utilidades.cargarImagenEnLabel(jLabelRetro, "/images/retro.png");

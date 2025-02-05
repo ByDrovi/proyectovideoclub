@@ -2,6 +2,8 @@ package com.mycompany.proyectovideoclub;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -16,15 +18,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author oscar.lara
  */
-
 public class UIEmpleado extends javax.swing.JFrame {
 
     private DefaultTableModel modeloTablaDistribuidorasPeliculas;
     private JTable tablaDistribuidorasPeliculas;
-    
+
     private DefaultTableModel modeloTablaDistribuidorasVideojuegos;
     private JTable tablaDistribuidorasVideojuegos;
-    
+
     private DefaultTableModel modeloTablaFormatos;
     private JTable tablaFormatos;
 
@@ -33,18 +34,32 @@ public class UIEmpleado extends javax.swing.JFrame {
      */
     public UIEmpleado() {
         initComponents();
+        setLocationRelativeTo(null); // Abrir centrado en la pantalla, debe ir después de initComponents
+
         inicializarTablaDistribuidorasPeliculas();
         Utilidades.cargarImagenEnLabel(jLabelEmpleado, "/images/empleado.png");
         cargarDistribuidorasPeliculas();  // Cargar distribuidoras al iniciar
-        
+
         Utilidades.setPredefinedText(tfNuevaDisPeliculas, "Nueva distribuidora...");
         Utilidades.setPredefinedText(tfNuevoFormato, "Nuevo formato...");
-        
+
         botonEmpleados.setVisible(false);
-        
+
         inicializarTablaFormatos();
         cargarFormatos();
-        
+
+        menuCerrarSesion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Cerrar la ventana actual
+                dispose();
+
+                // Abrir UILogin
+                UILogin login = new UILogin();
+                login.setVisible(true);
+            }
+        });
+
     }
 
     /**
@@ -75,6 +90,7 @@ public class UIEmpleado extends javax.swing.JFrame {
         botonAñadirDisPeliculas = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        menuCerrarSesion = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -411,7 +427,11 @@ public class UIEmpleado extends javax.swing.JFrame {
         jButtonRefresh.setFont(new Font("Arial", Font.BOLD,16));
         jPanelDistribuidoras.setOpaque(false);
 
-        jMenu1.setText("Salir");
+        jMenu1.setText("Opciones");
+
+        menuCerrarSesion.setText("Cerrar sesión");
+        jMenu1.add(menuCerrarSesion);
+
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -439,7 +459,7 @@ public class UIEmpleado extends javax.swing.JFrame {
 
     // Cargar distribuidoras desde la base de datos y mostrarlas en la tabla
     private void cargarDistribuidorasPeliculas() {
-        try (Connection conn = Database.getConnection()) {
+        try ( Connection conn = Database.getConnection()) {
             List<DistribuidoraPeliculas> distribuidoras = DistribuidoraPeliculas.consultarDistribuidorasPeliculas(conn);
             modeloTablaDistribuidorasPeliculas.setRowCount(0);  // Limpiar tabla antes de agregar
             for (DistribuidoraPeliculas d : distribuidoras) {
@@ -449,7 +469,7 @@ public class UIEmpleado extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar distribuidoras: " + ex.getMessage());
         }
     }
-    
+
     private void inicializarTablaFormatos() {
         modeloTablaFormatos = new DefaultTableModel(new String[]{"ID", "Nombre", "Cantidad"}, 0);
         tablaFormatos = new JTable(modeloTablaFormatos);
@@ -462,32 +482,29 @@ public class UIEmpleado extends javax.swing.JFrame {
 
         for (Formato formato : formatos) {
             modeloTablaFormatos.addRow(new Object[]{
-                formato.getId(), 
-                formato.getNombre(), 
+                formato.getId(),
+                formato.getNombre(),
                 formato.getCantidadProductos()
             });
         }
     }
-    
-private void agregarFormatos() {
-    String nombreFormato = tfNuevoFormato.getText().trim();  // Obtener el texto del campo de texto
-    if (!nombreFormato.isEmpty()) {
-        try (Connection conn = Database.getConnection()) {  // Establecer la conexión
-            // Llamar al método agregarFormato
-            Formato.agregarFormato(conn, nombreFormato);  
-            cargarFormatos();  // Recargar lista de formatos
-            tfNuevoFormato.setText("");  // Limpiar el campo de texto
-            JOptionPane.showMessageDialog(this, "Formato agregado con éxito.");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al agregar formato: " + ex.getMessage());
+
+    private void agregarFormatos() {
+        String nombreFormato = tfNuevoFormato.getText().trim();  // Obtener el texto del campo de texto
+        if (!nombreFormato.isEmpty()) {
+            try ( Connection conn = Database.getConnection()) {  // Establecer la conexión
+                // Llamar al método agregarFormato
+                Formato.agregarFormato(conn, nombreFormato);
+                cargarFormatos();  // Recargar lista de formatos
+                tfNuevoFormato.setText("");  // Limpiar el campo de texto
+                JOptionPane.showMessageDialog(this, "Formato agregado con éxito.");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error al agregar formato: " + ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingrese el nombre del formato.");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Ingrese el nombre del formato.");
     }
-}
-
-    
-
 
     // Cargar distribuidoras desde la base de datos y mostrarlas en la tabla
 //    private void cargarDistribuidorasVideojuegos() {
@@ -501,12 +518,11 @@ private void agregarFormatos() {
 //            JOptionPane.showMessageDialog(this, "Error al cargar distribuidoras: " + ex.getMessage());
 //        }
 //    }
-
     // Agregar una nueva distribuidora al presionar el botón Añadir
     private void agregarDistribuidoraPeliculas() {
         String nombreDistribuidora = tfNuevaDisPeliculas.getText().trim();
         if (!nombreDistribuidora.isEmpty()) {
-            try (Connection conn = Database.getConnection()) {
+            try ( Connection conn = Database.getConnection()) {
                 DistribuidoraPeliculas.agregarDistribuidoraPeliculas(conn, nombreDistribuidora);
                 cargarDistribuidorasPeliculas();  // Recargar lista
                 tfNuevaDisPeliculas.setText("");  // Limpiar campo
@@ -588,9 +604,8 @@ private void agregarFormatos() {
     }//GEN-LAST:event_abrirGestionSociosModal
 
     private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
-         cargarFormatos();
+        cargarFormatos();
     }//GEN-LAST:event_jButtonRefreshActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -611,6 +626,7 @@ private void agregarFormatos() {
     private javax.swing.JPanel jPanelEmpleado;
     private javax.swing.JScrollPane jScrollPaneDistribuidoraPeliculas;
     private javax.swing.JScrollPane jScrollPaneFormatos;
+    private javax.swing.JMenuItem menuCerrarSesion;
     private javax.swing.JTextField tfNuevaDisPeliculas;
     private javax.swing.JTextField tfNuevoFormato;
     // End of variables declaration//GEN-END:variables

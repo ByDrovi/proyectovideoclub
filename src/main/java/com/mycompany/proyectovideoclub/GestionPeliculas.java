@@ -31,10 +31,9 @@ import javax.swing.SwingUtilities;
  *
  * @author oscar.lara
  */
-
 public class GestionPeliculas extends javax.swing.JFrame {
 
- public GestionPeliculas() {
+    public GestionPeliculas() {
         initComponents();
         tfDisponible.setVisible(false);
         tfAlquilado.setVisible(false);
@@ -48,7 +47,7 @@ public class GestionPeliculas extends javax.swing.JFrame {
         Utilidades.setPredefinedText(tfGenero, "Ej: Aventura");
         Utilidades.setPredefinedText(tfDirector, "Ej: Steven Spielberg");
         Utilidades.cargarImagenEnLabel(jLabelLogoPelicula, "/images/logopelicula.png");
-        
+        setLocationRelativeTo(null); // Abrir centrado en la pantalla, debe ir después de initComponents
 
         // Crear el panel personalizado con gradiente
         CustomGradientPanel panel = new CustomGradientPanel();
@@ -102,7 +101,7 @@ public class GestionPeliculas extends javax.swing.JFrame {
                 String formatoSeleccionado = (String) comboBoxFormato.getSelectedItem();
                 int formatoId = Integer.parseInt(formatoSeleccionado.split(" - ")[0]);
                 String distSeleccionada = (String) comboBoxDistribuidora.getSelectedItem();
-                int distribuidoraId = Integer.parseInt(distSeleccionada.split(" - ")[0]);         
+                int distribuidoraId = Integer.parseInt(distSeleccionada.split(" - ")[0]);
 
                 double cuotaAlquilerPeliculas = Double.parseDouble(tfCuotaAlquilerPelicula.getText());
 
@@ -217,7 +216,7 @@ public class GestionPeliculas extends javax.swing.JFrame {
         setVisible(true);  // Hacer la ventana visible
     }
 
-        // Método para cargar los nombres de los formatos desde la base de datos
+    // Método para cargar los nombres de los formatos desde la base de datos
     private void cargarNombresDeFormatos() {
         SwingUtilities.invokeLater(() -> {  // Aseguramos que se ejecute en el hilo de la interfaz gráfica
             try ( Connection conn = Database.getConnection()) {
@@ -252,7 +251,7 @@ public class GestionPeliculas extends javax.swing.JFrame {
             }
         });
     }
-    
+
     // Método para cargar los nombres de los formatos desde la base de datos
     private void cargarDistribuidoras() {
         SwingUtilities.invokeLater(() -> {  // Aseguramos que se ejecute en el hilo de la interfaz gráfica
