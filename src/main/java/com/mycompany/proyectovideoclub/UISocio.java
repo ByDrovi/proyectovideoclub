@@ -205,7 +205,7 @@ public class UISocio extends JFrame {
             try {
                 // Obtener datos necesarios
                 String fechaDevolucionStr = tfFechaHoy.getText(); // Fecha de devolución desde el JTextField
-                if (fechaDevolucionStr.isBlank()) {
+                if (fechaDevolucionStr.equals("yyyy-mm-dd")) {
                     JOptionPane.showMessageDialog(UISocio.this, "Selecciona la fecha en la que estas devolviendo", "Error", JOptionPane.ERROR_MESSAGE);
                     toggleAlquiler.setSelected(false);
                     return;
@@ -365,11 +365,16 @@ public class UISocio extends JFrame {
                 toggleAlquiler.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        System.out.println(">>>>> Botón pulsado");
+
                         if (toggleAlquiler.isSelected()) {
                             try ( Connection conn = Database.getConnection()) {
-                                String fechaAlquilerStr = tfFechaHoy.getText().trim(); // Eliminar espacios en blanco
+                                System.out.println(">>>>>  Conexión establecida");
 
+                                String fechaAlquilerStr = tfFechaHoy.getText().trim(); // Eliminar espacios en blanco
+                                System.out.println(">>>>> Fecha ingresada" + fechaAlquilerStr);
                                 if (fechaAlquilerStr.isEmpty()) {
+                                    System.out.println(">>>>> ERROR: La fecha está vacía");
                                     JOptionPane.showMessageDialog(UISocio.this, "Selecciona la fecha en la que quieres alquilar", "Error", JOptionPane.ERROR_MESSAGE);
                                     toggleAlquiler.setSelected(false);
                                     return;
@@ -389,6 +394,36 @@ public class UISocio extends JFrame {
                                     JOptionPane.showMessageDialog(UISocio.this, "Seleccione una película para alquilar.", "Error", JOptionPane.ERROR_MESSAGE);
                                     toggleAlquiler.setSelected(false);
                                     return;
+                                }
+                                
+                                int selectedRowModel = table.convertRowIndexToModel(selectedRowView);
+                                String titulo = (String) tableModel.getValueAt(selectedRowModel, 0);
+                                // Consulta para obtener cuota de alquiler y unidades disponibles
+                                String queryDetalles = ""
+                                        + "SELECT pl.cuotaAlquilerPeliculas, p.numDisponibleAlquiler, p.id "
+                                        + "FROM Peliculas pl "
+                                        + "JOIN Productos p ON pl.id = p.id "
+                                        + "WHERE p.titulo = ? AND p.esBaja = FALSE";
+                                try ( PreparedStatement stmt = conn.prepareStatement(queryDetalles)) {
+                                    stmt.setString(1, titulo);
+                                    ResultSet rs = stmt.executeQuery();
+                                    if (rs.next()) {
+                                        double cuotaAlquiler = rs.getDouble("cuotaAlquilerPeliculas");
+                                        int numDisponible = rs.getInt("numDisponibleAlquiler");
+                                        int productoId = rs.getInt("id");
+                                        if (numDisponible <= 0) {
+                                            JOptionPane.showMessageDialog(UISocio.this, "No hay unidades disponibles para alquilar.", "Error", JOptionPane.ERROR_MESSAGE);
+                                            toggleAlquiler.setSelected(false);
+                                            return;
+                                        }
+                                        // Llamada al método alquilarProducto
+                                        Alquiler.alquilarProducto(productoId, usuarioLogin.getId(), fechaAlquiler, cuotaAlquiler);
+                                        JOptionPane.showMessageDialog(UISocio.this, "Producto alquilado correctamente.\n"
+                                                + "Título: " + titulo + "\n"
+                                                + "Fecha de alquiler: " + fechaAlquiler + "\n"
+                                                + "Fecha de entrega: " + fechaAlquiler.plusDays(3) + "\n"
+                                                + "Cuota de alquiler: " + cuotaAlquiler + "€");
+                                    }
                                 }
 
                                 // Continuar con el proceso de alquiler...

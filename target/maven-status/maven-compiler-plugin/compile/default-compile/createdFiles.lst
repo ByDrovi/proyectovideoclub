@@ -20,6 +20,7 @@ com\mycompany\proyectovideoclub\GestionPeliculas$4.class
 com\mycompany\proyectovideoclub\GestionSocios.class
 com\mycompany\proyectovideoclub\UISocio$4.class
 com\mycompany\proyectovideoclub\Socios.class
+com\mycompany\proyectovideoclub\UIAdmin$4.class
 com\mycompany\proyectovideoclub\GestionSocios$1.class
 com\mycompany\proyectovideoclub\GestionPeliculas$8.class
 com\mycompany\proyectovideoclub\UIEmpleado$1.class
@@ -67,6 +68,7 @@ com\mycompany\proyectovideoclub\UIAdmin$1.class
 com\mycompany\proyectovideoclub\UIEmpleado$4.class
 com\mycompany\proyectovideoclub\Usuarios.class
 com\mycompany\proyectovideoclub\ImagenesDeslizantes$1.class
+com\mycompany\proyectovideoclub\UIAdmin$5.class
 com\mycompany\proyectovideoclub\UISocio$8.class
 com\mycompany\proyectovideoclub\UISocio$13.class
 com\mycompany\proyectovideoclub\CustomRoundedButton.class
